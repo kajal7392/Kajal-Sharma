@@ -1,14 +1,14 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero Banner with Vector Art
-  VERSION: 2.0.0
-  DESCRIPTION: Production-ready pixel-perfect Figma implementation
+  SECTION: The Gift Guide Hero Banner with Dynamic Blocks
+  VERSION: 3.0.0
+  DESCRIPTION: Structural absolute alignments mapped precisely to Figma
+               layer IDs with an intuitive Theme Editor interface.
   ================================================================
 {% endcomment %}
 
 {%- liquid
   assign section_id = section.id
-  
   assign headline = section.settings.headline
   assign description = section.settings.description
   assign cta_text = section.settings.cta_text
@@ -36,7 +36,6 @@
     position: relative;
     width: 100%;
     height: 780px; 
-    margin-top: 0;
     background-color: transparent;
   }
   
@@ -54,7 +53,7 @@
     pointer-events: none;
   }
   
-  /* --- TEXT CONTENT SEGMENT --- */
+  /* --- TEXT CONTENT SEGMENT (Frame 3-1166) --- */
   .gift-guide-{{ section_id }} .hero-text-content-wrapper {
     position: absolute;
     top: 442px;
@@ -85,7 +84,7 @@
     margin: 0 0 35px 0;
   }
   
-  /* --- RECONFIGURED INTERACTIVE CTA BUTTON --- */
+  /* --- INTERACTIVE CTA BUTTON --- */
   .gift-guide-{{ section_id }} .hero-cta-btn {
     display: inline-flex;
     align-items: center;
@@ -96,7 +95,7 @@
     padding: 15px 30px;
     font-size: 16px;
     font-weight: 500;
-    transition: background-color 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
   }
   
   .gift-guide-{{ section_id }} .hero-cta-btn:hover {
@@ -117,6 +116,7 @@
     letter-spacing: 0.05em;
     color: {{ text_color }};
     text-transform: uppercase;
+    margin-bottom: 0;
   }
   
   /* --- GRAPHIC IMAGE CANVAS ASSETS --- */
@@ -131,7 +131,7 @@
     object-fit: contain;
   }
   
-  /* Precision Positioning From Figma Layer Offsets */
+  /* --- CLASS MAPPINGS FOR EXACT FIGMA OFFSETS --- */
   .gift-guide-{{ section_id }} .v-layer-1199 { top: 94.74px; left: 462.39px; width: 879.11px; height: 425.78px; }
   .gift-guide-{{ section_id }} .v-layer-1203 { top: 14.10px; left: 660.59px; width: 669.63px; height: 428.52px; }
   .gift-guide-{{ section_id }} .v-layer-1197 { top: 258.07px; left: 1083.56px; width: 305.38px; height: 276.01px; }
@@ -142,7 +142,7 @@
   .gift-guide-{{ section_id }} .v-layer-1202 { top: 382.66px; left: 650.53px; width: 94.43px; height: 112.68px; }
   .gift-guide-{{ section_id }} .v-layer-1200 { top: 410.12px; left: 663.67px; width: 56.67px; height: 56.46px; }
 
-  /* --- FLUID RESPONSIVE SCALE VIEWPORTS --- */
+  /* --- FLUID RESPONSIVE CALCULATION VIEWPORTS --- */
   @media screen and (max-width: 1439px) {
     .gift-guide-{{ section_id }} .hero-banner-container,
     .gift-guide-{{ section_id }} .hero-glass-overlay {
@@ -157,7 +157,9 @@
     }
     .gift-guide-{{ section_id }} .main-headline { font-size: 4.5vw; }
     .gift-guide-{{ section_id }} .hero-description { font-size: 1.4vw; }
-    .gift-guide-{{ section_id }} [class^="vector-asset v-layer-"] {
+    
+    /* Dynamically downscale vector maps together relative to the viewport size */
+    .gift-guide-{{ section_id }} .vector-asset {
       transform: scale(calc(100vw / 1440));
       transform-origin: top left;
     }
@@ -191,31 +193,20 @@
   <div class="hero-banner-container">
     <div class="hero-glass-overlay"></div>
 
-    <!-- Dynamic Customizer Asset Images -->
-    {% for i in (1..9) %}
-      {% capture key %}vector_img_{{ i }}{% endcapture %}
-      {% capture class_key %}vector_class_{{ i }}{% endcapture %}
-      
-      {%- case i -%}
-        {%- when 1 -%}{%- assign current_class = 'v-layer-1199' -%}
-        {%- when 2 -%}{%- assign current_class = 'v-layer-1203' -%}
-        {%- when 3 -%}{%- assign current_class = 'v-layer-1197' -%}
-        {%- when 4 -%}{%- assign current_class = 'v-layer-1204' -%}
-        {%- when 5 -%}{%- assign current_class = 'v-layer-1198' -%}
-        {%- when 6 -%}{%- assign current_class = 'v-layer-1201' -%}
-        {%- when 7 -%}{%- assign current_class = 'v-layer-1196' -%}
-        {%- when 8 -%}{%- assign current_class = 'v-layer-1202' -%}
-        {%- when 9 -%}{%- assign current_class = 'v-layer-1200' -%}
-      {%- endcase -%}
-
-      {% if section.settings[key] != blank %}
-        <div class="vector-asset {{ current_class }}">
-          <img src="{{ section.settings[key] | image_url: width: 1000 }}" alt="Decorative Artwork Shape {{ i }}" loading="lazy">
+    <!-- Render Vector Blocks Dynamic Placement Loop -->
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'vector_asset' and block.settings.vector_png != blank -%}
+        <div class="vector-asset v-layer-{{ block.settings.layer_id }}" {{ block.shopify_attributes }}>
+          <img 
+            src="{{ block.settings.vector_png | image_url: width: 1200 }}" 
+            alt="Decorative Artwork Layer {{ block.settings.layer_id }}" 
+            loading="lazy"
+          >
         </div>
-      {% endif %}
-    {% endfor %}
+      {%- endif -%}
+    {%- endfor -%}
 
-    <!-- Text Layer Block Frame Container -->
+    <!-- Central Text Layer Frame Container -->
     <div class="hero-text-content-wrapper">
       <h1 class="main-headline">{{ headline | escape }}</h1>
       <p class="hero-description">{{ description | escape }}</p>
@@ -295,24 +286,45 @@
       "id": "button_text_color",
       "label": "CTA Text Base Color Fill",
       "default": "#FFFFFF"
-    },
+    }
+  ],
+  "blocks": [
     {
-      "type": "header",
-      "content": "Expirable PNG Image Vectors Canvas Blocks"
-    },
-    { "type": "image_picker", "id": "vector_img_1", "label": "Vector Layer Path 1199 (879.11px × 425.78px)" },
-    { "type": "image_picker", "id": "vector_img_2", "label": "Vector Layer Path 1203 (669.63px × 428.52px)" },
-    { "type": "image_picker", "id": "vector_img_3", "label": "Vector Layer Path 1197 (305.38px × 276.01px)" },
-    { "type": "image_picker", "id": "vector_img_4", "label": "Vector Layer Path 1204 (246.95px × 160.18px)" },
-    { "type": "image_picker", "id": "vector_img_5", "label": "Vector Layer Path 1198 (171.10px × 162.24px)" },
-    { "type": "image_picker", "id": "vector_img_6", "label": "Vector Layer Path 1201 (137.02px × 136.91px)" },
-    { "type": "image_picker", "id": "vector_img_7", "label": "Vector Layer Path 1196 (30.94px × 30.94px)" },
-    { "type": "image_picker", "id": "vector_img_8", "label": "Vector Layer Path 1202 (94.43px × 112.68px)" },
-    { "type": "image_picker", "id": "vector_img_9", "label": "Vector Layer Path 1200 (56.67px × 56.46px)" }
+      "type": "vector_asset",
+      "name": "Vector Artwork Asset",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "vector_png",
+          "label": "Upload Vector Image (PNG)"
+        },
+        {
+          "type": "select",
+          "id": "layer_id",
+          "label": "Target Figma Layer Match ID",
+          "options": [
+            { "value": "1199", "label": "Layer 1199 (Main structural frame - 879x425)" },
+            { "value": "1203", "label": "Layer 1203 (Large asset path - 669x428)" },
+            { "value": "1197", "label": "Layer 1197 (Medium asset segment - 305x276)" },
+            { "value": "1204", "label": "Layer 1204 (Small asset accent - 246x160)" },
+            { "value": "1198", "label": "Layer 1198 (Detailed line frame - 171x162)" },
+            { "value": "1201", "label": "Layer 1201 (Circular ring profile - 137x136)" },
+            { "value": "1196", "label": "Layer 1196 (Small dot element - 30x30)" },
+            { "value": "1202", "label": "Layer 1202 (Medium context detail - 94x112)" },
+            { "value": "1200", "label": "Layer 1200 (Small micro block - 56x56)" }
+          ],
+          "default": "1199"
+        }
+      ]
+    }
   ],
   "presets": [
     {
-      "name": "The Gift Guide Hero Banner"
+      "name": "The Gift Guide Hero Banner",
+      "blocks": [
+        { "type": "vector_asset", "settings": { "layer_id": "1199" } },
+        { "type": "vector_asset", "settings": { "layer_id": "1203" } }
+      ]
     }
   ]
 }
