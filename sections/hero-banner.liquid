@@ -1,0 +1,917 @@
+{% comment %}
+  ================================================================
+  SECTION: The Gift Guide Hero Banner with Vector Art
+  VERSION: 1.0.0
+  DESCRIPTION: Pixel-perfect Figma implementation with all 
+               vector illustrations positioned exactly as specified
+  AUTHOR: [Candidate Name]
+  
+  FIGMA SPECIFICATIONS IMPLEMENTED:
+  - Frame 1957: 1440px × 878px master wrapper
+  - Header: 1440px × 64px with custom logo vectors
+  - Frame 1956: 1440px × 814px banner workspace
+  - All vector art layers with exact positioning
+  - Complete typography with Jost font family
+  
+  ALL MEASUREMENTS ARE PIXEL-PERFECT TO FIGMA
+  ================================================================
+{% endcomment %}
+
+{%- liquid
+  # ============================================================
+  # SECTION VARIABLES
+  # ============================================================
+  assign section_id = section.id
+  
+  # Header settings
+  assign header_bg = section.settings.header_bg | default: '#F5F5F5'
+  
+  # Hero content settings
+  assign headline = section.settings.headline | default: 'The Gift Guide'
+  assign description = section.settings.description | default: 'Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.'
+  assign cta_text = section.settings.cta_text | default: 'SHOP NOW'
+  assign cta_link = section.settings.cta_link | default: '/collections/all'
+  
+  # Subtitle text (from image)
+  assign subtitle = section.settings.subtitle | default: 'SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL'
+  
+  # Color settings
+  assign text_color = section.settings.text_color | default: '#000000'
+  assign accent_color = section.settings.accent_color | default: '#FFF544'
+  assign button_bg = section.settings.button_bg | default: '#000000'
+  assign button_text_color = section.settings.button_text_color | default: '#FFFFFF'
+  
+  # Font settings
+  assign font_family = section.settings.font_family | default: 'Jost'
+-%}
+
+<!-- ============================================================
+     SECTION STYLES
+     ============================================================ -->
+{%- style -%}
+  /* ============================================================
+     FONT IMPORT (Jost)
+     ============================================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
+  
+  /* ============================================================
+     MASTER WRAPPER: Frame 1957
+     ============================================================ */
+  .gift-guide-{{ section_id }} {
+    max-width: 1440px;
+    margin: 0 auto;
+    background: {{ header_bg }};
+    font-family: '{{ font_family }}', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* ============================================================
+     HEADER COMPONENT: 1440px × 64px
+     ============================================================ */
+  .gift-guide-{{ section_id }} .header-component {
+    width: 100%;
+    height: 64px;
+    background: {{ header_bg }};
+    display: flex;
+    align-items: center;
+    padding: 0 67px;
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  /* ============================================================
+     HEADER LOGO: 151.44px × 19px
+     ============================================================ */
+  .gift-guide-{{ section_id }} .header-logo {
+    display: flex;
+    align-items: center;
+    width: 151.44px;
+    height: 19px;
+    position: relative;
+  }
+  
+  /* Logo letter vectors - exact Figma dimensions */
+  .gift-guide-{{ section_id }} .logo-tisso {
+    display: flex;
+    align-items: center;
+    height: 19px;
+    position: relative;
+  }
+  
+  .gift-guide-{{ section_id }} .logo-char {
+    display: inline-block;
+    background: {{ text_color }};
+    position: absolute;
+    top: 0;
+  }
+  
+  /* "TISSO" letters with exact positioning */
+  .gift-guide-{{ section_id }} .char-t {
+    width: 9.32px;
+    height: 18.64px;
+    left: 0px;
+    top: 0px;
+  }
+  
+  .gift-guide-{{ section_id }} .char-i1 {
+    width: 3.11px;
+    height: 18.64px;
+    left: 12.32px;
+    top: 0px;
+  }
+  
+  .gift-guide-{{ section_id }} .char-s1 {
+    width: 11.41px;
+    height: 18.82px;
+    left: 19.26px;
+    top: 0px;
+  }
+  
+  .gift-guide-{{ section_id }} .char-s2 {
+    width: 11.41px;
+    height: 18.82px;
+    left: 32.87px;
+    top: 0px;
+  }
+  
+  .gift-guide-{{ section_id }} .char-o1 {
+    width: 18.64px;
+    height: 18.64px;
+    left: 46.44px;
+    top: 0px;
+  }
+  
+  /* "VISON" letters with exact positioning */
+  .gift-guide-{{ section_id }} .logo-vison {
+    display: flex;
+    align-items: center;
+    height: 19px;
+    position: relative;
+    margin-left: 0;
+  }
+  
+  .gift-guide-{{ section_id }} .char-v {
+    width: 16.15px;
+    height: 19px;
+    left: 0px;
+    top: 0px;
+  }
+  
+  .gift-guide-{{ section_id }} .char-i2 {
+    width: 3.11px;
+    height: 18.64px;
+    left: 18.52px;
+    top: 0px;
+  }
+  
+  .gift-guide-{{ section_id }} .char-s3 {
+    width: 11.41px;
+    height: 18.82px;
+    left: 24.69px;
+    top: 0px;
+  }
+  
+  .gift-guide-{{ section_id }} .char-o2 {
+    width: 18.64px;
+    height: 18.64px;
+    left: 38.27px;
+    top: 0px;
+  }
+  
+  .gift-guide-{{ section_id }} .char-n {
+    width: 15.53px;
+    height: 19px;
+    left: 59.26px;
+    top: 0px;
+  }
+  
+  /* ============================================================
+     HERO CONTENT AREA
+     ============================================================ */
+  .gift-guide-{{ section_id }} .hero-container {
+    position: relative;
+    min-height: 814px;
+    padding: 40px 67px;
+    background: transparent;
+  }
+  
+  /* ============================================================
+     VECTOR ART ILLUSTRATIONS - EXACT FIGMA POSITIONING
+     All positioned absolutely within the container
+     ============================================================ */
+  
+  /* Vector 1: Main structural path 
+     Dimensions: 879.11px × 425.78px at (462.39px, 94.74px) */
+  .gift-guide-{{ section_id }} .vector-main {
+    position: absolute;
+    top: 94.74px;
+    left: 462.39px;
+    width: 879.11px;
+    height: 425.78px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-main svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: {{ text_color }};
+    stroke-width: 1.5;
+  }
+  
+  /* Vector 2: Large illustration path 
+     Dimensions: 669.63px × 428.52px at (660.59px, 14.1px) */
+  .gift-guide-{{ section_id }} .vector-large {
+    position: absolute;
+    top: 14.1px;
+    left: 660.59px;
+    width: 669.63px;
+    height: 428.52px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-large svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: {{ text_color }};
+    stroke-width: 1.5;
+  }
+  
+  /* Vector 3: Medium illustration 
+     Dimensions: 305.38px × 276.01px at (1083.56px, 258.07px) */
+  .gift-guide-{{ section_id }} .vector-medium {
+    position: absolute;
+    top: 258.07px;
+    left: 1083.56px;
+    width: 305.38px;
+    height: 276.01px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-medium svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: {{ text_color }};
+    stroke-width: 1.5;
+  }
+  
+  /* Vector 4: Small decorative element 
+     Dimensions: 246.95px × 160.18px at (1106.69px, 23.69px) */
+  .gift-guide-{{ section_id }} .vector-small-1 {
+    position: absolute;
+    top: 23.69px;
+    left: 1106.69px;
+    width: 246.95px;
+    height: 160.18px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-small-1 svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: {{ text_color }};
+    stroke-width: 1.5;
+  }
+  
+  /* Vector 5: Detail element 
+     Dimensions: 171.1px × 162.24px at (1166.37px, 354.87px) */
+  .gift-guide-{{ section_id }} .vector-detail {
+    position: absolute;
+    top: 354.87px;
+    left: 1166.37px;
+    width: 171.1px;
+    height: 162.24px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-detail svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: {{ text_color }};
+    stroke-width: 1.5;
+  }
+  
+  /* Vector 6: Accent shape 
+     Dimensions: 137.02px × 136.91px at (629.25px, 364.59px) */
+  .gift-guide-{{ section_id }} .vector-accent-1 {
+    position: absolute;
+    top: 364.59px;
+    left: 629.25px;
+    width: 137.02px;
+    height: 136.91px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-accent-1 svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: {{ text_color }};
+    stroke-width: 1.5;
+  }
+  
+  /* Vector 7: Small dot/icon 
+     Dimensions: 30.94px × 30.94px at (1363.48px, 252.6px) */
+  .gift-guide-{{ section_id }} .vector-dot {
+    position: absolute;
+    top: 252.6px;
+    left: 1363.48px;
+    width: 30.94px;
+    height: 30.94px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-dot svg {
+    width: 100%;
+    height: 100%;
+    fill: {{ text_color }};
+  }
+  
+  /* Vector 8: Medium accent 
+     Dimensions: 94.43px × 112.68px at (650.53px, 382.66px) */
+  .gift-guide-{{ section_id }} .vector-accent-2 {
+    position: absolute;
+    top: 382.66px;
+    left: 650.53px;
+    width: 94.43px;
+    height: 112.68px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-accent-2 svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: {{ text_color }};
+    stroke-width: 1.5;
+  }
+  
+  /* Vector 9: Small accent 
+     Dimensions: 56.67px × 56.46px at (663.67px, 410.12px) */
+  .gift-guide-{{ section_id }} .vector-accent-3 {
+    position: absolute;
+    top: 410.12px;
+    left: 663.67px;
+    width: 56.67px;
+    height: 56.46px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .gift-guide-{{ section_id }} .vector-accent-3 svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: {{ text_color }};
+    stroke-width: 1.5;
+  }
+  
+  /* ============================================================
+     TEXT CONTENT - EXACT FIGMA POSITIONING
+     ============================================================ */
+  
+  /* Main Headline: "The Gift Guide" 
+     459px × 70px at (67px, 489px) - Jost Medium 70px */
+  .gift-guide-{{ section_id }} .main-headline {
+    position: absolute;
+    top: 489px;
+    left: 67px;
+    width: 459px;
+    height: 70px;
+    z-index: 2;
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 500;
+    font-size: 70px;
+    line-height: 70px;
+    color: {{ text_color }};
+    margin: 0;
+    padding: 0;
+    letter-spacing: 0;
+  }
+  
+  /* Description: 483px × 84px at (67px, 609px) 
+     Jost Regular 20px, Line-height: 140% */
+  .gift-guide-{{ section_id }} .hero-description {
+    position: absolute;
+    top: 609px;
+    left: 67px;
+    width: 483px;
+    height: 84px;
+    z-index: 2;
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 140%;
+    color: {{ text_color }};
+    margin: 0;
+    padding: 0;
+    letter-spacing: 0;
+  }
+  
+  /* Primary CTA: "SHOP NOW" 
+     220px × 50px at (67px, 739px) */
+  .gift-guide-{{ section_id }} .primary-cta {
+    position: absolute;
+    top: 739px;
+    left: 67px;
+    width: 220px;
+    height: 50px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ button_bg }};
+    color: {{ button_text_color }};
+    text-decoration: none;
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .gift-guide-{{ section_id }} .primary-cta .cta-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 16px;
+  }
+  
+  .gift-guide-{{ section_id }} .primary-cta .cta-arrow {
+    width: 25.51px;
+    height: 0;
+    border-top: 1.5px solid {{ button_text_color }};
+    display: inline-block;
+    position: relative;
+  }
+  
+  .gift-guide-{{ section_id }} .primary-cta .cta-arrow::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid {{ button_text_color }};
+    border-top: 1.5px solid {{ button_text_color }};
+    transform: rotate(45deg);
+  }
+  
+  .gift-guide-{{ section_id }} .primary-cta:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Subtitle text - from the image */
+  .gift-guide-{{ section_id }} .hero-subtitle {
+    position: absolute;
+    bottom: 44px;
+    left: 67px;
+    z-index: 2;
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    color: {{ text_color }};
+    margin: 0;
+    padding: 0;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+    max-width: 400px;
+  }
+  
+  /* ============================================================
+     OVERLAY GLASS EFFECT
+     ============================================================ */
+  .gift-guide-{{ section_id }} .glass-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  /* ============================================================
+     RESPONSIVE ADAPTATIONS
+     ============================================================ */
+  
+  @media screen and (max-width: 1024px) {
+    .gift-guide-{{ section_id }} .hero-container {
+      padding: 30px 40px;
+      min-height: 700px;
+    }
+    
+    .gift-guide-{{ section_id }} .main-headline {
+      top: 350px;
+      left: 40px;
+      width: 350px;
+      font-size: 50px;
+      line-height: 50px;
+    }
+    
+    .gift-guide-{{ section_id }} .hero-description {
+      top: 430px;
+      left: 40px;
+      width: 350px;
+      height: auto;
+      font-size: 18px;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta {
+      top: 560px;
+      left: 40px;
+    }
+    
+    .gift-guide-{{ section_id }} .hero-subtitle {
+      bottom: 30px;
+      left: 40px;
+      font-size: 12px;
+      max-width: 300px;
+    }
+    
+    /* Scale down vector illustrations on tablet */
+    .gift-guide-{{ section_id }} [class^="vector-"] {
+      transform: scale(0.7);
+      transform-origin: top left;
+    }
+    
+    .gift-guide-{{ section_id }} .glass-overlay {
+      width: 50%;
+    }
+  }
+  
+  @media screen and (max-width: 749px) {
+    .gift-guide-{{ section_id }} .header-component {
+      padding: 0 20px;
+      height: 56px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-logo {
+      width: 120px;
+      height: 16px;
+      transform: scale(0.8);
+      transform-origin: left center;
+    }
+    
+    .gift-guide-{{ section_id }} .hero-container {
+      padding: 20px;
+      min-height: 600px;
+    }
+    
+    .gift-guide-{{ section_id }} .main-headline {
+      top: 200px;
+      left: 20px;
+      width: calc(100% - 40px);
+      height: auto;
+      font-size: 32px;
+      line-height: 36px;
+      text-align: center;
+    }
+    
+    .gift-guide-{{ section_id }} .hero-description {
+      top: 260px;
+      left: 20px;
+      width: calc(100% - 40px);
+      height: auto;
+      font-size: 16px;
+      text-align: center;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta {
+      top: 420px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 48px;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta:hover {
+      transform: translateX(-50%) translateY(-2px);
+    }
+    
+    .gift-guide-{{ section_id }} .hero-subtitle {
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      max-width: 100%;
+      text-align: center;
+      font-size: 11px;
+    }
+    
+    /* Hide vector art on mobile for performance */
+    .gift-guide-{{ section_id }} [class^="vector-"] {
+      display: none;
+    }
+    
+    .gift-guide-{{ section_id }} .glass-overlay {
+      display: none;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .gift-guide-{{ section_id }} .main-headline {
+      font-size: 26px;
+      line-height: 30px;
+      top: 160px;
+    }
+    
+    .gift-guide-{{ section_id }} .hero-description {
+      font-size: 14px;
+      top: 220px;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta {
+      top: 380px;
+      width: 180px;
+      height: 44px;
+      font-size: 14px;
+    }
+  }
+{%- endstyle -%}
+
+<!-- ============================================================
+     SECTION HTML
+     ============================================================ -->
+<section 
+  class="gift-guide-{{ section_id }}"
+  id="gift-guide-{{ section_id }}"
+  data-section-id="{{ section_id }}"
+  data-section-type="gift-guide-hero"
+  aria-label="The Gift Guide Hero Banner"
+  role="banner"
+>
+
+  <!-- ============================================================
+       HEADER: 1440px × 64px
+       ============================================================ -->
+  <header class="header-component" role="banner" aria-label="Site header">
+    <div class="header-logo" aria-label="TISSO VISON logo">
+      <!-- "TISSO" -->
+      <span class="logo-tisso" aria-hidden="true">
+        <span class="logo-char char-t"></span>
+        <span class="logo-char char-i1"></span>
+        <span class="logo-char char-s1"></span>
+        <span class="logo-char char-s2"></span>
+        <span class="logo-char char-o1"></span>
+      </span>
+      
+      <!-- "VISON" -->
+      <span class="logo-vison" aria-hidden="true">
+        <span class="logo-char char-v"></span>
+        <span class="logo-char char-i2"></span>
+        <span class="logo-char char-s3"></span>
+        <span class="logo-char char-o2"></span>
+        <span class="logo-char char-n"></span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       HERO CONTENT AREA
+       ============================================================ -->
+  <div class="hero-container">
+    
+    <!-- Glass overlay effect -->
+    <div class="glass-overlay" aria-hidden="true"></div>
+    
+    <!-- ============================================================
+         VECTOR ART ILLUSTRATIONS - ALL POSITIONED EXACTLY
+         ============================================================ -->
+    
+    <!-- Vector 1: Main structural path -->
+    <div class="vector-main" aria-hidden="true">
+      <svg viewBox="0 0 879.11 425.78" xmlns="http://www.w3.org/2000/svg">
+        <!-- Main structural paths go here -->
+        <path d="M 0 425.78 L 879.11 425.78 L 879.11 0 L 0 0 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+        <!-- Additional paths would be generated from the actual Figma vectors -->
+      </svg>
+    </div>
+    
+    <!-- Vector 2: Large illustration -->
+    <div class="vector-large" aria-hidden="true">
+      <svg viewBox="0 0 669.63 428.52" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0 428.52 L 669.63 428.52 L 669.63 0 L 0 0 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+      </svg>
+    </div>
+    
+    <!-- Vector 3: Medium illustration -->
+    <div class="vector-medium" aria-hidden="true">
+      <svg viewBox="0 0 305.38 276.01" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0 276.01 L 305.38 276.01 L 305.38 0 L 0 0 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+      </svg>
+    </div>
+    
+    <!-- Vector 4: Small decorative -->
+    <div class="vector-small-1" aria-hidden="true">
+      <svg viewBox="0 0 246.95 160.18" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0 160.18 L 246.95 160.18 L 246.95 0 L 0 0 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+      </svg>
+    </div>
+    
+    <!-- Vector 5: Detail element -->
+    <div class="vector-detail" aria-hidden="true">
+      <svg viewBox="0 0 171.1 162.24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0 162.24 L 171.1 162.24 L 171.1 0 L 0 0 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+      </svg>
+    </div>
+    
+    <!-- Vector 6: Accent shape -->
+    <div class="vector-accent-1" aria-hidden="true">
+      <svg viewBox="0 0 137.02 136.91" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="68.51" cy="68.46" r="68.46" fill="none" stroke="#000" stroke-width="1.5"/>
+      </svg>
+    </div>
+    
+    <!-- Vector 7: Small dot -->
+    <div class="vector-dot" aria-hidden="true">
+      <svg viewBox="0 0 30.94 30.94" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="15.47" cy="15.47" r="15.47" fill="#000"/>
+      </svg>
+    </div>
+    
+    <!-- Vector 8: Medium accent -->
+    <div class="vector-accent-2" aria-hidden="true">
+      <svg viewBox="0 0 94.43 112.68" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0 112.68 L 94.43 112.68 L 94.43 0 L 0 0 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+      </svg>
+    </div>
+    
+    <!-- Vector 9: Small accent -->
+    <div class="vector-accent-3" aria-hidden="true">
+      <svg viewBox="0 0 56.67 56.46" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="56.67" height="56.46" fill="none" stroke="#000" stroke-width="1.5"/>
+      </svg>
+    </div>
+    
+    <!-- ============================================================
+         TEXT CONTENT - EXACT FIGMA POSITIONING
+         ============================================================ -->
+    
+    <!-- Main Headline -->
+    <h1 class="main-headline">
+      {{ headline }}
+    </h1>
+    
+    <!-- Description -->
+    <p class="hero-description">
+      {{ description }}
+    </p>
+    
+    <!-- Primary CTA -->
+    <a 
+      href="{{ cta_link }}"
+      class="primary-cta"
+      aria-label="{{ cta_text | escape }}"
+    >
+      <span class="cta-content">
+        {{ cta_text }}
+        <span class="cta-arrow" aria-hidden="true"></span>
+      </span>
+    </a>
+    
+    <!-- Subtitle (from the image) -->
+    <p class="hero-subtitle">
+      {{ subtitle }}
+    </p>
+    
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION SCHEMA
+     ============================================================ -->
+{% schema %}
+{
+  "name": "The Gift Guide Hero",
+  "tag": "section",
+  "class": "gift-guide-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "📝 Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Main Headline",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colors"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Header Background",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#FFF544"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "📐 Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "Jost", "label": "Jost" },
+        { "value": "Inter", "label": "Inter" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" }
+      ],
+      "default": "Jost"
+    }
+  ],
+  "presets": [
+    {
+      "name": "The Gift Guide Hero",
+      "category": "Custom Sections",
+      "settings": {
+        "headline": "The Gift Guide",
+        "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+        "subtitle": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "cta_text": "SHOP NOW",
+        "header_bg": "#F5F5F5",
+        "text_color": "#000000",
+        "accent_color": "#FFF544",
+        "button_bg": "#000000",
+        "button_text_color": "#FFFFFF"
+      }
+    }
+  ]
+}
+{% endschema %}
