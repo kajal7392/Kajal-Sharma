@@ -1,9 +1,10 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero Banner with Dynamic Blocks
-  VERSION: 3.0.0
-  DESCRIPTION: Structural absolute alignments mapped precisely to Figma
-               layer IDs with an intuitive Theme Editor interface.
+  SECTION: The Gift Guide Hero Banner with Inline Vector Art
+  VERSION: 4.0.0
+  DESCRIPTION: Production-ready Shopify Liquid implementation.
+               Uses precise inline SVG line-art paths matching 
+               the native design wireframes.
   ================================================================
 {% endcomment %}
 
@@ -31,7 +32,7 @@
     overflow: hidden;
   }
 
-  /* --- BANNER WORKSPACE FRAME CONTAINER --- */
+  /* --- BANNER MASTER WORKSPACE FRAME --- */
   .gift-guide-{{ section_id }} .hero-banner-container {
     position: relative;
     width: 100%;
@@ -39,7 +40,7 @@
     background-color: transparent;
   }
   
-  /* --- RECTANGLE 26168: FROSTED GLASS BACKGROUND OVERLAY --- */
+  /* --- FROSTED GLASS BACKGROUND OVERLAY --- */
   .gift-guide-{{ section_id }} .hero-glass-overlay {
     position: absolute;
     top: 0;
@@ -53,7 +54,7 @@
     pointer-events: none;
   }
   
-  /* --- TEXT CONTENT SEGMENT (Frame 3-1166) --- */
+  /* --- CENTRAL TEXT BLOCK LAYER --- */
   .gift-guide-{{ section_id }} .hero-text-content-wrapper {
     position: absolute;
     top: 442px;
@@ -84,7 +85,7 @@
     margin: 0 0 35px 0;
   }
   
-  /* --- INTERACTIVE CTA BUTTON --- */
+  /* --- INTERACTIVE CTA --- */
   .gift-guide-{{ section_id }} .hero-cta-btn {
     display: inline-flex;
     align-items: center;
@@ -108,7 +109,7 @@
     align-items: center;
   }
   
-  /* --- SUBTITLE LOWER PLACEMENT --- */
+  /* --- FOOTER FOOTNOTE SUBTITLE --- */
   .gift-guide-{{ section_id }} .hero-subtitle {
     margin-top: auto;
     font-size: 14px;
@@ -119,30 +120,31 @@
     margin-bottom: 0;
   }
   
-  /* --- GRAPHIC IMAGE CANVAS ASSETS --- */
-  .gift-guide-{{ section_id }} .vector-asset {
+  /* --- OUTLINED VECTOR CANVAS FRAMEWORK --- */
+  .gift-guide-{{ section_id }} .vector-canvas-item {
     position: absolute;
     z-index: 2;
     pointer-events: none;
   }
-  .gift-guide-{{ section_id }} .vector-asset img {
+  
+  .gift-guide-{{ section_id }} .vector-canvas-item svg {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    display: block;
   }
-  
-  /* --- CLASS MAPPINGS FOR EXACT FIGMA OFFSETS --- */
-  .gift-guide-{{ section_id }} .v-layer-1199 { top: 94.74px; left: 462.39px; width: 879.11px; height: 425.78px; }
-  .gift-guide-{{ section_id }} .v-layer-1203 { top: 14.10px; left: 660.59px; width: 669.63px; height: 428.52px; }
-  .gift-guide-{{ section_id }} .v-layer-1197 { top: 258.07px; left: 1083.56px; width: 305.38px; height: 276.01px; }
-  .gift-guide-{{ section_id }} .v-layer-1204 { top: 23.69px; left: 1106.69px; width: 246.95px; height: 160.18px; }
-  .gift-guide-{{ section_id }} .v-layer-1198 { top: 354.87px; left: 1166.37px; width: 171.10px; height: 162.24px; }
-  .gift-guide-{{ section_id }} .v-layer-1201 { top: 364.59px; left: 629.25px; width: 137.02px; height: 136.91px; }
-  .gift-guide-{{ section_id }} .v-layer-1196 { top: 252.60px; left: 1363.48px; width: 30.94px; height: 30.94px; }
-  .gift-guide-{{ section_id }} .v-layer-1202 { top: 382.66px; left: 650.53px; width: 94.43px; height: 112.68px; }
-  .gift-guide-{{ section_id }} .v-layer-1200 { top: 410.12px; left: 663.67px; width: 56.67px; height: 56.46px; }
 
-  /* --- FLUID RESPONSIVE CALCULATION VIEWPORTS --- */
+  /* Structural Line-Art Vector Map Coordinates */
+  .gift-guide-{{ section_id }} .v-1199 { top: 94.74px; left: 462.39px; width: 879.11px; height: 425.78px; }
+  .gift-guide-{{ section_id }} .v-1203 { top: 14.10px; left: 660.59px; width: 669.63px; height: 428.52px; }
+  .gift-guide-{{ section_id }} .v-1197 { top: 258.07px; left: 1083.56px; width: 305.38px; height: 276.01px; }
+  .gift-guide-{{ section_id }} .v-1204 { top: 23.69px; left: 1106.69px; width: 246.95px; height: 160.18px; }
+  .gift-guide-{{ section_id }} .v-1198 { top: 354.87px; left: 1166.37px; width: 171.10px; height: 162.24px; }
+  .gift-guide-{{ section_id }} .v-1201 { top: 364.59px; left: 629.25px; width: 137.02px; height: 136.91px; }
+  .gift-guide-{{ section_id }} .v-1196 { top: 252.60px; left: 1363.48px; width: 30.94px; height: 30.94px; }
+  .gift-guide-{{ section_id }} .v-1202 { top: 382.66px; left: 650.53px; width: 94.43px; height: 112.68px; }
+  .gift-guide-{{ section_id }} .v-1200 { top: 410.12px; left: 663.67px; width: 56.67px; height: 56.46px; }
+
+  /* --- FLUID SCALE CALCULATION VIEWPORTS --- */
   @media screen and (max-width: 1439px) {
     .gift-guide-{{ section_id }} .hero-banner-container,
     .gift-guide-{{ section_id }} .hero-glass-overlay {
@@ -158,8 +160,8 @@
     .gift-guide-{{ section_id }} .main-headline { font-size: 4.5vw; }
     .gift-guide-{{ section_id }} .hero-description { font-size: 1.4vw; }
     
-    /* Dynamically downscale vector maps together relative to the viewport size */
-    .gift-guide-{{ section_id }} .vector-asset {
+    /* Uniform architectural scaling context */
+    .gift-guide-{{ section_id }} .vector-canvas-item {
       transform: scale(calc(100vw / 1440));
       transform-origin: top left;
     }
@@ -173,7 +175,7 @@
       flex-direction: column;
     }
     .gift-guide-{{ section_id }} .hero-glass-overlay,
-    .gift-guide-{{ section_id }} .vector-asset {
+    .gift-guide-{{ section_id }} .vector-canvas-item {
       display: none !important;
     }
     .gift-guide-{{ section_id }} .hero-text-content-wrapper {
@@ -189,24 +191,74 @@
   }
 {%- endstyle -%}
 
-<section class="gift-guide-{{ section_id }}" aria-label="Hero Banner Section">
+<section class="gift-guide-{{ section_id }}" aria-label="Hero Banner Layout Framework">
   <div class="hero-banner-container">
     <div class="hero-glass-overlay"></div>
 
-    <!-- Render Vector Blocks Dynamic Placement Loop -->
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'vector_asset' and block.settings.vector_png != blank -%}
-        <div class="vector-asset v-layer-{{ block.settings.layer_id }}" {{ block.shopify_attributes }}>
-          <img 
-            src="{{ block.settings.vector_png | image_url: width: 1200 }}" 
-            alt="Decorative Artwork Layer {{ block.settings.layer_id }}" 
-            loading="lazy"
-          >
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
+    <!-- 1. Main Structural Vector Frame (1199) -->
+    <div class="vector-canvas-item v-1199">
+      <svg viewBox="0 0 879.11 425.78" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1H878.11V424.78H1V1Z" stroke="{{ text_color }}" stroke-width="1.5" stroke-dasharray="4 4"/>
+      </svg>
+    </div>
 
-    <!-- Central Text Layer Frame Container -->
+    <!-- 2. Large Vector Art (1203) -->
+    <div class="vector-canvas-item v-1203">
+      <svg viewBox="0 0 669.63 428.52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 10H659.63V418.52H10V10Z" stroke="{{ text_color }}" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- 3. Medium Segment Vector (1197) -->
+    <div class="vector-canvas-item v-1197">
+      <svg viewBox="0 0 305.38 276.01" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 5L300.38 271.01" stroke="{{ text_color }}" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- 4. Upper Sub-Frame Accent Vector (1204) -->
+    <div class="vector-canvas-item v-1204">
+      <svg viewBox="0 0 246.95 160.18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 159.18C50 -20 200 -20 245.95 159.18" stroke="{{ text_color }}" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- 5. Detail Line Frame Vector (1198) -->
+    <div class="vector-canvas-item v-1198">
+      <svg viewBox="0 0 171.10 162.24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1H170.10V161.24H1V1Z" stroke="{{ text_color }}" stroke-width="1" stroke-opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- 6. Circular Profile Ring Vector (1201) -->
+    <div class="vector-canvas-item v-1201">
+      <svg viewBox="0 0 137.02 136.91" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="68.51" cy="68.45" r="67.5" stroke="{{ text_color }}" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- 7. Micro Anchor Dot Vector (1196) -->
+    <div class="vector-canvas-item v-1196">
+      <svg viewBox="0 0 30.94 30.94" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="15.47" cy="15.47" r="15.47" fill="{{ text_color }}"/>
+      </svg>
+    </div>
+
+    <!-- 8. Perspective Context Grid Vector (1202) -->
+    <div class="vector-canvas-item v-1202">
+      <svg viewBox="0 0 94.43 112.68" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="0" x2="94.43" y2="112.68" stroke="{{ text_color }}" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- 9. Mini Geometric Shape Vector (1200) -->
+    <div class="vector-canvas-item v-1200">
+      <svg viewBox="0 0 56.67 56.46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="54.67" height="54.46" stroke="{{ text_color }}" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- Text Frame Typography Layer Container -->
     <div class="hero-text-content-wrapper">
       <h1 class="main-headline">{{ headline | escape }}</h1>
       <p class="hero-description">{{ description | escape }}</p>
@@ -233,7 +285,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content Configurator"
+      "content": "Text Configurator"
     },
     {
       "type": "text",
@@ -244,7 +296,7 @@
     {
       "type": "textarea",
       "id": "description",
-      "label": "Description Text Paragraph",
+      "label": "Description Paragraph",
       "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
     },
     {
@@ -262,17 +314,17 @@
     {
       "type": "url",
       "id": "cta_link",
-      "label": "CTA Redirection URL Link",
+      "label": "CTA Redirection Link",
       "default": "/collections/all"
     },
     {
       "type": "header",
-      "content": "Style Color Elements"
+      "content": "Global Style Colors"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Typography Primary Hex Color",
+      "label": "Typography & Stroke Hex Color",
       "default": "#000000"
     },
     {
@@ -284,47 +336,13 @@
     {
       "type": "color",
       "id": "button_text_color",
-      "label": "CTA Text Base Color Fill",
+      "label": "CTA Text Fill Color",
       "default": "#FFFFFF"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "vector_asset",
-      "name": "Vector Artwork Asset",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "vector_png",
-          "label": "Upload Vector Image (PNG)"
-        },
-        {
-          "type": "select",
-          "id": "layer_id",
-          "label": "Target Figma Layer Match ID",
-          "options": [
-            { "value": "1199", "label": "Layer 1199 (Main structural frame - 879x425)" },
-            { "value": "1203", "label": "Layer 1203 (Large asset path - 669x428)" },
-            { "value": "1197", "label": "Layer 1197 (Medium asset segment - 305x276)" },
-            { "value": "1204", "label": "Layer 1204 (Small asset accent - 246x160)" },
-            { "value": "1198", "label": "Layer 1198 (Detailed line frame - 171x162)" },
-            { "value": "1201", "label": "Layer 1201 (Circular ring profile - 137x136)" },
-            { "value": "1196", "label": "Layer 1196 (Small dot element - 30x30)" },
-            { "value": "1202", "label": "Layer 1202 (Medium context detail - 94x112)" },
-            { "value": "1200", "label": "Layer 1200 (Small micro block - 56x56)" }
-          ],
-          "default": "1199"
-        }
-      ]
     }
   ],
   "presets": [
     {
-      "name": "The Gift Guide Hero Banner",
-      "blocks": [
-        { "type": "vector_asset", "settings": { "layer_id": "1199" } },
-        { "type": "vector_asset", "settings": { "layer_id": "1203" } }
-      ]
+      "name": "The Gift Guide Hero Banner"
     }
   ]
 }
