@@ -9,20 +9,6 @@
  */
 {
   "sections": {
-    "hero_banner_fgPgBF": {
-      "type": "hero-banner",
-      "name": "The Gift Guide Hero",
-      "settings": {
-        "headline": "The Gift Guide",
-        "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
-        "subtitle": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
-        "cta_text": "SHOP NOW",
-        "cta_link": "shopify://collections/all",
-        "text_color": "#000000",
-        "button_bg": "#000000",
-        "button_text_color": "#ffffff"
-      }
-    },
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
@@ -309,7 +295,6 @@
     }
   },
   "order": [
-    "hero_banner_fgPgBF",
     "hero_jVaWmY",
     "product_list_fa6P9H"
   ]
