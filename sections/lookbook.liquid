@@ -1,9 +1,7 @@
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;    
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
   @media screen and (min-width: 750px) {
@@ -18,50 +16,54 @@
      ============================================================ */
   .lookbook-{{ section.id }} {
     max-width: 1440px;
-    height: auto;
     margin: 0 auto;
-    font-family: 'Jost', sans-serif;
+    font-family: 'Lustria', serif;
   }
 
+  /* ============================================================
+     SECTION HEADER - Desktop: Left aligned
+     ============================================================ */
   .lookbook-{{ section.id }} .section-header {
-    text-align: left;
-    margin-bottom: 40px;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+    padding: 0 20px;
   }
 
   .lookbook-{{ section.id }} .section-title {
-    font-family: 'Jost', sans-serif;
-    font-weight: 500;
-    font-size: {{ section.settings.title_size }}px;
-    color: {{ section.settings.title_color }};
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0 0 8px 0;
-  }
-
-  .lookbook-{{ section.id }} .section-subtitle {
-    font-family: 'Jost', sans-serif;
+    font-family: 'Lustria', serif;
     font-weight: 400;
-    font-size: 16px;
-    color: {{ section.settings.subtitle_color | default: '#666666' }};
+    font-size: 36px;
+    line-height: 120%;
+    color: {{ section.settings.title_color | default: '#000000' }};
     margin: 0;
     padding: 0;
+    letter-spacing: 0;
+    text-transform: none;
   }
 
+  /* ============================================================
+     DESKTOP GRID - 3 columns, 20px gap
+     Frame 1000009744: 1337px width, 30px gap between title & grid
+     ============================================================ */
   .lookbook-{{ section.id }} .lookbook-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: {{ section.settings.desktop_gap }}px;
-    max-width: 1200px;
+    gap: 20px;
+    max-width: 1339px;
     margin: 0 auto;
   }
 
+  /* ============================================================
+     IMAGE CARD - With 1.5px black border
+     ============================================================ */
   .lookbook-{{ section.id }} .lookbook-card {
     position: relative;
     overflow: hidden;
     width: 100%;
-    background: #ffffff;
-    border-radius: {{ section.settings.image_corner_radius }}px;
-    aspect-ratio: {{ section.settings.image_aspect_ratio | default: 75 }}/100;
+    background: #f5f5f5;
+    border: 1.5px solid {{ section.settings.border_color | default: '#000000' }};
+    aspect-ratio: auto;
   }
 
   .lookbook-{{ section.id }} .lookbook-card .media {
@@ -79,11 +81,11 @@
   }
 
   .lookbook-{{ section.id }} .lookbook-card:hover img {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 
   /* ============================================================
-     HOTSPOT STYLES - With Blinking Animation
+     HOTSPOT STYLES - With Ripple/Blinking Animation
      ============================================================ */
   .lookbook-{{ section.id }} hotspot-button {
     position: absolute;
@@ -94,11 +96,11 @@
   }
 
   .lookbook-{{ section.id }} .hotspot-btn {
-    width: {{ section.settings.hotspot_size }}px;
-    height: {{ section.settings.hotspot_size }}px;
+    width: {{ section.settings.hotspot_size | default: 32 }}px;
+    height: {{ section.settings.hotspot_size | default: 32 }}px;
     border-radius: 50%;
-    background: {{ section.settings.hotspot_bg }};
-    color: {{ section.settings.hotspot_color }};
+    background: {{ section.settings.hotspot_bg | default: '#FFFFFF' }};
+    color: {{ section.settings.hotspot_color | default: '#000000' }};
     border: 2px solid rgba(255, 255, 255, 0.4);
     display: flex;
     align-items: center;
@@ -112,19 +114,15 @@
   }
 
   /* ============================================================
-     BLINKING/PULSING ANIMATION (Like Product Features)
+     RIPPLE/BLINKING ANIMATION (Like Product Features)
      ============================================================ */
-  .lookbook-{{ section.id }} .hotspot-btn .ripple-animation {
-    position: relative;
-  }
-
   .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
   .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
     content: '';
     position: absolute;
     inset: -4px;
     border-radius: 50%;
-    border: 2px solid {{ section.settings.hotspot_bg }};
+    border: 2px solid {{ section.settings.hotspot_bg | default: '#FFFFFF' }};
     opacity: 0;
     animation: hotspot-ripple-{{ section.id }} 2s ease-out infinite;
   }
@@ -148,8 +146,8 @@
      HOTSPOT ICON
      ============================================================ */
   .lookbook-{{ section.id }} .hotspot-btn .material-icon {
-    width: {{ section.settings.hotspot_icon_size }}px;
-    height: {{ section.settings.hotspot_icon_size }}px;
+    width: {{ section.settings.hotspot_icon_size | default: 20 }}px;
+    height: {{ section.settings.hotspot_icon_size | default: 20 }}px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -172,8 +170,8 @@
      HOTSPOT HOVER EFFECTS
      ============================================================ */
   .lookbook-{{ section.id }} .hotspot-btn:hover {
-    background: {{ section.settings.hotspot_hover_bg }};
-    color: {{ section.settings.hotspot_hover_color }};
+    background: {{ section.settings.hotspot_hover_bg | default: '#000000' }};
+    color: {{ section.settings.hotspot_hover_color | default: '#FFFFFF' }};
     transform: scale(1.15);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
   }
@@ -197,13 +195,13 @@
     border-radius: 6px;
     font-size: 12px;
     white-space: nowrap;
-    font-family: 'Jost', sans-serif;
+    font-family: 'Lustria', serif;
     font-weight: 400;
     pointer-events: none;
     letter-spacing: 0.02em;
   }
 
-  .lookbook-{{ section.id }} .hotspot-btn:hover .hotspot-label {
+  .lookbook-{{ section_id }} .hotspot-btn:hover .hotspot-label {
     display: block;
   }
 
@@ -211,66 +209,94 @@
      RESPONSIVE - TABLET
      ============================================================ */
   @media screen and (max-width: 1024px) {
-    .lookbook-{{ section.id }} .lookbook-grid {
-      gap: 20px;
+    .lookbook-{{ section_id }} .lookbook-grid {
+      gap: 16px;
       padding: 0 20px;
     }
 
-    .lookbook-{{ section.id }} .section-title {
-      font-size: 28px;
+    .lookbook-{{ section_id }} .section-title {
+      font-size: 30px;
     }
   }
 
   /* ============================================================
-     RESPONSIVE - MOBILE
+     RESPONSIVE - MOBILE (max-width: 749px)
+     Frame 1000009745: Vertical flow, 20px gap between title & grid
+     Title: Center aligned, 24px, Lustria
+     Grid: Horizontal flow with 4px gap, nested vertical columns
      ============================================================ */
   @media screen and (max-width: 749px) {
-    .lookbook-{{ section.id }} .section-header {
-      margin-bottom: 24px;
+    .lookbook-{{ section_id }} .section-header {
+      justify-content: center;
       padding: 0 16px;
+      margin-bottom: 20px;
     }
 
-    .lookbook-{{ section.id }} .section-title {
-      font-size: {{ section.settings.title_size_mobile }}px;
+    .lookbook-{{ section_id }} .section-title {
+      font-size: 24px;
+      text-align: center;
+      width: 248px;
+      max-width: 100%;
     }
 
-    .lookbook-{{ section.id }} .section-subtitle {
-      font-size: 14px;
+    /* Mobile grid: horizontal scroll with 4px gap */
+    .lookbook-{{ section_id }} .lookbook-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      overflow-x: auto;
+      padding: 0 16px 8px 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      margin: 0;
     }
 
-    .lookbook-{{ section.id }} .lookbook-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: {{ section.settings.mobile_gap }}px;
-      padding: 0 16px;
+    .lookbook-{{ section_id }} .lookbook-grid::-webkit-scrollbar {
+      height: 4px;
     }
 
-    .lookbook-{{ section.id }} .lookbook-card {
-      aspect-ratio: {{ section.settings.mobile_aspect_ratio | default: 75 }}/100;
+    .lookbook-{{ section_id }} .lookbook-grid::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 2px;
     }
 
-    .lookbook-{{ section.id }} .hotspot-btn {
-      width: {{ section.settings.hotspot_size_mobile }}px;
-      height: {{ section.settings.hotspot_size_mobile }}px;
+    .lookbook-{{ section_id }} .lookbook-grid::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 2px;
     }
 
-    .lookbook-{{ section.id }} .hotspot-btn .material-icon {
-      width: {{ section.settings.hotspot_icon_size_mobile }}px;
-      height: {{ section.settings.hotspot_icon_size_mobile }}px;
+    .lookbook-{{ section_id }} .lookbook-card {
+      flex: 0 0 calc(50% - 2px);
+      min-width: 160px;
+      max-width: 300px;
+      scroll-snap-align: start;
+      border-width: 1px;
     }
 
-    .lookbook-{{ section.id }} hotspot-button {
+    .lookbook-{{ section_id }} .hotspot-btn {
+      width: {{ section.settings.hotspot_size_mobile | default: 28 }}px;
+      height: {{ section.settings.hotspot_size_mobile | default: 28 }}px;
+    }
+
+    .lookbook-{{ section_id }} .hotspot-btn .material-icon {
+      width: {{ section.settings.hotspot_icon_size_mobile | default: 16 }}px;
+      height: {{ section.settings.hotspot_icon_size_mobile | default: 16 }}px;
+    }
+
+    .lookbook-{{ section_id }} hotspot-button {
       top: var(--mobile-offset-y, var(--offset-y));
       left: var(--mobile-offset-x, var(--offset-x));
     }
 
-    .lookbook-{{ section.id }} .hotspot-btn .hotspot-label {
+    .lookbook-{{ section_id }} .hotspot-btn .hotspot-label {
       font-size: 10px;
       padding: 4px 10px;
       bottom: calc(100% + 8px);
     }
 
-    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
-    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
+    .lookbook-{{ section_id }} .hotspot-btn .ripple-animation::before,
+    .lookbook-{{ section_id }} .hotspot-btn .ripple-animation::after {
       inset: -3px;
     }
 
@@ -287,26 +313,32 @@
   }
 
   /* ============================================================
-     RESPONSIVE - SMALL MOBILE
+     RESPONSIVE - SMALL MOBILE (max-width: 480px)
      ============================================================ */
   @media screen and (max-width: 480px) {
-    .lookbook-{{ section.id }} .section-title {
-      font-size: 18px;
+    .lookbook-{{ section_id }} .section-title {
+      font-size: 20px;
+      width: 200px;
     }
 
-    .lookbook-{{ section.id }} .lookbook-grid {
-      gap: 8px;
-      padding: 0 12px;
+    .lookbook-{{ section_id }} .lookbook-card {
+      flex: 0 0 calc(50% - 2px);
+      min-width: 140px;
     }
 
-    .lookbook-{{ section.id }} .hotspot-btn {
+    .lookbook-{{ section_id }} .hotspot-btn {
       width: 24px;
       height: 24px;
     }
 
-    .lookbook-{{ section.id }} .hotspot-btn .material-icon {
+    .lookbook-{{ section_id }} .hotspot-btn .material-icon {
       width: 14px;
       height: 14px;
+    }
+
+    .lookbook-{{ section_id }} .lookbook-grid {
+      gap: 4px;
+      padding: 0 12px 8px 12px;
     }
   }
 
@@ -314,20 +346,20 @@
      REDUCED MOTION
      ============================================================ */
   @media (prefers-reduced-motion: reduce) {
-    .lookbook-{{ section.id }} .lookbook-card img {
+    .lookbook-{{ section_id }} .lookbook-card img {
       transition: none;
     }
-    .lookbook-{{ section.id }} .hotspot-btn {
+    .lookbook-{{ section_id }} .hotspot-btn {
       transition: none;
     }
-    .lookbook-{{ section.id }} .hotspot-btn:hover {
+    .lookbook-{{ section_id }} .hotspot-btn:hover {
       transform: none;
     }
-    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
-    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
+    .lookbook-{{ section_id }} .hotspot-btn .ripple-animation::before,
+    .lookbook-{{ section_id }} .hotspot-btn .ripple-animation::after {
       animation: none;
     }
-    .lookbook-{{ section.id }} .hotspot-btn:hover .material-icon {
+    .lookbook-{{ section_id }} .hotspot-btn:hover .material-icon {
       transform: none;
     }
   }
@@ -336,19 +368,21 @@
 <div class="section-{{ section.id }}-padding lookbook-{{ section.id }}">
   <div class="{% unless section.settings.full_page_width %}page-width{% endunless %}">
     
-    <!-- Section Header -->
+    <!-- ============================================================
+         SECTION HEADER
+         Desktop: Left aligned | Mobile: Center aligned
+         ============================================================ -->
     <div class="section-header">
       <h2 class="section-title">
-        {{ section.settings.section_title }}
+        {{ section.settings.section_title | default: 'Tisso vison in the wild' }}
       </h2>
-      {%- if section.settings.section_subtitle != blank -%}
-        <p class="section-subtitle">
-          {{ section.settings.section_subtitle }}
-        </p>
-      {%- endif -%}
     </div>
 
-    <!-- Gallery Grid -->
+    <!-- ============================================================
+         GALLERY GRID
+         Desktop: 3 columns, 20px gap
+         Mobile: Horizontal scroll, 4px gap
+         ============================================================ -->
     <div class="lookbook-grid">
       
       {%- for block in section.blocks -%}
@@ -424,7 +458,7 @@
                   >
                 </div>
               {%- else -%}
-                <div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;font-size:14px;padding:20px;text-align:center;">
+                <div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;font-size:14px;padding:20px;text-align:center;aspect-ratio:1/1;">
                   {{ 'onboarding.no_image' | t }}
                   <br>
                   <small>Add image in Theme Editor</small>
@@ -563,13 +597,13 @@
           if (!btn) return;
           
           // Handle click events for toggling
-          btn.addEventListener('click', (e) => {
+          btn.addEventListener('click', function(e) {
             const isOpen = hotspot.dataset.open === 'true';
             hotspot.dataset.open = isOpen ? 'false' : 'true';
           });
           
           // Keyboard accessibility
-          btn.addEventListener('keydown', (e) => {
+          btn.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               const isOpen = hotspot.dataset.open === 'true';
@@ -579,9 +613,9 @@
         });
         
         // Close hotspots when clicking outside
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', function(e) {
           if (!e.target.closest('hotspot-button')) {
-            this.hotspots.forEach(h => {
+            document.querySelectorAll('hotspot-button').forEach(function(h) {
               h.dataset.open = 'false';
             });
           }
@@ -595,8 +629,8 @@
     }
     
     function initLookbook() {
-      const sections = document.querySelectorAll('[data-section-type="lookbook-gallery"]');
-      sections.forEach(section => {
+      var sections = document.querySelectorAll('[data-section-type="lookbook-gallery"]');
+      sections.forEach(function(section) {
         if (section._lookbookInstance) return;
         section._lookbookInstance = new LookbookGallery(section);
       });
@@ -627,24 +661,18 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content Settings"
+      "content": "📝 Content Settings"
     },
     {
       "type": "text",
       "id": "section_title",
       "label": "Section Title",
-      "default": "Tisso vision in the wild"
-    },
-    {
-      "type": "text",
-      "id": "section_subtitle",
-      "label": "Section Subtitle",
-      "default": "Explore our curated lookbook",
-      "info": "Optional subtitle below the title"
+      "default": "Tisso vison in the wild",
+      "info": "Note: The design uses 'vison' (typo preserved from Figma)"
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "🎨 Colors"
     },
     {
       "type": "color",
@@ -654,9 +682,10 @@
     },
     {
       "type": "color",
-      "id": "subtitle_color",
-      "label": "Subtitle Color",
-      "default": "#666666"
+      "id": "border_color",
+      "label": "Image Border Color",
+      "default": "#000000",
+      "info": "1.5px border around each image (Figma spec)"
     },
     {
       "type": "color",
@@ -684,99 +713,38 @@
     },
     {
       "type": "header",
-      "content": "Typography"
+      "content": "📐 Typography"
     },
     {
       "type": "range",
-      "id": "title_size",
-      "label": "Title Size - Desktop (px)",
-      "min": 16,
-      "max": 60,
-      "step": 2,
-      "default": 30,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "title_size_mobile",
-      "label": "Title Size - Mobile (px)",
-      "min": 14,
-      "max": 40,
-      "step": 2,
-      "default": 20,
-      "unit": "px"
-    },
-    {
-      "type": "header",
-      "content": "Grid Layout"
-    },
-    {
-      "type": "range",
-      "id": "desktop_gap",
-      "label": "Desktop Grid Gap (px)",
-      "min": 10,
-      "max": 60,
-      "step": 2,
-      "default": 30,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "mobile_gap",
-      "label": "Mobile Grid Gap (px)",
-      "min": 4,
-      "max": 30,
-      "step": 2,
-      "default": 12,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "image_aspect_ratio",
-      "label": "Image Aspect Ratio - Desktop (%)",
-      "min": 50,
-      "max": 150,
-      "step": 5,
-      "default": 75,
-      "unit": "%",
-      "info": "100% = square, 75% = 4:3, 66% = 3:2"
-    },
-    {
-      "type": "range",
-      "id": "mobile_aspect_ratio",
-      "label": "Image Aspect Ratio - Mobile (%)",
-      "min": 50,
-      "max": 150,
-      "step": 5,
-      "default": 75,
-      "unit": "%"
-    },
-    {
-      "type": "range",
-      "id": "image_corner_radius",
-      "label": "Image Corner Radius (px)",
+      "id": "padding_top",
+      "label": "Padding Top (px)",
       "min": 0,
-      "max": 30,
-      "step": 2,
-      "default": 8,
+      "max": 100,
+      "step": 4,
+      "default": 60,
       "unit": "px"
     },
     {
-      "type": "checkbox",
-      "id": "full_page_width",
-      "label": "Use full page width",
-      "default": false
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 60,
+      "unit": "px"
     },
     {
       "type": "header",
-      "content": "Hotspot Settings"
+      "content": "🟣 Hotspot Settings"
     },
     {
       "type": "checkbox",
       "id": "enable_ripple_animation",
       "label": "Enable Ripple/Blinking Animation",
       "default": true,
-      "info": "Creates a pulsing ring effect around hotspots (like Product Features)"
+      "info": "Creates a pulsing ring effect around hotspots"
     },
     {
       "type": "range",
@@ -819,28 +787,10 @@
       "unit": "px"
     },
     {
-      "type": "header",
-      "content": "Section Spacing"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "label": "Padding Top (px)",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "default": 60,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Padding Bottom (px)",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "default": 60,
-      "unit": "px"
+      "type": "checkbox",
+      "id": "full_page_width",
+      "label": "Use full page width",
+      "default": false
     }
   ],
   "blocks": [
@@ -862,7 +812,7 @@
         },
         {
           "type": "header",
-          "content": "Hotspot 1"
+          "content": "🔴 Hotspot 1"
         },
         {
           "type": "checkbox",
@@ -922,7 +872,7 @@
         },
         {
           "type": "header",
-          "content": "Hotspot 2"
+          "content": "🟠 Hotspot 2"
         },
         {
           "type": "checkbox",
@@ -982,7 +932,7 @@
         },
         {
           "type": "header",
-          "content": "Hotspot 3"
+          "content": "🟡 Hotspot 3"
         },
         {
           "type": "checkbox",
@@ -1042,7 +992,7 @@
         },
         {
           "type": "header",
-          "content": "Hotspot 4"
+          "content": "🟢 Hotspot 4"
         },
         {
           "type": "checkbox",
@@ -1108,14 +1058,10 @@
       "name": "Lookbook Gallery",
       "category": "Custom Sections",
       "settings": {
-        "section_title": "Tisso vision in the wild",
-        "section_subtitle": "Explore our curated lookbook",
-        "desktop_gap": 30,
-        "mobile_gap": 12,
+        "section_title": "Tisso vison in the wild",
         "hotspot_size": 32,
         "hotspot_size_mobile": 28,
         "enable_ripple_animation": true,
-        "image_corner_radius": 8,
         "padding_top": 60,
         "padding_bottom": 60
       },
