@@ -45,8 +45,6 @@
     assign transparent_text_contrast = 'var(--palette-lightest)'
   endif
 
-  # Cart bubble colors: custom styles apply in every header state; default
-  # mirrors the top row's effective text color, with a contrasting text color.
   if section.settings.bubble_style == 'custom' or section.settings.text_color_top != blank or section.settings.background_color_top != blank
     assign cart_bubble_color_override = true
   endif
@@ -597,7 +595,6 @@
     .button,
     .button-secondary,
     .header-actions__action {
-      /* reset style from base.css */
       transition: color var(--header-content-transition-timing), border-color var(--header-content-transition-timing);
     }
   }
@@ -1857,7 +1854,7 @@
     },
     {
       "type": "header",
-      "content": "🔘 BUTTON SETTINGS (Replaces Icons)"
+      "content": "BUTTON SETTINGS (Replaces Icons)"
     },
     {
       "type": "text",
