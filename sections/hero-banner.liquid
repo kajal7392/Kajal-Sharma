@@ -1,31 +1,32 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero - Two Tier Layout
+  SECTION: The Gift Guide Hero - Full Mobile Support
   VERSION: 1.0.0
-  DESCRIPTION: Complete Figma implementation with mobile optimization
-               - Desktop: Content centered, button inline
-               - Mobile: Content at top, button at bottom
-               - Separate mobile background image support
+  DESCRIPTION: Complete Figma implementation with mobile
+               optimizations based on Frame 1958 specifications
   AUTHOR: [Candidate Name]
+  
+  MOBILE FIGMA SPECIFICATIONS (Frame 1958):
+  - Width: 375px | Height: 421px
+  - Background: #FFFFFF
+  - Headline: "The Gift Guide" | 197px × 30px | Top: 49px
+  - Description: "Discover Joy..." | 340px × 42px | Top: 103px
+  - Button: 193px × 45px | Top: 337px | Left: 90.78px
+  - Button Background: #000000 | Padding: 13px 20px | Gap: 10px
   
   LAYOUT STRUCTURE:
   ┌──────────────────────────────────────────────────────────────┐
-  │  BANNER (1440px × 780px) │  Background: Image/White        │
+  │  BANNER (Mobile: 375px × 421px)                            │
   │  ┌─────────────────────────────────────────────────────┐   │
-  │  │  "The Gift Guide" (Headline)                       │   │
-  │  │  "Discover Joy..." (Description)                   │   │
-  │  │  [SHOP NOW →] (CTA Button)                        │   │
+  │  │  "The Gift Guide" (197px × 30px, Top: 49px)        │   │
+  │  │  "Discover Joy..." (340px × 42px, Top: 103px)      │   │
+  │  │                                                     │   │
+  │  │  [SHOP NOW →] (193px × 45px, Top: 337px)          │   │
   │  └─────────────────────────────────────────────────────┘   │
   ├──────────────────────────────────────────────────────────────┤
-  │  BOTTOM CONTAINER (1440px × 34px) │  Background: #F5F5F5  │
-  │  "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL" │
+  │  BOTTOM CONTAINER (Background: #F5F5F5)                   │
+  │  "SUSTAINABLE, ETHICALLY MADE CLOTHES..."                 │
   └──────────────────────────────────────────────────────────────┘
-  
-  MOBILE OPTIMIZATIONS:
-  - Content pushed to top with padding-top
-  - Button positioned at bottom with margin-top: auto
-  - Separate mobile background image support
-  - All desktop styles remain unchanged
   ================================================================
 {% endcomment %}
 
@@ -73,7 +74,6 @@
   
   /* ============================================================
      MASTER WRAPPER: Frame 1957
-     Dimensions: 1440px × 814px (Banner 780px + Bottom 34px)
      ============================================================ */
   .gift-guide-{{ section_id }} {
     max-width: 1440px;
@@ -86,7 +86,7 @@
   }
   
   /* ============================================================
-     BANNER CONTAINER
+     BANNER CONTAINER - DESKTOP
      Dimensions: 1440px × 780px
      ============================================================ */
   .gift-guide-{{ section_id }} .banner-container {
@@ -161,7 +161,7 @@
     justify-content: center;
   }
   
-  /* Main Headline: 459px × 70px */
+  /* Desktop Main Headline */
   .gift-guide-{{ section_id }} .main-headline {
     font-family: '{{ font_family }}', sans-serif;
     font-weight: 500;
@@ -169,12 +169,12 @@
     line-height: 70px;
     color: {{ text_color }};
     margin: 0 0 20px 0;
-    padding-top: 300px;
+    padding: 0;
     letter-spacing: 0;
     max-width: 459px;
   }
   
-  /* Description: 483px × 84px */
+  /* Desktop Description */
   .gift-guide-{{ section_id }} .hero-description {
     font-family: '{{ font_family }}', sans-serif;
     font-weight: 400;
@@ -187,7 +187,7 @@
     max-width: 483px;
   }
   
-  /* Primary CTA: 220px × 50px */
+  /* Desktop Primary CTA */
   .gift-guide-{{ section_id }} .primary-cta {
     display: flex;
     align-items: center;
@@ -243,7 +243,6 @@
   /* ============================================================
      BOTTOM CONTAINER
      Dimensions: 1440px × 34px | Background: #F5F5F5
-     Padding: 10px 50px
      ============================================================ */
   .gift-guide-{{ section_id }} .bottom-container {
     width: 100%;
@@ -304,12 +303,13 @@
   
   /* ============================================================
      RESPONSIVE ADAPTATIONS - MOBILE (max-width: 749px)
-     Changes:
-     - Content moves to top (padding-top)
-     - Button moves to bottom (margin-top: auto)
-     - Mobile background image shown
-     - Desktop background image hidden
-     - Text centered
+     Based on Figma Frame 1958 specifications:
+     - Width: 375px | Height: 421px
+     - Background: #FFFFFF
+     - Headline: 197px × 30px | Top: 49px | Left: 88.78px
+     - Description: 340px × 42px | Top: 103px | Left: 16.78px
+     - Button: 193px × 45px | Top: 337px | Left: 90.78px
+     - Button: #000000 | Padding: 13px 20px | Gap: 10px
      ============================================================ */
   
   @media screen and (max-width: 749px) {
@@ -329,44 +329,134 @@
         background-position: center;
         background-repeat: no-repeat;
       }
+    {%- else -%}
+      .gift-guide-{{ section_id }} .banner-container {
+        background: #FFFFFF;
+      }
     {%- endif -%}
     
+    /* Mobile container - matches Figma Frame 1958 */
     .gift-guide-{{ section_id }} .banner-container {
-      height: 100vh;
-      max-height: 600px;
-      min-height: 500px;
+      height: 421px;
+      min-height: 421px;
+      max-height: 421px;
     }
     
+    /* Mobile content positioning */
     .gift-guide-{{ section_id }} .banner-content {
-      padding: 0 20px;
+      padding: 0 16.78px;
       align-items: center;
       text-align: center;
       justify-content: flex-start;
-      padding-top: 60px;
-    }
-    
-    .gift-guide-{{ section_id }} .main-headline {
-      font-size: 32px;
-      line-height: 36px;
-      max-width: 100%;
       padding-top: 0;
-      margin-bottom: 12px;
+      position: relative;
     }
     
+    /* Mobile Headline - Figma: 197px × 30px, Top: 49px, Left: 88.78px */
+    .gift-guide-{{ section_id }} .main-headline {
+      font-family: '{{ font_family }}', sans-serif;
+      font-weight: 500;
+      font-size: 30px;
+      line-height: 30px;
+      color: {{ text_color }};
+      max-width: 197px;
+      margin: 0 auto;
+      padding: 0;
+      letter-spacing: 0;
+      position: absolute;
+      top: 49px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 197px;
+      height: 30px;
+      text-align: center;
+    }
+    
+    /* Mobile Description - Figma: 340px × 42px, Top: 103px, Left: 16.78px */
     .gift-guide-{{ section_id }} .hero-description {
+      font-family: '{{ font_family }}', sans-serif;
+      font-weight: 400;
       font-size: 16px;
-      max-width: 100%;
-      margin-bottom: auto;
+      line-height: 130%;
+      color: {{ text_color }};
+      max-width: 340px;
+      width: 340px;
+      height: 42px;
+      margin: 0 auto;
+      padding: 0;
+      letter-spacing: 0;
+      text-align: center;
+      position: absolute;
+      top: 103px;
+      left: 50%;
+      transform: translateX(-50%);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
     
-    /* Push button to bottom */
+    /* Mobile Primary CTA - Figma: 193px × 45px, Top: 337px, Left: 90.78px */
     .gift-guide-{{ section_id }} .primary-cta {
-      width: 200px;
-      height: 48px;
-      margin-top: auto;
-      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 193px;
+      height: 45px;
+      min-height: 45px;
+      background: {{ button_bg }};
+      color: {{ button_text_color }};
+      text-decoration: none;
+      font-family: '{{ font_family }}', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20.48px;
+      letter-spacing: 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      position: absolute;
+      top: 337px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 13px 20px;
+      gap: 10px;
     }
     
+    .gift-guide-{{ section_id }} .primary-cta .cta-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta .cta-arrow {
+      width: 20px;
+      height: 0;
+      border-top: 1.5px solid {{ button_text_color }};
+      display: inline-block;
+      position: relative;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta .cta-arrow::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: -4px;
+      width: 7px;
+      height: 7px;
+      border-right: 1.5px solid {{ button_text_color }};
+      border-top: 1.5px solid {{ button_text_color }};
+      transform: rotate(45deg);
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta:hover {
+      opacity: 0.85;
+      transform: translateX(-50%) translateY(-2px);
+    }
+    
+    /* Mobile Bottom Container */
     .gift-guide-{{ section_id }} .bottom-container {
       height: auto;
       min-height: 34px;
@@ -386,28 +476,34 @@
   
   @media screen and (max-width: 480px) {
     .gift-guide-{{ section_id }} .banner-container {
-      max-height: 500px;
-      min-height: 420px;
-    }
-    
-    .gift-guide-{{ section_id }} .banner-content {
-      padding-top: 40px;
+      height: 400px;
+      min-height: 400px;
+      max-height: 400px;
     }
     
     .gift-guide-{{ section_id }} .main-headline {
       font-size: 26px;
-      line-height: 30px;
+      line-height: 26px;
+      max-width: 170px;
+      width: 170px;
+      top: 40px;
     }
     
     .gift-guide-{{ section_id }} .hero-description {
       font-size: 14px;
+      line-height: 130%;
+      max-width: 300px;
+      width: 300px;
+      top: 85px;
     }
     
     .gift-guide-{{ section_id }} .primary-cta {
-      width: 180px;
-      height: 44px;
+      width: 170px;
+      height: 42px;
+      min-height: 42px;
       font-size: 14px;
-      margin-bottom: 20px;
+      top: 320px;
+      padding: 11px 16px;
     }
     
     .gift-guide-{{ section_id }} .bottom-container .bottom-text {
@@ -430,7 +526,7 @@
 >
 
   <!-- ============================================================
-     CONTAINER 1: BANNER (1440px × 780px)
+     CONTAINER 1: BANNER
      ============================================================ -->
   <div class="banner-container">
     
@@ -482,7 +578,7 @@
         {{ description }}
       </p>
       
-      <!-- Primary CTA - Moves to bottom on mobile -->
+      <!-- Primary CTA -->
       <a 
         href="{{ cta_link }}"
         class="primary-cta"
@@ -498,7 +594,7 @@
   </div>
 
   <!-- ============================================================
-     CONTAINER 2: BOTTOM (1440px × 34px) with #F5F5F5 background
+     CONTAINER 2: BOTTOM
      ============================================================ -->
   <div class="bottom-container">
     <span class="bottom-text">
@@ -534,7 +630,7 @@
       "type": "image_picker",
       "id": "bg_image_mobile",
       "label": "Mobile Background Image",
-      "info": "Recommended size: 750px × 500px. Separate image for mobile devices."
+      "info": "Recommended size: 750px × 421px. Will be positioned behind content."
     },
     {
       "type": "color",
