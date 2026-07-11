@@ -193,11 +193,12 @@
         "image_GWbG7c": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/image_824.png",
             "image_alt": "",
-            "hotspot_1_enable": false,
-            "hotspot_1_link": "",
-            "hotspot_1_top": 50,
-            "hotspot_1_left": 50,
+            "hotspot_1_enable": true,
+            "hotspot_1_link": "shopify://products/chequered-red-shirt",
+            "hotspot_1_top": 25,
+            "hotspot_1_left": 65,
             "hotspot_1_mobile_top": 50,
             "hotspot_1_mobile_left": 50,
             "hotspot_1_label": "",
