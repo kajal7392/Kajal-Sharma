@@ -49,6 +49,9 @@
           "blocks": {}
         }
       },
+      "custom_css": [
+        ".header-logo{line-height: 19px;}"
+      ],
       "name": "t:names.announcement_bar",
       "settings": {
         "logo_position": "left",
