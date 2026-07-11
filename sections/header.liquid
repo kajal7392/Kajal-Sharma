@@ -1,5 +1,3 @@
-
-
 {% liquid
   assign order = 'logo,menu,localization,search,drawer_search,actions'
 
@@ -47,8 +45,6 @@
     assign transparent_text_contrast = 'var(--palette-lightest)'
   endif
 
-  # Cart bubble colors: custom styles apply in every header state; default
-  # mirrors the top row's effective text color, with a contrasting text color.
   if section.settings.bubble_style == 'custom' or section.settings.text_color_top != blank or section.settings.background_color_top != blank
     assign cart_bubble_color_override = true
   endif
@@ -96,8 +92,23 @@
     content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'navigation_bar', transparent: transparent
   endcapture
 
+  # ============================================================
+  # MODIFIED: Replace icons with button
+  # ============================================================
   capture actions
-    render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
+    # Get button settings
+    assign header_button_text = section.settings.header_button_text | default: 'CHOOSE GIFT'
+    assign header_button_link = section.settings.header_button_link | default: '/collections'
+    assign header_button_bg = section.settings.header_button_bg | default: '#FFF544'
+    assign header_button_text_color = section.settings.header_button_text_color | default: '#000000'
+    
+    # Output button instead of icons
+    echo '<a href="' | append: header_button_link | append: '" class="header-button-figma desktop-only" aria-label="' | append: header_button_text | append: '">'
+    echo '<span class="button-content">'
+    echo '<span class="button-text">' | append: header_button_text | append: '</span>'
+    echo '<span class="button-arrow" aria-hidden="true"></span>'
+    echo '</span>'
+    echo '</a>'
   endcapture
 
   if shop.customer_accounts_enabled
@@ -323,6 +334,100 @@
   }
 </script>
 
+<!-- ============================================================
+     STYLES FOR BUTTON
+     ============================================================ -->
+{%- style -%}
+  /* ============================================================
+     HEADER BUTTON STYLES
+     ============================================================ */
+  .header-button-figma {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 207px;
+    min-width: 120px;
+    height: 44px;
+    background: {{ section.settings.header_button_bg | default: '#FFF544' }};
+    text-decoration: none;
+    font-family: {{ section.settings.header_button_font | default: 'Jost' }}, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    color: {{ section.settings.header_button_text_color | default: '#000000' }};
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    border: none;
+    border-radius: 0;
+  }
+
+  .header-button-figma .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .header-button-figma .button-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    color: {{ section.settings.header_button_text_color | default: '#000000' }};
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .header-button-figma .button-arrow {
+    width: 24px;
+    height: 0;
+    border-top: 1.5px solid {{ section.settings.header_button_text_color | default: '#000000' }};
+    display: inline-block;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .header-button-figma .button-arrow::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid {{ section.settings.header_button_text_color | default: '#000000' }};
+    border-top: 1.5px solid {{ section.settings.header_button_text_color | default: '#000000' }};
+    transform: rotate(45deg);
+  }
+
+  .header-button-figma:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ============================================================
+     HIDE BUTTON ON MOBILE
+     ============================================================ */
+  @media screen and (max-width: 749px) {
+    .header-button-figma.desktop-only {
+      display: none !important;
+    }
+  }
+
+  /* ============================================================
+     HIDE ORIGINAL ICONS ON DESKTOP
+     ============================================================ */
+  @media screen and (min-width: 750px) {
+    .header__row--top .header__column--right .header-actions__action {
+      display: none !important;
+    }
+  }
+{%- endstyle -%}
+
 <header-component
   id="header-component"
   class="{{ class }}"
@@ -490,7 +595,6 @@
     .button,
     .button-secondary,
     .header-actions__action {
-      /* reset style from base.css */
       transition: color var(--header-content-transition-timing), border-color var(--header-content-transition-timing);
     }
   }
@@ -1747,6 +1851,46 @@
       "label": "t:settings.text_color_transparent",
       "placeholder": "t:settings.default",
       "visible_if": "{{ section.settings.enable_transparent_header_collection }}"
+    },
+    {
+      "type": "header",
+      "content": "BUTTON SETTINGS (Replaces Icons)"
+    },
+    {
+      "type": "text",
+      "id": "header_button_text",
+      "label": "Button Text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "header_button_link",
+      "label": "Button Link",
+      "default": "/collections"
+    },
+    {
+      "type": "color",
+      "id": "header_button_bg",
+      "label": "Button Background Color",
+      "default": "#FFF544"
+    },
+    {
+      "type": "color",
+      "id": "header_button_text_color",
+      "label": "Button Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "header_button_font",
+      "label": "Button Font Family",
+      "options": [
+        { "value": "Jost", "label": "Jost" },
+        { "value": "Inter", "label": "Inter" },
+        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
+        { "value": "Arial", "label": "Arial" }
+      ],
+      "default": "Jost"
     }
   ],
   "presets": []
