@@ -18,16 +18,21 @@
     max-width: 1440px;
     margin: 0 auto;
     font-family: 'Lustria', serif;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   /* ============================================================
-     SECTION HEADER - Desktop: Left aligned
+     SECTION HEADER - Desktop: Left aligned with proper spacing
      ============================================================ */
   .lookbook-{{ section.id }} .section-header {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 30px;
-    padding: 0 20px;
+    padding: 0;
+    max-width: 1339px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .lookbook-{{ section.id }} .section-title {
@@ -37,19 +42,19 @@
     line-height: 120%;
     color: {{ section.settings.title_color | default: '#000000' }};
     margin: 0;
-    padding-left: 50px;
+    padding: 0;
     letter-spacing: 0;
     text-transform: none;
   }
 
   /* ============================================================
-     DESKTOP GRID - 3 columns, 20px gap
+     DESKTOP GRID - 3 columns, 20px gap, centered with max-width
      ============================================================ */
   .lookbook-{{ section.id }} .lookbook-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    max-width: 1200px;
+    max-width: 1339px;
     margin: 0 auto;
   }
 
@@ -208,9 +213,13 @@
      RESPONSIVE - TABLET
      ============================================================ */
   @media screen and (max-width: 1024px) {
+    .lookbook-{{ section.id }} {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
     .lookbook-{{ section.id }} .lookbook-grid {
       gap: 16px;
-      padding: 0 20px;
     }
 
     .lookbook-{{ section.id }} .section-title {
@@ -220,16 +229,23 @@
 
   /* ============================================================
      RESPONSIVE - MOBILE (max-width: 749px)
-     - 2 columns grid (not horizontal scroll)
+     - 2 columns grid
      - Smaller title (responsive)
      - 4px gap between images
      - 1px border
+     - No padding issues
      ============================================================ */
   @media screen and (max-width: 749px) {
+    .lookbook-{{ section.id }} {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     .lookbook-{{ section.id }} .section-header {
       justify-content: center;
       padding: 0 16px;
       margin-bottom: 20px;
+      max-width: 100%;
     }
 
     .lookbook-{{ section.id }} .section-title {
@@ -246,7 +262,6 @@
       padding: 0 16px;
       max-width: 100%;
       margin: 0;
-      overflow: visible;
     }
 
     .lookbook-{{ section.id }} .lookbook-card {
@@ -348,211 +363,210 @@
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding lookbook-{{ section.id }}">
-  <div class="{% unless section.settings.full_page_width %}page-width{% endunless %}">
-    
-    <!-- ============================================================
-         SECTION HEADER
-         Desktop: Left aligned | Mobile: Center aligned
-         ============================================================ -->
-    <div class="section-header">
-      <h2 class="section-title">
-        {{ section.settings.section_title | default: 'Tisso vison in the wild' }}
-      </h2>
-    </div>
+  
+  <!-- ============================================================
+       SECTION HEADER
+       Desktop: Left aligned with proper spacing
+       Mobile: Center aligned
+       ============================================================ -->
+  <div class="section-header">
+    <h2 class="section-title">
+      {{ section.settings.section_title | default: 'Tisso vison in the wild' }}
+    </h2>
+  </div>
 
-    <!-- ============================================================
-         GALLERY GRID
-         Desktop: 3 columns, 20px gap
-         Mobile: 2 columns, 4px gap
-         ============================================================ -->
-    <div class="lookbook-grid">
-      
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'image' -%}
+  <!-- ============================================================
+       GALLERY GRID
+       Desktop: 3 columns, 20px gap, centered
+       Mobile: 2 columns, 4px gap
+       ============================================================ -->
+  <div class="lookbook-grid">
+    
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'image' -%}
+          
+          {%- liquid
+            assign image = block.settings.image
+            assign image_alt = block.settings.image_alt | default: image.alt | default: 'Gallery image'
             
-            {%- liquid
-              assign image = block.settings.image
-              assign image_alt = block.settings.image_alt | default: image.alt | default: 'Gallery image'
-              
-              # Hotspot 1 settings
-              assign hs1_enable = block.settings.hotspot_1_enable
-              assign hs1_link = block.settings.hotspot_1_link
-              assign hs1_top = block.settings.hotspot_1_top | default: 50
-              assign hs1_left = block.settings.hotspot_1_left | default: 50
-              assign hs1_label = block.settings.hotspot_1_label
-              assign hs1_mobile_top = block.settings.hotspot_1_mobile_top | default: hs1_top
-              assign hs1_mobile_left = block.settings.hotspot_1_mobile_left | default: hs1_left
-              
-              # Hotspot 2 settings
-              assign hs2_enable = block.settings.hotspot_2_enable
-              assign hs2_link = block.settings.hotspot_2_link
-              assign hs2_top = block.settings.hotspot_2_top | default: 50
-              assign hs2_left = block.settings.hotspot_2_left | default: 50
-              assign hs2_label = block.settings.hotspot_2_label
-              assign hs2_mobile_top = block.settings.hotspot_2_mobile_top | default: hs2_top
-              assign hs2_mobile_left = block.settings.hotspot_2_mobile_left | default: hs2_left
-              
-              # Hotspot 3 settings
-              assign hs3_enable = block.settings.hotspot_3_enable
-              assign hs3_link = block.settings.hotspot_3_link
-              assign hs3_top = block.settings.hotspot_3_top | default: 50
-              assign hs3_left = block.settings.hotspot_3_left | default: 50
-              assign hs3_label = block.settings.hotspot_3_label
-              assign hs3_mobile_top = block.settings.hotspot_3_mobile_top | default: hs3_top
-              assign hs3_mobile_left = block.settings.hotspot_3_mobile_left | default: hs3_left
-              
-              # Hotspot 4 settings
-              assign hs4_enable = block.settings.hotspot_4_enable
-              assign hs4_link = block.settings.hotspot_4_link
-              assign hs4_top = block.settings.hotspot_4_top | default: 50
-              assign hs4_left = block.settings.hotspot_4_left | default: 50
-              assign hs4_label = block.settings.hotspot_4_label
-              assign hs4_mobile_top = block.settings.hotspot_4_mobile_top | default: hs4_top
-              assign hs4_mobile_left = block.settings.hotspot_4_mobile_left | default: hs4_left
-              
-              # Ripple animation setting
-              assign enable_ripple = section.settings.enable_ripple_animation | default: true
-              assign ripple_class = ''
-              if enable_ripple
-                assign ripple_class = 'ripple-animation'
-              endif
-            -%}
+            # Hotspot 1 settings
+            assign hs1_enable = block.settings.hotspot_1_enable
+            assign hs1_link = block.settings.hotspot_1_link
+            assign hs1_top = block.settings.hotspot_1_top | default: 50
+            assign hs1_left = block.settings.hotspot_1_left | default: 50
+            assign hs1_label = block.settings.hotspot_1_label
+            assign hs1_mobile_top = block.settings.hotspot_1_mobile_top | default: hs1_top
+            assign hs1_mobile_left = block.settings.hotspot_1_mobile_left | default: hs1_left
             
-            <div 
-              class="lookbook-card" 
-              {{ block.shopify_attributes }}
-              data-block-type="image"
-            >
-              {%- if image != blank -%}
-                <div class="media">
-                  <img
-                    src="{{ image | image_url: width: 800 }}"
-                    srcset="
-                      {{ image | image_url: width: 400 }} 400w,
-                      {{ image | image_url: width: 600 }} 600w,
-                      {{ image | image_url: width: 800 }} 800w,
-                      {{ image | image_url: width: 1000 }} 1000w
-                    "
-                    sizes="(max-width: 749px) calc(50vw - 20px), (max-width: 1024px) calc(33vw - 30px), calc(33vw - 40px)"
-                    alt="{{ image_alt | escape }}"
-                    loading="lazy"
-                  >
-                </div>
-              {%- else -%}
-                <div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;font-size:14px;padding:20px;text-align:center;aspect-ratio:1/1;">
-                  {{ 'onboarding.no_image' | t }}
-                  <br>
-                  <small>Add image in Theme Editor</small>
-                </div>
-              {%- endif -%}
-              
-              <!-- ============================================================
-                   HOTSPOT 1
-                   ============================================================ -->
-              {%- if hs1_enable and hs1_link != blank -%}
-                <hotspot-button
-                  class="hotspot"
-                  data-type="link"
-                  data-open-event="click"
-                  data-open="false"
-                  data-section="{{ section.id }}"
-                  style="--offset-x:{{ hs1_left }}%;--offset-y:{{ hs1_top }}%;--mobile-offset-x:{{ hs1_mobile_left }}%;--mobile-offset-y:{{ hs1_mobile_top }}%;"
-                >
-                  <a
-                    href="{{ hs1_link }}"
-                    class="hotspot-btn {{ ripple_class }}"
-                    aria-label="{{ hs1_label | default: 'View product' | escape }}"
-                  >
-                    {% render 'material-icon', icon: 'add' %}
-                    {%- if hs1_label != blank -%}
-                      <span class="hotspot-label">{{ hs1_label }}</span>
-                    {%- endif -%}
-                  </a>
-                </hotspot-button>
-              {%- endif -%}
-              
-              <!-- ============================================================
-                   HOTSPOT 2
-                   ============================================================ -->
-              {%- if hs2_enable and hs2_link != blank -%}
-                <hotspot-button
-                  class="hotspot"
-                  data-type="link"
-                  data-open-event="click"
-                  data-open="false"
-                  data-section="{{ section.id }}"
-                  style="--offset-x:{{ hs2_left }}%;--offset-y:{{ hs2_top }}%;--mobile-offset-x:{{ hs2_mobile_left }}%;--mobile-offset-y:{{ hs2_mobile_top }}%;"
-                >
-                  <a
-                    href="{{ hs2_link }}"
-                    class="hotspot-btn {{ ripple_class }}"
-                    aria-label="{{ hs2_label | default: 'View product' | escape }}"
-                  >
-                    {% render 'material-icon', icon: 'add' %}
-                    {%- if hs2_label != blank -%}
-                      <span class="hotspot-label">{{ hs2_label }}</span>
-                    {%- endif -%}
-                  </a>
-                </hotspot-button>
-              {%- endif -%}
-              
-              <!-- ============================================================
-                   HOTSPOT 3
-                   ============================================================ -->
-              {%- if hs3_enable and hs3_link != blank -%}
-                <hotspot-button
-                  class="hotspot"
-                  data-type="link"
-                  data-open-event="click"
-                  data-open="false"
-                  data-section="{{ section.id }}"
-                  style="--offset-x:{{ hs3_left }}%;--offset-y:{{ hs3_top }}%;--mobile-offset-x:{{ hs3_mobile_left }}%;--mobile-offset-y:{{ hs3_mobile_top }}%;"
-                >
-                  <a
-                    href="{{ hs3_link }}"
-                    class="hotspot-btn {{ ripple_class }}"
-                    aria-label="{{ hs3_label | default: 'View product' | escape }}"
-                  >
-                    {% render 'material-icon', icon: 'add' %}
-                    {%- if hs3_label != blank -%}
-                      <span class="hotspot-label">{{ hs3_label }}</span>
-                    {%- endif -%}
-                  </a>
-                </hotspot-button>
-              {%- endif -%}
-              
-              <!-- ============================================================
-                   HOTSPOT 4
-                   ============================================================ -->
-              {%- if hs4_enable and hs4_link != blank -%}
-                <hotspot-button
-                  class="hotspot"
-                  data-type="link"
-                  data-open-event="click"
-                  data-open="false"
-                  data-section="{{ section.id }}"
-                  style="--offset-x:{{ hs4_left }}%;--offset-y:{{ hs4_top }}%;--mobile-offset-x:{{ hs4_mobile_left }}%;--mobile-offset-y:{{ hs4_mobile_top }}%;"
-                >
-                  <a
-                    href="{{ hs4_link }}"
-                    class="hotspot-btn {{ ripple_class }}"
-                    aria-label="{{ hs4_label | default: 'View product' | escape }}"
-                  >
-                    {% render 'material-icon', icon: 'add' %}
-                    {%- if hs4_label != blank -%}
-                      <span class="hotspot-label">{{ hs4_label }}</span>
-                    {%- endif -%}
-                  </a>
-                </hotspot-button>
-              {%- endif -%}
-              
-            </div>
+            # Hotspot 2 settings
+            assign hs2_enable = block.settings.hotspot_2_enable
+            assign hs2_link = block.settings.hotspot_2_link
+            assign hs2_top = block.settings.hotspot_2_top | default: 50
+            assign hs2_left = block.settings.hotspot_2_left | default: 50
+            assign hs2_label = block.settings.hotspot_2_label
+            assign hs2_mobile_top = block.settings.hotspot_2_mobile_top | default: hs2_top
+            assign hs2_mobile_left = block.settings.hotspot_2_mobile_left | default: hs2_left
             
-        {%- endcase -%}
-      {%- endfor -%}
-      
-    </div>
+            # Hotspot 3 settings
+            assign hs3_enable = block.settings.hotspot_3_enable
+            assign hs3_link = block.settings.hotspot_3_link
+            assign hs3_top = block.settings.hotspot_3_top | default: 50
+            assign hs3_left = block.settings.hotspot_3_left | default: 50
+            assign hs3_label = block.settings.hotspot_3_label
+            assign hs3_mobile_top = block.settings.hotspot_3_mobile_top | default: hs3_top
+            assign hs3_mobile_left = block.settings.hotspot_3_mobile_left | default: hs3_left
+            
+            # Hotspot 4 settings
+            assign hs4_enable = block.settings.hotspot_4_enable
+            assign hs4_link = block.settings.hotspot_4_link
+            assign hs4_top = block.settings.hotspot_4_top | default: 50
+            assign hs4_left = block.settings.hotspot_4_left | default: 50
+            assign hs4_label = block.settings.hotspot_4_label
+            assign hs4_mobile_top = block.settings.hotspot_4_mobile_top | default: hs4_top
+            assign hs4_mobile_left = block.settings.hotspot_4_mobile_left | default: hs4_left
+            
+            # Ripple animation setting
+            assign enable_ripple = section.settings.enable_ripple_animation | default: true
+            assign ripple_class = ''
+            if enable_ripple
+              assign ripple_class = 'ripple-animation'
+            endif
+          -%}
+          
+          <div 
+            class="lookbook-card" 
+            {{ block.shopify_attributes }}
+            data-block-type="image"
+          >
+            {%- if image != blank -%}
+              <div class="media">
+                <img
+                  src="{{ image | image_url: width: 800 }}"
+                  srcset="
+                    {{ image | image_url: width: 400 }} 400w,
+                    {{ image | image_url: width: 600 }} 600w,
+                    {{ image | image_url: width: 800 }} 800w,
+                    {{ image | image_url: width: 1000 }} 1000w
+                  "
+                  sizes="(max-width: 749px) calc(50vw - 20px), (max-width: 1024px) calc(33vw - 30px), calc(33vw - 40px)"
+                  alt="{{ image_alt | escape }}"
+                  loading="lazy"
+                >
+              </div>
+            {%- else -%}
+              <div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;font-size:14px;padding:20px;text-align:center;aspect-ratio:1/1;">
+                {{ 'onboarding.no_image' | t }}
+                <br>
+                <small>Add image in Theme Editor</small>
+              </div>
+            {%- endif -%}
+            
+            <!-- ============================================================
+                 HOTSPOT 1
+                 ============================================================ -->
+            {%- if hs1_enable and hs1_link != blank -%}
+              <hotspot-button
+                class="hotspot"
+                data-type="link"
+                data-open-event="click"
+                data-open="false"
+                data-section="{{ section.id }}"
+                style="--offset-x:{{ hs1_left }}%;--offset-y:{{ hs1_top }}%;--mobile-offset-x:{{ hs1_mobile_left }}%;--mobile-offset-y:{{ hs1_mobile_top }}%;"
+              >
+                <a
+                  href="{{ hs1_link }}"
+                  class="hotspot-btn {{ ripple_class }}"
+                  aria-label="{{ hs1_label | default: 'View product' | escape }}"
+                >
+                  {% render 'material-icon', icon: 'add' %}
+                  {%- if hs1_label != blank -%}
+                    <span class="hotspot-label">{{ hs1_label }}</span>
+                  {%- endif -%}
+                </a>
+              </hotspot-button>
+            {%- endif -%}
+            
+            <!-- ============================================================
+                 HOTSPOT 2
+                 ============================================================ -->
+            {%- if hs2_enable and hs2_link != blank -%}
+              <hotspot-button
+                class="hotspot"
+                data-type="link"
+                data-open-event="click"
+                data-open="false"
+                data-section="{{ section.id }}"
+                style="--offset-x:{{ hs2_left }}%;--offset-y:{{ hs2_top }}%;--mobile-offset-x:{{ hs2_mobile_left }}%;--mobile-offset-y:{{ hs2_mobile_top }}%;"
+              >
+                <a
+                  href="{{ hs2_link }}"
+                  class="hotspot-btn {{ ripple_class }}"
+                  aria-label="{{ hs2_label | default: 'View product' | escape }}"
+                >
+                  {% render 'material-icon', icon: 'add' %}
+                  {%- if hs2_label != blank -%}
+                    <span class="hotspot-label">{{ hs2_label }}</span>
+                  {%- endif -%}
+                </a>
+              </hotspot-button>
+            {%- endif -%}
+            
+            <!-- ============================================================
+                 HOTSPOT 3
+                 ============================================================ -->
+            {%- if hs3_enable and hs3_link != blank -%}
+              <hotspot-button
+                class="hotspot"
+                data-type="link"
+                data-open-event="click"
+                data-open="false"
+                data-section="{{ section.id }}"
+                style="--offset-x:{{ hs3_left }}%;--offset-y:{{ hs3_top }}%;--mobile-offset-x:{{ hs3_mobile_left }}%;--mobile-offset-y:{{ hs3_mobile_top }}%;"
+              >
+                <a
+                  href="{{ hs3_link }}"
+                  class="hotspot-btn {{ ripple_class }}"
+                  aria-label="{{ hs3_label | default: 'View product' | escape }}"
+                >
+                  {% render 'material-icon', icon: 'add' %}
+                  {%- if hs3_label != blank -%}
+                    <span class="hotspot-label">{{ hs3_label }}</span>
+                  {%- endif -%}
+                </a>
+              </hotspot-button>
+            {%- endif -%}
+            
+            <!-- ============================================================
+                 HOTSPOT 4
+                 ============================================================ -->
+            {%- if hs4_enable and hs4_link != blank -%}
+              <hotspot-button
+                class="hotspot"
+                data-type="link"
+                data-open-event="click"
+                data-open="false"
+                data-section="{{ section.id }}"
+                style="--offset-x:{{ hs4_left }}%;--offset-y:{{ hs4_top }}%;--mobile-offset-x:{{ hs4_mobile_left }}%;--mobile-offset-y:{{ hs4_mobile_top }}%;"
+              >
+                <a
+                  href="{{ hs4_link }}"
+                  class="hotspot-btn {{ ripple_class }}"
+                  aria-label="{{ hs4_label | default: 'View product' | escape }}"
+                >
+                  {% render 'material-icon', icon: 'add' %}
+                  {%- if hs4_label != blank -%}
+                    <span class="hotspot-label">{{ hs4_label }}</span>
+                  {%- endif -%}
+                </a>
+              </hotspot-button>
+            {%- endif -%}
+            
+          </div>
+          
+      {%- endcase -%}
+    {%- endfor -%}
+    
   </div>
 </div>
 
