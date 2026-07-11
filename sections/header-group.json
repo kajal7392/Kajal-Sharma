@@ -49,6 +49,7 @@
           "blocks": {}
         }
       },
+      "disabled": true,
       "custom_css": [
         ".header-logo {font-size: 20px; word-spacing: 0.4rem;}",
         ".header__column--center a {font-family: \"Jost\", sans-serif; font-weight: 400; font-size: 16px; line-height: 13.42px; letter-spacing: 0px; text-align: center;}",
@@ -143,7 +144,6 @@
           "blocks": {}
         }
       },
-      "disabled": true,
       "custom_css": [
         ".header-logo {font-size: 20px; word-spacing: 0.4rem;}",
         ".header__column--center a {font-family: \"Jost\", sans-serif; font-weight: 400; font-size: 16px; line-height: 13.42px; letter-spacing: 0px; text-align: center;}",
@@ -154,7 +154,7 @@
         "menu_position": "center",
         "menu_row": "top",
         "customer_account_menu": "",
-        "show_search": true,
+        "show_search": false,
         "search_position": "right",
         "search_row": "top",
         "show_country": true,
