@@ -298,11 +298,12 @@
         "image_pDxmAg": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/image_827.png",
             "image_alt": "",
-            "hotspot_1_enable": false,
-            "hotspot_1_link": "",
-            "hotspot_1_top": 50,
-            "hotspot_1_left": 50,
+            "hotspot_1_enable": true,
+            "hotspot_1_link": "shopify://products/dark-denim-top",
+            "hotspot_1_top": 46,
+            "hotspot_1_left": 71,
             "hotspot_1_mobile_top": 50,
             "hotspot_1_mobile_left": 50,
             "hotspot_1_label": "",
