@@ -1,10 +1,11 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero - Two Tier Layout (No Header)
+  SECTION: The Gift Guide Hero - Two Tier Layout
   VERSION: 1.0.0
-  DESCRIPTION: Complete Figma implementation with two distinct
-               containers: Banner and Bottom Footer
-               Header has been removed as requested
+  DESCRIPTION: Complete Figma implementation with mobile optimization
+               - Desktop: Content centered, button inline
+               - Mobile: Content at top, button at bottom
+               - Separate mobile background image support
   AUTHOR: [Candidate Name]
   
   LAYOUT STRUCTURE:
@@ -20,10 +21,11 @@
   │  "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL" │
   └──────────────────────────────────────────────────────────────┘
   
-  FIGMA SPECIFICATIONS:
-  - Frame 1957: 1440px × 878px master wrapper
-  - Banner: 1440px × 780px with background image support
-  - Bottom Container: 1440px × 34px with #F5F5F5 background
+  MOBILE OPTIMIZATIONS:
+  - Content pushed to top with padding-top
+  - Button positioned at bottom with margin-top: auto
+  - Separate mobile background image support
+  - All desktop styles remain unchanged
   ================================================================
 {% endcomment %}
 
@@ -35,6 +37,7 @@
   
   # Banner background settings
   assign bg_image = section.settings.bg_image
+  assign bg_image_mobile = section.settings.bg_image_mobile
   assign bg_color = section.settings.bg_color | default: '#FFFFFF'
   assign overlay_color = section.settings.overlay_color | default: '#FFFFFF'
   assign overlay_opacity = section.settings.overlay_opacity | default: 15
@@ -96,7 +99,7 @@
     flex-shrink: 0;
   }
   
-  /* Banner background image */
+  /* Desktop banner background image */
   .gift-guide-{{ section_id }} .banner-container .banner-bg {
     position: absolute;
     top: 0;
@@ -106,6 +109,19 @@
     object-fit: cover;
     object-position: center;
     z-index: 0;
+  }
+  
+  /* Mobile banner background image - hidden by default */
+  .gift-guide-{{ section_id }} .banner-container .banner-bg-mobile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    display: none;
   }
   
   {%- if bg_image != blank -%}
@@ -133,7 +149,7 @@
   }
   
   /* ============================================================
-     BANNER CONTENT
+     BANNER CONTENT - DESKTOP (Centered)
      ============================================================ */
   .gift-guide-{{ section_id }} .banner-content {
     position: relative;
@@ -153,7 +169,7 @@
     line-height: 70px;
     color: {{ text_color }};
     margin: 0 0 20px 0;
-    padding-top: 300px;
+    padding: 0;
     letter-spacing: 0;
     max-width: 459px;
   }
@@ -257,7 +273,7 @@
   }
   
   /* ============================================================
-     RESPONSIVE ADAPTATIONS
+     RESPONSIVE ADAPTATIONS - TABLET
      ============================================================ */
   
   @media screen and (max-width: 1024px) {
@@ -286,9 +302,38 @@
     }
   }
   
+  /* ============================================================
+     RESPONSIVE ADAPTATIONS - MOBILE (max-width: 749px)
+     Changes:
+     - Content moves to top (padding-top)
+     - Button moves to bottom (margin-top: auto)
+     - Mobile background image shown
+     - Desktop background image hidden
+     - Text centered
+     ============================================================ */
+  
   @media screen and (max-width: 749px) {
+    /* Show mobile background image, hide desktop */
+    .gift-guide-{{ section_id }} .banner-container .banner-bg {
+      display: none;
+    }
+    
+    .gift-guide-{{ section_id }} .banner-container .banner-bg-mobile {
+      display: block;
+    }
+    
+    {%- if bg_image_mobile != blank -%}
+      .gift-guide-{{ section_id }} .banner-container {
+        background-image: url('{{ bg_image_mobile | image_url: width: 750 }}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    {%- endif -%}
+    
     .gift-guide-{{ section_id }} .banner-container {
-      height: 500px;
+      height: 100vh;
+      max-height: 600px;
       min-height: 500px;
     }
     
@@ -296,22 +341,30 @@
       padding: 0 20px;
       align-items: center;
       text-align: center;
+      justify-content: flex-start;
+      padding-top: 60px;
     }
     
     .gift-guide-{{ section_id }} .main-headline {
       font-size: 32px;
       line-height: 36px;
       max-width: 100%;
+      padding-top: 0;
+      margin-bottom: 12px;
     }
     
     .gift-guide-{{ section_id }} .hero-description {
       font-size: 16px;
       max-width: 100%;
+      margin-bottom: auto;
     }
     
+    /* Push button to bottom */
     .gift-guide-{{ section_id }} .primary-cta {
       width: 200px;
       height: 48px;
+      margin-top: auto;
+      margin-bottom: 30px;
     }
     
     .gift-guide-{{ section_id }} .bottom-container {
@@ -327,10 +380,18 @@
     }
   }
   
+  /* ============================================================
+     RESPONSIVE ADAPTATIONS - SMALL MOBILE (max-width: 480px)
+     ============================================================ */
+  
   @media screen and (max-width: 480px) {
     .gift-guide-{{ section_id }} .banner-container {
-      height: 420px;
+      max-height: 500px;
       min-height: 420px;
+    }
+    
+    .gift-guide-{{ section_id }} .banner-content {
+      padding-top: 40px;
     }
     
     .gift-guide-{{ section_id }} .main-headline {
@@ -346,6 +407,7 @@
       width: 180px;
       height: 44px;
       font-size: 14px;
+      margin-bottom: 20px;
     }
     
     .gift-guide-{{ section_id }} .bottom-container .bottom-text {
@@ -372,7 +434,7 @@
      ============================================================ -->
   <div class="banner-container">
     
-    <!-- Background Image -->
+    <!-- Desktop Background Image -->
     {%- if bg_image != blank -%}
       <img 
         src="{{ bg_image | image_url: width: 1600 }}"
@@ -382,9 +444,24 @@
           {{ bg_image | image_url: width: 1100 }} 1100w,
           {{ bg_image | image_url: width: 1600 }} 1600w
         "
-        sizes="(max-width: 749px) 100vw, 1600px"
+        sizes="(min-width: 750px) 1600px, 100vw"
         alt="Background banner image"
         class="banner-bg"
+        loading="lazy"
+      >
+    {%- endif -%}
+    
+    <!-- Mobile Background Image -->
+    {%- if bg_image_mobile != blank -%}
+      <img 
+        src="{{ bg_image_mobile | image_url: width: 750 }}"
+        srcset="
+          {{ bg_image_mobile | image_url: width: 375 }} 375w,
+          {{ bg_image_mobile | image_url: width: 750 }} 750w
+        "
+        sizes="(max-width: 749px) 100vw, 0"
+        alt="Mobile background banner image"
+        class="banner-bg-mobile"
         loading="lazy"
       >
     {%- endif -%}
@@ -405,7 +482,7 @@
         {{ description }}
       </p>
       
-      <!-- Primary CTA -->
+      <!-- Primary CTA - Moves to bottom on mobile -->
       <a 
         href="{{ cta_link }}"
         class="primary-cta"
@@ -450,8 +527,14 @@
     {
       "type": "image_picker",
       "id": "bg_image",
-      "label": "Background Banner Image",
+      "label": "Desktop Background Image",
       "info": "Recommended size: 1440px × 780px"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_mobile",
+      "label": "Mobile Background Image",
+      "info": "Recommended size: 750px × 500px. Separate image for mobile devices."
     },
     {
       "type": "color",
