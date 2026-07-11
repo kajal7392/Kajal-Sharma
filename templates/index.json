@@ -158,11 +158,12 @@
         "image_kLxxai": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/image_823.png",
             "image_alt": "",
-            "hotspot_1_enable": false,
-            "hotspot_1_link": "",
-            "hotspot_1_top": 50,
-            "hotspot_1_left": 50,
+            "hotspot_1_enable": true,
+            "hotspot_1_link": "shopify://products/blue-silk-tuxedo",
+            "hotspot_1_top": 54,
+            "hotspot_1_left": 86,
             "hotspot_1_mobile_top": 50,
             "hotspot_1_mobile_left": 50,
             "hotspot_1_label": "",
