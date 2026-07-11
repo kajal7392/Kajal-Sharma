@@ -324,7 +324,7 @@
     
     {%- if bg_image_mobile != blank -%}
       .gift-guide-{{ section_id }} .banner-container {
-        background-image: url('{{ bg_image_mobile | image_url: width: 375 }}');
+        background-image: url('{{ bg_image_mobile | image_url: width: 750 }}');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -333,7 +333,7 @@
     
     .gift-guide-{{ section_id }} .banner-container {
       height: 100vh;
-      max-height: 421px;
+      max-height: 600px;
       min-height: 500px;
     }
     
