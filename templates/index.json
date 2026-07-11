@@ -263,11 +263,12 @@
         "image_XNn9gy": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/image_826.png",
             "image_alt": "",
-            "hotspot_1_enable": false,
-            "hotspot_1_link": "",
-            "hotspot_1_top": 50,
-            "hotspot_1_left": 50,
+            "hotspot_1_enable": true,
+            "hotspot_1_link": "shopify://products/classic-varsity-top",
+            "hotspot_1_top": 30,
+            "hotspot_1_left": 46,
             "hotspot_1_mobile_top": 50,
             "hotspot_1_mobile_left": 50,
             "hotspot_1_label": "",
