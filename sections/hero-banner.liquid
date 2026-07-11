@@ -1,24 +1,24 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero Banner (Clean Version)
+  SECTION: The Gift Guide Hero Banner with Header Navigation
   VERSION: 1.0.0
-  DESCRIPTION: Clean, minimal hero section with background image
-               support, perfect for The Gift Guide campaign
+  DESCRIPTION: Complete Figma implementation with header navigation,
+               text-based logo, and full Theme Editor customization
   AUTHOR: [Candidate Name]
   
-  FEATURES:
-  - Upload background banner image via Theme Editor
-  - Frosted glass overlay effect
-  - Full typography control with Jost font
-  - Responsive on all devices
-  - Clean, minimal design without vector clutter
-  - All Figma-compliant positioning preserved
+  FIGMA SPECIFICATIONS IMPLEMENTED:
+  - Frame 1957: 1440px × 878px master wrapper
+  - Header: 1440px × 64px with horizontal auto-layout
+  - Header padding: 10px top/bottom, 50px left/right
+  - Gap between elements: 360px
+  - Logo: "TISSO VISON" as text (not vectors)
+  - Center text: "Find the ideal gift for your loved ones."
+  - Right button: "CHOOSE GIFT →" with yellow background
+  - Background canvas: 1440px × 780px
+  - Frosted glass overlay with blur
+  - Hero content with exact Figma positioning
   
-  DIMENSIONS:
-  - Frame 1957: 1440px × 878px
-  - Header: 1440px × 64px
-  - Background Canvas: 1440px × 780px
-  - Frosted Glass Overlay: 1440px × 780px
+  ALL MEASUREMENTS ARE PIXEL-PERFECT TO FIGMA
   ================================================================
 {% endcomment %}
 
@@ -30,6 +30,16 @@
   
   # Header settings
   assign header_bg = section.settings.header_bg | default: '#F5F5F5'
+  assign header_gap = section.settings.header_gap | default: 360
+  
+  # Header center text
+  assign header_center_text = section.settings.header_center_text | default: 'Find the ideal gift for your loved ones.'
+  
+  # Header button settings
+  assign header_button_text = section.settings.header_button_text | default: 'CHOOSE GIFT'
+  assign header_button_link = section.settings.header_button_link | default: '/collections'
+  assign header_button_bg = section.settings.header_button_bg | default: '#FFF544'
+  assign header_button_text_color = section.settings.header_button_text_color | default: '#000000'
   
   # Background settings
   assign bg_image = section.settings.bg_image
@@ -76,7 +86,12 @@
   }
   
   /* ============================================================
-     HEADER COMPONENT: 1440px × 64px
+     HEADER COMPONENT: Frame 1957 (Header)
+     Dimensions: 1440px × 64px
+     Auto Layout: Horizontal flow
+     Padding: 10px 50px
+     Gap: 360px
+     Background: #F5F5F5
      ============================================================ */
   .gift-guide-{{ section_id }} .header-component {
     width: 100%;
@@ -84,115 +99,128 @@
     background: {{ header_bg }};
     display: flex;
     align-items: center;
-    padding: 0 67px;
+    justify-content: flex-start;
+    padding: 10px 50px;
+    gap: {{ header_gap }}px;
     position: relative;
     z-index: 10;
     border-bottom: 1px solid rgba(0,0,0,0.05);
   }
   
   /* ============================================================
-     HEADER LOGO: 151.44px × 19px
+     HEADER LOGO: "TISSO VISON" as text
+     Dimensions: 151.44px × 19px
      ============================================================ */
   .gift-guide-{{ section_id }} .header-logo {
     display: flex;
     align-items: center;
-    width: 151.44px;
-    height: 19px;
-    position: relative;
+    gap: 0;
+    flex-shrink: 0;
   }
   
-  .gift-guide-{{ section_id }} .logo-tisso {
+  .gift-guide-{{ section_id }} .header-logo .logo-text {
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: {{ text_color }};
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  
+  .gift-guide-{{ section_id }} .header-logo .logo-text .tisso {
+    font-weight: 600;
+  }
+  
+  .gift-guide-{{ section_id }} .header-logo .logo-text .vison {
+    font-weight: 400;
+    margin-left: 2px;
+  }
+  
+  /* ============================================================
+     HEADER CENTER TEXT
+     ============================================================ */
+  .gift-guide-{{ section_id }} .header-center-text {
+    flex: 1;
+    text-align: center;
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    color: {{ text_color }};
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* ============================================================
+     HEADER RIGHT BUTTON: "CHOOSE GIFT →"
+     Dimensions: 207px × 44px
+     Background: #FFF544
+     ============================================================ */
+  .gift-guide-{{ section_id }} .header-button {
     display: flex;
     align-items: center;
-    height: 19px;
+    justify-content: center;
+    width: 207px;
+    height: 44px;
+    background: {{ header_button_bg }};
+    text-decoration: none;
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    color: {{ header_button_text_color }};
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
     position: relative;
   }
   
-  .gift-guide-{{ section_id }} .logo-char {
+  .gift-guide-{{ section_id }} .header-button .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .gift-guide-{{ section_id }} .header-button .button-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    color: {{ header_button_text_color }};
+    letter-spacing: 0;
+  }
+  
+  .gift-guide-{{ section_id }} .header-button .button-arrow {
+    width: 24px;
+    height: 0;
+    border-top: 1.5px solid {{ header_button_text_color }};
     display: inline-block;
-    background: {{ text_color }};
-    position: absolute;
-    top: 0;
-  }
-  
-  /* "TISSO" letters - exact Figma positioning */
-  .gift-guide-{{ section_id }} .char-t {
-    width: 9.32px;
-    height: 18.64px;
-    left: 0px;
-    top: 0px;
-  }
-  
-  .gift-guide-{{ section_id }} .char-i1 {
-    width: 3.11px;
-    height: 18.64px;
-    left: 12.32px;
-    top: 0px;
-  }
-  
-  .gift-guide-{{ section_id }} .char-s1 {
-    width: 11.41px;
-    height: 18.82px;
-    left: 19.26px;
-    top: 0px;
-  }
-  
-  .gift-guide-{{ section_id }} .char-s2 {
-    width: 11.41px;
-    height: 18.82px;
-    left: 32.87px;
-    top: 0px;
-  }
-  
-  .gift-guide-{{ section_id }} .char-o1 {
-    width: 18.64px;
-    height: 18.64px;
-    left: 46.44px;
-    top: 0px;
-  }
-  
-  /* "VISON" letters - exact Figma positioning */
-  .gift-guide-{{ section_id }} .logo-vison {
-    display: flex;
-    align-items: center;
-    height: 19px;
     position: relative;
-    margin-left: 0;
   }
   
-  .gift-guide-{{ section_id }} .char-v {
-    width: 16.15px;
-    height: 19px;
-    left: 0px;
-    top: 0px;
+  .gift-guide-{{ section_id }} .header-button .button-arrow::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid {{ header_button_text_color }};
+    border-top: 1.5px solid {{ header_button_text_color }};
+    transform: rotate(45deg);
   }
   
-  .gift-guide-{{ section_id }} .char-i2 {
-    width: 3.11px;
-    height: 18.64px;
-    left: 18.52px;
-    top: 0px;
-  }
-  
-  .gift-guide-{{ section_id }} .char-s3 {
-    width: 11.41px;
-    height: 18.82px;
-    left: 24.69px;
-    top: 0px;
-  }
-  
-  .gift-guide-{{ section_id }} .char-o2 {
-    width: 18.64px;
-    height: 18.64px;
-    left: 38.27px;
-    top: 0px;
-  }
-  
-  .gift-guide-{{ section_id }} .char-n {
-    width: 15.53px;
-    height: 19px;
-    left: 59.26px;
-    top: 0px;
+  .gift-guide-{{ section_id }} .header-button:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   }
   
   /* ============================================================
@@ -210,7 +238,6 @@
     overflow: hidden;
   }
   
-  /* Background image with parallax support */
   .gift-guide-{{ section_id }} .background-canvas .bg-image {
     width: 100%;
     height: 100%;
@@ -354,8 +381,7 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   }
   
-  /* Footnote Subtitle: 451px × 14px 
-     Positioned at bottom: 44px, left: 67px */
+  /* Footnote Subtitle: 451px × 14px at bottom: 44px, left: 67px */
   .gift-guide-{{ section_id }} .hero-subtitle {
     position: absolute;
     bottom: 44px;
@@ -383,7 +409,19 @@
   
   @media screen and (max-width: 1024px) {
     .gift-guide-{{ section_id }} .header-component {
-      padding: 0 30px;
+      padding: 10px 30px;
+      gap: 40px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-center-text {
+      font-size: 14px;
+      white-space: normal;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button {
+      width: 160px;
+      height: 40px;
+      font-size: 14px;
     }
     
     .gift-guide-{{ section_id }} .main-headline {
@@ -424,15 +462,29 @@
   
   @media screen and (max-width: 749px) {
     .gift-guide-{{ section_id }} .header-component {
-      padding: 0 20px;
-      height: 56px;
+      padding: 10px 16px;
+      gap: 16px;
+      height: auto;
+      min-height: 56px;
+      flex-wrap: wrap;
     }
     
-    .gift-guide-{{ section_id }} .header-logo {
-      width: 120px;
-      height: 16px;
-      transform: scale(0.8);
-      transform-origin: left center;
+    .gift-guide-{{ section_id }} .header-logo .logo-text {
+      font-size: 14px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-center-text {
+      display: none;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button {
+      width: 140px;
+      height: 36px;
+      font-size: 12px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button .button-text {
+      font-size: 12px;
     }
     
     .gift-guide-{{ section_id }} .hero-container {
@@ -488,6 +540,29 @@
   }
   
   @media screen and (max-width: 480px) {
+    .gift-guide-{{ section_id }} .header-component {
+      gap: 12px;
+      padding: 8px 12px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-logo .logo-text {
+      font-size: 12px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button {
+      width: 120px;
+      height: 32px;
+      font-size: 10px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button .button-text {
+      font-size: 10px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button .button-arrow {
+      width: 16px;
+    }
+    
     .gift-guide-{{ section_id }} .main-headline {
       font-size: 26px;
       line-height: 30px;
@@ -521,28 +596,36 @@
 >
 
   <!-- ============================================================
-       HEADER: 1440px × 64px
+       HEADER: 1440px × 64px with Auto Layout
+       Padding: 10px 50px | Gap: 360px
        ============================================================ -->
   <header class="header-component" role="banner" aria-label="Site header">
+    
+    <!-- Header Logo: "TISSO VISON" as text -->
     <div class="header-logo" aria-label="TISSO VISON logo">
-      <!-- "TISSO" -->
-      <span class="logo-tisso" aria-hidden="true">
-        <span class="logo-char char-t"></span>
-        <span class="logo-char char-i1"></span>
-        <span class="logo-char char-s1"></span>
-        <span class="logo-char char-s2"></span>
-        <span class="logo-char char-o1"></span>
-      </span>
-      
-      <!-- "VISON" -->
-      <span class="logo-vison" aria-hidden="true">
-        <span class="logo-char char-v"></span>
-        <span class="logo-char char-i2"></span>
-        <span class="logo-char char-s3"></span>
-        <span class="logo-char char-o2"></span>
-        <span class="logo-char char-n"></span>
+      <span class="logo-text">
+        <span class="tisso">TISSO</span>
+        <span class="vison">VISON</span>
       </span>
     </div>
+    
+    <!-- Header Center Text -->
+    <div class="header-center-text">
+      {{ header_center_text }}
+    </div>
+    
+    <!-- Header Right Button: "CHOOSE GIFT →" -->
+    <a 
+      href="{{ header_button_link }}"
+      class="header-button"
+      aria-label="{{ header_button_text | escape }}"
+    >
+      <span class="button-content">
+        <span class="button-text">{{ header_button_text }}</span>
+        <span class="button-arrow" aria-hidden="true"></span>
+      </span>
+    </a>
+    
   </header>
 
   <!-- ============================================================
@@ -631,21 +714,19 @@
       "type": "image_picker",
       "id": "bg_image",
       "label": "Background Banner Image",
-      "info": "Recommended size: 1440px × 780px. The image will cover the entire banner area."
+      "info": "Recommended size: 1440px × 780px"
     },
     {
       "type": "color",
       "id": "bg_color",
       "label": "Background Color (Fallback)",
-      "default": "#FFFFFF",
-      "info": "Shown if no image is selected or while image loads"
+      "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "overlay_color",
       "label": "Overlay Color",
-      "default": "#FFFFFF",
-      "info": "Color for the frosted glass effect"
+      "default": "#FFFFFF"
     },
     {
       "type": "range",
@@ -655,12 +736,61 @@
       "max": 100,
       "step": 5,
       "default": 15,
-      "unit": "%",
-      "info": "Higher values make the background less visible"
+      "unit": "%"
     },
     {
       "type": "header",
-      "content": "📝 Content Settings"
+      "content": "📝 Header Settings"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Header Background",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "range",
+      "id": "header_gap",
+      "label": "Header Element Gap (px)",
+      "min": 100,
+      "max": 500,
+      "step": 10,
+      "default": 360,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "header_center_text",
+      "label": "Header Center Text",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "header_button_text",
+      "label": "Header Button Text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "header_button_link",
+      "label": "Header Button Link",
+      "default": "/collections"
+    },
+    {
+      "type": "color",
+      "id": "header_button_bg",
+      "label": "Header Button Background",
+      "default": "#FFF544"
+    },
+    {
+      "type": "color",
+      "id": "header_button_text_color",
+      "label": "Header Button Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "📝 Hero Content Settings"
     },
     {
       "type": "text",
@@ -690,18 +820,11 @@
       "type": "text",
       "id": "subtitle",
       "label": "Footnote Subtitle",
-      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
-      "info": "Appears at the bottom of the banner (451px × 14px)"
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
     },
     {
       "type": "header",
       "content": "🎨 Colors"
-    },
-    {
-      "type": "color",
-      "id": "header_bg",
-      "label": "Header Background",
-      "default": "#F5F5F5"
     },
     {
       "type": "color",
@@ -712,13 +835,13 @@
     {
       "type": "color",
       "id": "button_bg",
-      "label": "Button Background",
+      "label": "Primary Button Background",
       "default": "#000000"
     },
     {
       "type": "color",
       "id": "button_text_color",
-      "label": "Button Text Color",
+      "label": "Primary Button Text Color",
       "default": "#FFFFFF"
     },
     {
@@ -747,13 +870,17 @@
         "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
         "subtitle": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
         "cta_text": "SHOP NOW",
+        "header_center_text": "Find the ideal gift for your loved ones.",
+        "header_button_text": "CHOOSE GIFT",
         "header_bg": "#F5F5F5",
+        "header_button_bg": "#FFF544",
         "text_color": "#000000",
         "button_bg": "#000000",
         "button_text_color": "#FFFFFF",
         "bg_color": "#FFFFFF",
         "overlay_color": "#FFFFFF",
-        "overlay_opacity": 15
+        "overlay_opacity": 15,
+        "header_gap": 360
       }
     }
   ]
