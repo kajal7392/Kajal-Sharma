@@ -335,33 +335,24 @@
         "image_pDxmAg"
       ],
       "custom_css": [
-        ".lookbook-template--27763054248215__lookbook_RndDXg{background-color: #fff;}"
+        ".page-width{padding-left: 30px; padding-right: 30px;}"
       ],
       "name": "Lookbook Gallery",
       "settings": {
         "section_title": "Tisso vision in the wild",
-        "section_subtitle": "",
         "title_color": "#000000",
-        "subtitle_color": "#666666",
         "hotspot_bg": "#ffffff",
         "hotspot_color": "#000000",
         "hotspot_hover_bg": "#000000",
         "hotspot_hover_color": "#ffffff",
-        "title_size": 30,
-        "title_size_mobile": 20,
-        "desktop_gap": 30,
-        "mobile_gap": 12,
-        "image_aspect_ratio": 75,
-        "mobile_aspect_ratio": 75,
-        "image_corner_radius": 8,
-        "full_page_width": false,
+        "padding_top": 80,
+        "padding_bottom": 80,
         "enable_ripple_animation": true,
         "hotspot_size": 32,
         "hotspot_size_mobile": 28,
         "hotspot_icon_size": 20,
         "hotspot_icon_size_mobile": 16,
-        "padding_top": 80,
-        "padding_bottom": 80
+        "full_page_width": false
       }
     }
   },
