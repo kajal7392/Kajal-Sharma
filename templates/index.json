@@ -14,6 +14,7 @@
       "name": "The Gift Guide Hero Banner",
       "settings": {
         "bg_image": "shopify://shop_images/Group_1000008197_1.png",
+        "bg_image_mobile": "shopify://shop_images/Frame.png",
         "bg_color": "#ffffff",
         "overlay_color": "#ffffff",
         "overlay_opacity": 15,
