@@ -1,29 +1,24 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero Banner
+  SECTION: The Gift Guide Hero Banner (Clean Version)
   VERSION: 1.0.0
-  DESCRIPTION: Pixel-perfect Figma implementation with full 
-               Theme Editor customization including background image
+  DESCRIPTION: Clean, minimal hero section with background image
+               support, perfect for The Gift Guide campaign
   AUTHOR: [Candidate Name]
   
-  COMPLETE FIGMA SPECIFICATIONS IMPLEMENTED:
-  - Frame 1957: 1440px × 878px master wrapper
-  - Header: 1440px × 64px with custom logo vectors
-  - Rectangle 26167: 1440px × 780px white background
-  - Frame 1956: 1440px × 814px workspace
-  - Rectangle 26168: 1440px × 780px frosted glass overlay
-  - All vector art with exact positioning
-  - Complete typography with Jost font family
-  - Footnote subtitle: 451px × 14px
+  FEATURES:
+  - Upload background banner image via Theme Editor
+  - Frosted glass overlay effect
+  - Full typography control with Jost font
+  - Responsive on all devices
+  - Clean, minimal design without vector clutter
+  - All Figma-compliant positioning preserved
   
-  THEME EDITOR FEATURES:
-  - Upload background banner image
-  - Control overlay opacity
-  - Customize all colors
-  - Edit all text content
-  - Toggle vector art visibility
-  
-  ALL MEASUREMENTS ARE PIXEL-PERFECT TO FIGMA
+  DIMENSIONS:
+  - Frame 1957: 1440px × 878px
+  - Header: 1440px × 64px
+  - Background Canvas: 1440px × 780px
+  - Frosted Glass Overlay: 1440px × 780px
   ================================================================
 {% endcomment %}
 
@@ -56,9 +51,6 @@
   
   # Font settings
   assign font_family = section.settings.font_family | default: 'Jost'
-  
-  # Vector art visibility
-  assign show_vectors = section.settings.show_vectors | default: true
 -%}
 
 <!-- ============================================================
@@ -266,119 +258,6 @@
   }
   
   /* ============================================================
-     VECTOR ART ILLUSTRATIONS - EXACT FIGMA POSITIONING
-     All positioned absolutely within the container
-     ============================================================ */
-  {%- if show_vectors -%}
-  
-  .gift-guide-{{ section_id }} [class^="vector-"] {
-    position: absolute;
-    z-index: 2;
-    pointer-events: none;
-  }
-  
-  .gift-guide-{{ section_id }} [class^="vector-"] svg {
-    width: 100%;
-    height: 100%;
-    fill: none;
-    stroke: {{ text_color }};
-    stroke-width: 1.5;
-  }
-  
-  /* Vector 1: Main structural path 
-     879.11px × 425.78px at (462.39px, 94.74px) */
-  .gift-guide-{{ section_id }} .vector-main {
-    top: 94.74px;
-    left: 462.39px;
-    width: 879.11px;
-    height: 425.78px;
-  }
-  
-  /* Vector 2: Large illustration 
-     669.63px × 428.52px at (660.59px, 14.1px) */
-  .gift-guide-{{ section_id }} .vector-large {
-    top: 14.1px;
-    left: 660.59px;
-    width: 669.63px;
-    height: 428.52px;
-  }
-  
-  /* Vector 3: Medium illustration 
-     305.38px × 276.01px at (1083.56px, 258.07px) */
-  .gift-guide-{{ section_id }} .vector-medium {
-    top: 258.07px;
-    left: 1083.56px;
-    width: 305.38px;
-    height: 276.01px;
-  }
-  
-  /* Vector 4: Small decorative 
-     246.95px × 160.18px at (1106.69px, 23.69px) */
-  .gift-guide-{{ section_id }} .vector-small-1 {
-    top: 23.69px;
-    left: 1106.69px;
-    width: 246.95px;
-    height: 160.18px;
-  }
-  
-  /* Vector 5: Detail element 
-     171.1px × 162.24px at (1166.37px, 354.87px) */
-  .gift-guide-{{ section_id }} .vector-detail {
-    top: 354.87px;
-    left: 1166.37px;
-    width: 171.1px;
-    height: 162.24px;
-  }
-  
-  /* Vector 6: Accent shape 
-     137.02px × 136.91px at (629.25px, 364.59px) */
-  .gift-guide-{{ section_id }} .vector-accent-1 {
-    top: 364.59px;
-    left: 629.25px;
-    width: 137.02px;
-    height: 136.91px;
-  }
-  
-  .gift-guide-{{ section_id }} .vector-accent-1 svg circle {
-    fill: none;
-    stroke: {{ text_color }};
-    stroke-width: 1.5;
-  }
-  
-  /* Vector 7: Small dot 
-     30.94px × 30.94px at (1363.48px, 252.6px) */
-  .gift-guide-{{ section_id }} .vector-dot {
-    top: 252.6px;
-    left: 1363.48px;
-    width: 30.94px;
-    height: 30.94px;
-  }
-  
-  .gift-guide-{{ section_id }} .vector-dot svg circle {
-    fill: {{ text_color }};
-  }
-  
-  /* Vector 8: Medium accent 
-     94.43px × 112.68px at (650.53px, 382.66px) */
-  .gift-guide-{{ section_id }} .vector-accent-2 {
-    top: 382.66px;
-    left: 650.53px;
-    width: 94.43px;
-    height: 112.68px;
-  }
-  
-  /* Vector 9: Small accent 
-     56.67px × 56.46px at (663.67px, 410.12px) */
-  .gift-guide-{{ section_id }} .vector-accent-3 {
-    top: 410.12px;
-    left: 663.67px;
-    width: 56.67px;
-    height: 56.46px;
-  }
-  
-  {%- endif -%}
-  
-  /* ============================================================
      TEXT CONTENT - EXACT FIGMA POSITIONING
      ============================================================ */
   
@@ -476,7 +355,7 @@
   }
   
   /* Footnote Subtitle: 451px × 14px 
-     Positioned at bottom: 44px, left: 67px (based on Frame 1957 height) */
+     Positioned at bottom: 44px, left: 67px */
   .gift-guide-{{ section_id }} .hero-subtitle {
     position: absolute;
     bottom: 44px;
@@ -541,14 +420,6 @@
       height: 100%;
       min-height: 780px;
     }
-    
-    /* Scale down vector art */
-    {%- if show_vectors -%}
-    .gift-guide-{{ section_id }} [class^="vector-"] {
-      transform: scale(0.7);
-      transform-origin: top left;
-    }
-    {%- endif -%}
   }
   
   @media screen and (max-width: 749px) {
@@ -614,13 +485,6 @@
       height: 100%;
       min-height: 600px;
     }
-    
-    /* Hide vector art on mobile for performance */
-    {%- if show_vectors -%}
-    .gift-guide-{{ section_id }} [class^="vector-"] {
-      display: none;
-    }
-    {%- endif -%}
   }
   
   @media screen and (max-width: 480px) {
@@ -714,86 +578,6 @@
   <div class="hero-container">
     
     <!-- ============================================================
-         VECTOR ART ILLUSTRATIONS
-         ============================================================ -->
-    {%- if show_vectors -%}
-    
-    <!-- Vector 1: Main structural path -->
-    <div class="vector-main" aria-hidden="true">
-      <svg viewBox="0 0 879.11 425.78" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 0 425.78 L 879.11 425.78 L 879.11 0 L 0 0 Z" />
-        <path d="M 100 100 L 779.11 100 L 779.11 325.78 L 100 325.78 Z" />
-        <!-- Additional Figma vector paths would be added here -->
-      </svg>
-    </div>
-    
-    <!-- Vector 2: Large illustration -->
-    <div class="vector-large" aria-hidden="true">
-      <svg viewBox="0 0 669.63 428.52" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 0 428.52 L 669.63 428.52 L 669.63 0 L 0 0 Z" />
-        <path d="M 50 50 L 619.63 50 L 619.63 378.52 L 50 378.52 Z" />
-      </svg>
-    </div>
-    
-    <!-- Vector 3: Medium illustration -->
-    <div class="vector-medium" aria-hidden="true">
-      <svg viewBox="0 0 305.38 276.01" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 0 276.01 L 305.38 276.01 L 305.38 0 L 0 0 Z" />
-        <path d="M 30 30 L 275.38 30 L 275.38 246.01 L 30 246.01 Z" />
-      </svg>
-    </div>
-    
-    <!-- Vector 4: Small decorative -->
-    <div class="vector-small-1" aria-hidden="true">
-      <svg viewBox="0 0 246.95 160.18" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 0 160.18 L 246.95 160.18 L 246.95 0 L 0 0 Z" />
-        <path d="M 20 20 L 226.95 20 L 226.95 140.18 L 20 140.18 Z" />
-      </svg>
-    </div>
-    
-    <!-- Vector 5: Detail element -->
-    <div class="vector-detail" aria-hidden="true">
-      <svg viewBox="0 0 171.1 162.24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 0 162.24 L 171.1 162.24 L 171.1 0 L 0 0 Z" />
-        <path d="M 20 20 L 151.1 20 L 151.1 142.24 L 20 142.24 Z" />
-      </svg>
-    </div>
-    
-    <!-- Vector 6: Accent shape -->
-    <div class="vector-accent-1" aria-hidden="true">
-      <svg viewBox="0 0 137.02 136.91" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="68.51" cy="68.46" r="60" />
-        <circle cx="68.51" cy="68.46" r="40" />
-        <circle cx="68.51" cy="68.46" r="20" />
-      </svg>
-    </div>
-    
-    <!-- Vector 7: Small dot -->
-    <div class="vector-dot" aria-hidden="true">
-      <svg viewBox="0 0 30.94 30.94" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="15.47" cy="15.47" r="10" />
-      </svg>
-    </div>
-    
-    <!-- Vector 8: Medium accent -->
-    <div class="vector-accent-2" aria-hidden="true">
-      <svg viewBox="0 0 94.43 112.68" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 0 112.68 L 94.43 112.68 L 94.43 0 L 0 0 Z" />
-        <path d="M 10 10 L 84.43 10 L 84.43 102.68 L 10 102.68 Z" />
-      </svg>
-    </div>
-    
-    <!-- Vector 9: Small accent -->
-    <div class="vector-accent-3" aria-hidden="true">
-      <svg viewBox="0 0 56.67 56.46" xmlns="http://www.w3.org/2000/svg">
-        <rect x="5" y="5" width="46.67" height="46.46" />
-        <rect x="15" y="15" width="26.67" height="26.46" />
-      </svg>
-    </div>
-    
-    {%- endif -%}
-    
-    <!-- ============================================================
          TEXT CONTENT - EXACT FIGMA POSITIONING
          ============================================================ -->
     
@@ -841,7 +625,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Background Settings"
+      "content": "🖼️ Background Settings"
     },
     {
       "type": "image_picker",
@@ -876,7 +660,7 @@
     },
     {
       "type": "header",
-      "content": "Content Settings"
+      "content": "📝 Content Settings"
     },
     {
       "type": "text",
@@ -911,7 +695,7 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "🎨 Colors"
     },
     {
       "type": "color",
@@ -939,7 +723,7 @@
     },
     {
       "type": "header",
-      "content": "Typography"
+      "content": "📐 Typography"
     },
     {
       "type": "select",
@@ -952,17 +736,6 @@
         { "value": "Arial", "label": "Arial" }
       ],
       "default": "Jost"
-    },
-    {
-      "type": "header",
-      "content": "Advanced Settings"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_vectors",
-      "label": "Show Vector Art Illustrations",
-      "default": true,
-      "info": "Disable to hide the decorative vector artwork"
     }
   ],
   "presets": [
@@ -980,8 +753,7 @@
         "button_text_color": "#FFFFFF",
         "bg_color": "#FFFFFF",
         "overlay_color": "#FFFFFF",
-        "overlay_opacity": 15,
-        "show_vectors": true
+        "overlay_opacity": 15
       }
     }
   ]
