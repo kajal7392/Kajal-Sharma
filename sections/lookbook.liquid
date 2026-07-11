@@ -1,7 +1,9 @@
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;    
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
   @media screen and (min-width: 750px) {
@@ -19,8 +21,6 @@
     height: auto;
     margin: 0 auto;
     font-family: 'Jost', sans-serif;
-    padding-left: 30px;
-    padding-right: 30px;
   }
 
   .lookbook-{{ section.id }} .section-header {
@@ -36,7 +36,6 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 0 0 8px 0;
-    padding-left: 30px;
   }
 
   .lookbook-{{ section.id }} .section-subtitle {
