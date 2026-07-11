@@ -78,12 +78,28 @@
     endif
   endif
 
+  # ============================================================
+  # FIGMA HEADER CUSTOMIZATION
+  # ============================================================
+  assign header_bg = section.settings.header_bg | default: '#F5F5F5'
+  assign header_center_text = section.settings.header_center_text | default: 'Find the ideal gift for your loved ones.'
+  assign header_button_text = section.settings.header_button_text | default: 'CHOOSE GIFT'
+  assign header_button_link = section.settings.header_button_link | default: '/collections'
+  assign header_button_bg = section.settings.header_button_bg | default: '#FFF544'
+  assign header_button_text_color = section.settings.header_button_text_color | default: '#000000'
+  assign text_color = section.settings.text_color | default: '#000000'
+  assign font_family = section.settings.font_family | default: 'Jost'
+
   capture logo
     content_for 'block', type: '_header-logo', id: 'header-logo'
   endcapture
 
+  # Modified menu - replaced with center text
   capture menu
-    content_for 'block', type: '_header-menu', id: 'header-menu'
+    # Instead of menu, we output the center text
+    echo '<div class="header-center-text-figma">'
+    echo '<span class="center-text-content">' | append: header_center_text | append: '</span>'
+    echo '</div>'
   endcapture
 
   capture drawer_menu
@@ -94,8 +110,14 @@
     content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'navigation_bar', transparent: transparent
   endcapture
 
+  # Modified actions - replaced with button
   capture actions
-    render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
+    echo '<a href="' | append: header_button_link | append: '" class="header-button-figma" aria-label="' | append: header_button_text | append: '">'
+    echo '<span class="button-content">'
+    echo '<span class="button-text">' | append: header_button_text | append: '</span>'
+    echo '<span class="button-arrow" aria-hidden="true"></span>'
+    echo '</span>'
+    echo '</a>'
   endcapture
 
   if shop.customer_accounts_enabled
@@ -212,196 +234,7 @@
   elsif bottom_transparent
     assign background_transparent_color_value = 'bottom'
   endif
-
-  # ============================================================
-  # FIGMA HEADER CUSTOMIZATION FOR DESKTOP
-  # ============================================================
-  # Get header settings for Figma design
-  assign header_bg = section.settings.header_bg | default: '#F5F5F5'
-  assign header_gap = section.settings.header_gap | default: 360
-  assign header_center_text = section.settings.header_center_text | default: 'Find the ideal gift for your loved ones.'
-  assign header_button_text = section.settings.header_button_text | default: 'CHOOSE GIFT'
-  assign header_button_link = section.settings.header_button_link | default: '/collections'
-  assign header_button_bg = section.settings.header_button_bg | default: '#FFF544'
-  assign header_button_text_color = section.settings.header_button_text_color | default: '#000000'
-  assign text_color = section.settings.text_color | default: '#000000'
-  assign font_family = section.settings.font_family | default: 'Jost'
 %}
-
-<!-- ============================================================
-     FIGMA HEADER STYLES FOR DESKTOP
-     ============================================================ -->
-{%- style -%}
-  /* ============================================================
-     FONT IMPORT (Jost)
-     ============================================================ */
-  @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
-
-  /* ============================================================
-     FIGMA HEADER STYLES - DESKTOP ONLY
-     ============================================================ */
-  @media screen and (min-width: 750px) {
-    .gift-guide-header-{{ section.id }} {
-      background: {{ header_bg }};
-      font-family: '{{ font_family }}', sans-serif;
-      padding: 10px 50px;
-      height: 64px;
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: {{ header_gap }}px;
-      box-sizing: border-box;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-
-    /* Header Logo */
-    .gift-guide-header-{{ section.id }} .header-logo-figma {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .gift-guide-header-{{ section.id }} .header-logo-figma .logo-text {
-      font-family: '{{ font_family }}', sans-serif;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 19px;
-      color: {{ text_color }};
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .gift-guide-header-{{ section.id }} .header-logo-figma .logo-text .tisso {
-      font-weight: 600;
-    }
-
-    .gift-guide-header-{{ section.id }} .header-logo-figma .logo-text .vison {
-      font-weight: 400;
-      margin-left: 2px;
-    }
-
-    /* Header Center Text */
-    .gift-guide-header-{{ section.id }} .header-center-text-figma {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      min-width: 0;
-      padding: 0 10px;
-    }
-
-    .gift-guide-header-{{ section.id }} .header-center-text-figma .center-text-content {
-      font-family: '{{ font_family }}', sans-serif;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 13.42px;
-      color: {{ text_color }};
-      letter-spacing: 0;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-      padding: 0 5px;
-    }
-
-    /* Header Right Button */
-    .gift-guide-header-{{ section.id }} .header-button-figma {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 207px;
-      min-width: 120px;
-      height: 44px;
-      background: {{ header_button_bg }};
-      text-decoration: none;
-      font-family: '{{ font_family }}', sans-serif;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 20.48px;
-      color: {{ header_button_text_color }};
-      transition: all 0.3s ease;
-      cursor: pointer;
-      flex-shrink: 0;
-      position: relative;
-      border: none;
-    }
-
-    .gift-guide-header-{{ section.id }} .header-button-figma .button-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 0 16px;
-      width: 100%;
-      height: 100%;
-    }
-
-    .gift-guide-header-{{ section.id }} .header-button-figma .button-text {
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 20.48px;
-      color: {{ header_button_text_color }};
-      letter-spacing: 0;
-      white-space: nowrap;
-    }
-
-    .gift-guide-header-{{ section.id }} .header-button-figma .button-arrow {
-      width: 24px;
-      height: 0;
-      border-top: 1.5px solid {{ header_button_text_color }};
-      display: inline-block;
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .gift-guide-header-{{ section.id }} .header-button-figma .button-arrow::after {
-      content: '';
-      position: absolute;
-      right: -4px;
-      top: -4px;
-      width: 8px;
-      height: 8px;
-      border-right: 1.5px solid {{ header_button_text_color }};
-      border-top: 1.5px solid {{ header_button_text_color }};
-      transform: rotate(45deg);
-    }
-
-    .gift-guide-header-{{ section.id }} .header-button-figma:hover {
-      opacity: 0.85;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Hide default header elements on desktop when Figma header is active */
-    .header-section .header-component .header__row--top .header__column--left .header-menu,
-    .header-section .header-component .header__row--top .header__column--center,
-    .header-section .header-component .header__row--top .header__column--right .dropdown-localization,
-    .header-section .header-component .header__row--top .header__column--right .search-action {
-      display: none !important;
-    }
-
-    /* Override header columns for Figma layout */
-    .header-section .header-component .header__row--top .header__columns {
-      display: contents !important;
-    }
-
-    /* Hide the original header content and show Figma header */
-    .header-section .header-component .header__row--top .header__columns .header__column {
-      display: none !important;
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    /* Hide Figma header on mobile - keep original */
-    .gift-guide-header-{{ section.id }} {
-      display: none !important;
-    }
-  }
-{%- endstyle -%}
 
 {% capture localization_markup %}
   {% liquid
@@ -510,6 +343,226 @@
   }
 </script>
 
+<!-- ============================================================
+     STYLES FOR FIGMA HEADER
+     ============================================================ -->
+{%- style -%}
+  /* ============================================================
+     FONT IMPORT (Jost)
+     ============================================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
+
+  /* ============================================================
+     HEADER STYLES - Desktop
+     ============================================================ */
+  .gift-guide-header-{{ section.id }} {
+    background: {{ header_bg }};
+    font-family: '{{ font_family }}', sans-serif;
+    padding: 10px 50px;
+    height: 64px;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: {{ section.settings.header_gap | default: 360 }}px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  /* Header Logo */
+  .gift-guide-header-{{ section.id }} .header-logo-figma {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .gift-guide-header-{{ section.id }} .header-logo-figma .logo-text {
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: {{ text_color }};
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .gift-guide-header-{{ section.id }} .header-logo-figma .logo-text .tisso {
+    font-weight: 600;
+  }
+
+  .gift-guide-header-{{ section.id }} .header-logo-figma .logo-text .vison {
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  /* Header Center Text (replaces menu) */
+  .gift-guide-header-{{ section.id }} .header-center-text-figma {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-width: 0;
+    padding: 0 10px;
+  }
+
+  .gift-guide-header-{{ section.id }} .header-center-text-figma .center-text-content {
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    color: {{ text_color }};
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    padding: 0 5px;
+  }
+
+  /* Header Button (replaces icons) */
+  .gift-guide-header-{{ section.id }} .header-button-figma {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 207px;
+    min-width: 120px;
+    height: 44px;
+    background: {{ header_button_bg }};
+    text-decoration: none;
+    font-family: '{{ font_family }}', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    color: {{ header_button_text_color }};
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    border: none;
+  }
+
+  .gift-guide-header-{{ section.id }} .header-button-figma .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .gift-guide-header-{{ section.id }} .header-button-figma .button-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    color: {{ header_button_text_color }};
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .gift-guide-header-{{ section.id }} .header-button-figma .button-arrow {
+    width: 24px;
+    height: 0;
+    border-top: 1.5px solid {{ header_button_text_color }};
+    display: inline-block;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .gift-guide-header-{{ section.id }} .header-button-figma .button-arrow::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid {{ header_button_text_color }};
+    border-top: 1.5px solid {{ header_button_text_color }};
+    transform: rotate(45deg);
+  }
+
+  .gift-guide-header-{{ section.id }} .header-button-figma:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ============================================================
+     MOBILE: Hide button on mobile
+     ============================================================ */
+  @media screen and (max-width: 749px) {
+    .gift-guide-header-{{ section.id }} .header-button-figma {
+      display: none !important;
+    }
+
+    .gift-guide-header-{{ section.id }} {
+      padding: 10px 20px;
+      gap: 20px;
+      height: 56px;
+      min-height: 56px;
+    }
+
+    .gift-guide-header-{{ section.id }} .header-center-text-figma .center-text-content {
+      font-size: 12px;
+      line-height: 13px;
+      white-space: normal;
+    }
+
+    .gift-guide-header-{{ section.id }} .header-logo-figma .logo-text {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .gift-guide-header-{{ section.id }} {
+      padding: 8px 12px;
+      gap: 12px;
+      height: 48px;
+      min-height: 48px;
+    }
+
+    .gift-guide-header-{{ section.id }} .header-logo-figma .logo-text {
+      font-size: 11px;
+    }
+
+    .gift-guide-header-{{ section.id }} .header-center-text-figma .center-text-content {
+      font-size: 10px;
+      line-height: 11px;
+    }
+  }
+
+  /* ============================================================
+     OVERRIDE DEFAULT HEADER - Hide original menu and icons
+     ============================================================ */
+  .header-section .header-component .header__row--top .header__column--left .header-menu {
+    display: none !important;
+  }
+
+  /* Hide localization and search on desktop */
+  @media screen and (min-width: 750px) {
+    .header-section .header-component .header__row--top .header__column--right .dropdown-localization,
+    .header-section .header-component .header__row--top .header__column--right .search-action,
+    .header-section .header-component .header__row--top .header__column--right .header-actions__action {
+      display: none !important;
+    }
+
+    /* Hide the original header content and show Figma header */
+    .header-section .header-component .header__row--top .header__columns .header__column {
+      display: none !important;
+    }
+  }
+
+  /* On mobile, show original header, hide Figma */
+  @media screen and (max-width: 749px) {
+    .gift-guide-header-{{ section.id }} .header-button-figma {
+      display: none !important;
+    }
+  }
+{%- endstyle -%}
+
 <header-component
   id="header-component"
   class="{{ class }}"
@@ -558,7 +611,7 @@
   {%- endif -%}
 
   <!-- ============================================================
-       FIGMA HEADER - DESKTOP ONLY
+       FIGMA HEADER - Replaces default header content
        ============================================================ -->
   <div class="gift-guide-header-{{ section.id }}">
     <!-- Logo -->
@@ -569,14 +622,14 @@
       </span>
     </div>
 
-    <!-- Center Text -->
+    <!-- Center Text (replaces menu) -->
     <div class="header-center-text-figma">
       <span class="center-text-content">
         {{ header_center_text }}
       </span>
     </div>
 
-    <!-- Right Button -->
+    <!-- Right Button (replaces icons) - Hidden on mobile -->
     <a
       href="{{ header_button_link }}"
       class="header-button-figma"
@@ -590,7 +643,7 @@
   </div>
 
   <!-- ============================================================
-       ORIGINAL HEADER - MOBILE ONLY (hidden on desktop)
+       ORIGINAL HEADER - KEPT FOR MOBILE
        ============================================================ -->
   {% for row in rows %}
     {% liquid
@@ -1989,7 +2042,7 @@
     },
     {
       "type": "header",
-      "content": "🎯 FIGMA HEADER SETTINGS (DESKTOP ONLY)"
+      "content": "🎯 FIGMA HEADER SETTINGS"
     },
     {
       "type": "color",
@@ -2010,13 +2063,13 @@
     {
       "type": "text",
       "id": "header_center_text",
-      "label": "Header Center Text",
+      "label": "Header Center Text (replaces menu)",
       "default": "Find the ideal gift for your loved ones."
     },
     {
       "type": "text",
       "id": "header_button_text",
-      "label": "Header Button Text",
+      "label": "Header Button Text (replaces icons)",
       "default": "CHOOSE GIFT"
     },
     {
