@@ -1,24 +1,23 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero Banner with Header Navigation
+  SECTION: The Gift Guide Hero Banner with Fixed Header
   VERSION: 1.0.0
-  DESCRIPTION: Complete Figma implementation with header navigation,
-               text-based logo, and full Theme Editor customization
+  DESCRIPTION: Fixed header center text alignment issues
   AUTHOR: [Candidate Name]
   
-  FIGMA SPECIFICATIONS IMPLEMENTED:
+  FIXES APPLIED:
+  - Header center text now properly centered vertically (10px padding)
+  - Text no longer gets cut off horizontally
+  - Proper flex alignment with align-items: center
+  - Responsive text sizing for all screen sizes
+  - Text overflow handling with ellipsis
+  
+  FIGMA SPECIFICATIONS:
   - Frame 1957: 1440px × 878px master wrapper
   - Header: 1440px × 64px with horizontal auto-layout
   - Header padding: 10px top/bottom, 50px left/right
   - Gap between elements: 360px
-  - Logo: "TISSO VISON" as text (not vectors)
-  - Center text: "Find the ideal gift for your loved ones."
-  - Right button: "CHOOSE GIFT →" with yellow background
-  - Background canvas: 1440px × 780px
-  - Frosted glass overlay with blur
-  - Hero content with exact Figma positioning
-  
-  ALL MEASUREMENTS ARE PIXEL-PERFECT TO FIGMA
+  - Center text: "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
   ================================================================
 {% endcomment %}
 
@@ -32,8 +31,8 @@
   assign header_bg = section.settings.header_bg | default: '#F5F5F5'
   assign header_gap = section.settings.header_gap | default: 360
   
-  # Header center text
-  assign header_center_text = section.settings.header_center_text | default: 'Find the ideal gift for your loved ones.'
+  # Header center text (now using the correct text)
+  assign header_center_text = section.settings.header_center_text | default: 'SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL'
   
   # Header button settings
   assign header_button_text = section.settings.header_button_text | default: 'CHOOSE GIFT'
@@ -92,10 +91,12 @@
      Padding: 10px 50px
      Gap: 360px
      Background: #F5F5F5
+     FIX: Proper vertical centering with align-items: center
      ============================================================ */
   .gift-guide-{{ section_id }} .header-component {
     width: 100%;
     height: 64px;
+    min-height: 64px;
     background: {{ header_bg }};
     display: flex;
     align-items: center;
@@ -105,6 +106,7 @@
     position: relative;
     z-index: 10;
     border-bottom: 1px solid rgba(0,0,0,0.05);
+    box-sizing: border-box;
   }
   
   /* ============================================================
@@ -114,8 +116,8 @@
   .gift-guide-{{ section_id }} .header-logo {
     display: flex;
     align-items: center;
-    gap: 0;
     flex-shrink: 0;
+    height: 100%;
   }
   
   .gift-guide-{{ section_id }} .header-logo .logo-text {
@@ -139,20 +141,33 @@
   }
   
   /* ============================================================
-     HEADER CENTER TEXT
+     HEADER CENTER TEXT - FIXED
+     Text: "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+     Proper horizontal and vertical centering
      ============================================================ */
   .gift-guide-{{ section_id }} .header-center-text {
     flex: 1;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-width: 0;
+    padding: 0 10px;
+  }
+  
+  .gift-guide-{{ section_id }} .header-center-text .center-text-content {
     font-family: '{{ font_family }}', sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 13.42px;
     color: {{ text_color }};
     letter-spacing: 0;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
+    padding: 0 5px;
   }
   
   /* ============================================================
@@ -165,6 +180,7 @@
     align-items: center;
     justify-content: center;
     width: 207px;
+    min-width: 120px;
     height: 44px;
     background: {{ header_button_bg }};
     text-decoration: none;
@@ -177,6 +193,7 @@
     cursor: pointer;
     flex-shrink: 0;
     position: relative;
+    border: none;
   }
   
   .gift-guide-{{ section_id }} .header-button .button-content {
@@ -195,6 +212,7 @@
     line-height: 20.48px;
     color: {{ header_button_text_color }};
     letter-spacing: 0;
+    white-space: nowrap;
   }
   
   .gift-guide-{{ section_id }} .header-button .button-arrow {
@@ -203,6 +221,7 @@
     border-top: 1.5px solid {{ header_button_text_color }};
     display: inline-block;
     position: relative;
+    flex-shrink: 0;
   }
   
   .gift-guide-{{ section_id }} .header-button .button-arrow::after {
@@ -410,17 +429,21 @@
   @media screen and (max-width: 1024px) {
     .gift-guide-{{ section_id }} .header-component {
       padding: 10px 30px;
-      gap: 40px;
+      gap: 30px;
     }
     
-    .gift-guide-{{ section_id }} .header-center-text {
-      font-size: 14px;
-      white-space: normal;
+    .gift-guide-{{ section_id }} .header-center-text .center-text-content {
+      font-size: 13px;
+      line-height: 14px;
     }
     
     .gift-guide-{{ section_id }} .header-button {
       width: 160px;
       height: 40px;
+      font-size: 14px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button .button-text {
       font-size: 14px;
     }
     
@@ -460,10 +483,32 @@
     }
   }
   
+  @media screen and (max-width: 900px) {
+    .gift-guide-{{ section_id }} .header-component {
+      gap: 20px;
+      padding: 10px 20px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-center-text .center-text-content {
+      font-size: 12px;
+      line-height: 13px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button {
+      width: 140px;
+      height: 38px;
+      font-size: 13px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button .button-text {
+      font-size: 13px;
+    }
+  }
+  
   @media screen and (max-width: 749px) {
     .gift-guide-{{ section_id }} .header-component {
-      padding: 10px 16px;
-      gap: 16px;
+      padding: 8px 16px;
+      gap: 12px;
       height: auto;
       min-height: 56px;
       flex-wrap: wrap;
@@ -474,17 +519,34 @@
     }
     
     .gift-guide-{{ section_id }} .header-center-text {
-      display: none;
+      order: 3;
+      flex: 0 0 100%;
+      padding: 4px 0;
+      height: auto;
+      min-height: 20px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-center-text .center-text-content {
+      font-size: 11px;
+      line-height: 12px;
+      white-space: normal;
+      text-overflow: clip;
+      padding: 0 20px;
     }
     
     .gift-guide-{{ section_id }} .header-button {
-      width: 140px;
-      height: 36px;
-      font-size: 12px;
+      width: 120px;
+      height: 34px;
+      font-size: 11px;
+      min-width: 100px;
     }
     
     .gift-guide-{{ section_id }} .header-button .button-text {
-      font-size: 12px;
+      font-size: 11px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-button .button-arrow {
+      width: 16px;
     }
     
     .gift-guide-{{ section_id }} .hero-container {
@@ -541,18 +603,19 @@
   
   @media screen and (max-width: 480px) {
     .gift-guide-{{ section_id }} .header-component {
-      gap: 12px;
-      padding: 8px 12px;
+      gap: 8px;
+      padding: 6px 10px;
     }
     
     .gift-guide-{{ section_id }} .header-logo .logo-text {
-      font-size: 12px;
+      font-size: 11px;
     }
     
     .gift-guide-{{ section_id }} .header-button {
-      width: 120px;
-      height: 32px;
+      width: 100px;
+      height: 30px;
       font-size: 10px;
+      min-width: 80px;
     }
     
     .gift-guide-{{ section_id }} .header-button .button-text {
@@ -560,7 +623,12 @@
     }
     
     .gift-guide-{{ section_id }} .header-button .button-arrow {
-      width: 16px;
+      width: 14px;
+    }
+    
+    .gift-guide-{{ section_id }} .header-center-text .center-text-content {
+      font-size: 10px;
+      line-height: 11px;
     }
     
     .gift-guide-{{ section_id }} .main-headline {
@@ -598,6 +666,7 @@
   <!-- ============================================================
        HEADER: 1440px × 64px with Auto Layout
        Padding: 10px 50px | Gap: 360px
+       FIX: Proper vertical centering with display:flex + align-items:center
        ============================================================ -->
   <header class="header-component" role="banner" aria-label="Site header">
     
@@ -609,9 +678,11 @@
       </span>
     </div>
     
-    <!-- Header Center Text -->
+    <!-- Header Center Text - FIXED: Proper centering -->
     <div class="header-center-text">
-      {{ header_center_text }}
+      <span class="center-text-content">
+        {{ header_center_text }}
+      </span>
     </div>
     
     <!-- Header Right Button: "CHOOSE GIFT →" -->
@@ -762,7 +833,8 @@
       "type": "text",
       "id": "header_center_text",
       "label": "Header Center Text",
-      "default": "Find the ideal gift for your loved ones."
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+      "info": "This text appears centered in the header"
     },
     {
       "type": "text",
@@ -870,7 +942,7 @@
         "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
         "subtitle": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
         "cta_text": "SHOP NOW",
-        "header_center_text": "Find the ideal gift for your loved ones.",
+        "header_center_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
         "header_button_text": "CHOOSE GIFT",
         "header_bg": "#F5F5F5",
         "header_button_bg": "#FFF544",
