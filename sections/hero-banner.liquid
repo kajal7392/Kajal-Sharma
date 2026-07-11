@@ -1,23 +1,37 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero Banner with Fixed Header
+  SECTION: The Gift Guide Hero - Three Tier Layout
   VERSION: 1.0.0
-  DESCRIPTION: Fixed header center text alignment issues
+  DESCRIPTION: Complete Figma implementation with three distinct
+               containers: Header, Banner, and Bottom Footer
   AUTHOR: [Candidate Name]
   
-  FIXES APPLIED:
-  - Header center text now properly centered vertically (10px padding)
-  - Text no longer gets cut off horizontally
-  - Proper flex alignment with align-items: center
-  - Responsive text sizing for all screen sizes
-  - Text overflow handling with ellipsis
+  LAYOUT STRUCTURE:
+  ┌──────────────────────────────────────────────────────────────┐
+  │  HEADER (1440px × 64px)  │  Background: #F5F5F5           │
+  │  ┌───────┐  ┌──────────┐  ┌──────────────┐               │
+  │  │ TISSO  │  │ Center   │  │ CHOOSE GIFT →│               │
+  │  │ VISON  │  │ Text     │  │              │               │
+  │  └───────┘  └──────────┘  └──────────────┘               │
+  ├──────────────────────────────────────────────────────────────┤
+  │  BANNER (1440px × 780px) │  Background: Image/White        │
+  │  ┌─────────────────────────────────────────────────────┐   │
+  │  │  "The Gift Guide" (Headline)                       │   │
+  │  │  "Discover Joy..." (Description)                   │   │
+  │  │  [SHOP NOW →] (CTA Button)                        │   │
+  │  └─────────────────────────────────────────────────────┘   │
+  ├──────────────────────────────────────────────────────────────┤
+  │  BOTTOM CONTAINER (1440px × 34px) │  Background: #F5F5F5  │
+  │  "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL" │
+  └──────────────────────────────────────────────────────────────┘
   
   FIGMA SPECIFICATIONS:
   - Frame 1957: 1440px × 878px master wrapper
   - Header: 1440px × 64px with horizontal auto-layout
-  - Header padding: 10px top/bottom, 50px left/right
-  - Gap between elements: 360px
-  - Center text: "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+  - Banner: 1440px × 780px with background image support
+  - Bottom Container: 1440px × 34px with #F5F5F5 background
+  - Padding: 10px 50px for header, 10px 50px for bottom
+  - Gap between elements: 360px in header
   ================================================================
 {% endcomment %}
 
@@ -31,8 +45,8 @@
   assign header_bg = section.settings.header_bg | default: '#F5F5F5'
   assign header_gap = section.settings.header_gap | default: 360
   
-  # Header center text (now using the correct text)
-  assign header_center_text = section.settings.header_center_text | default: 'SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL'
+  # Header center text
+  assign header_center_text = section.settings.header_center_text | default: 'Find the ideal gift for your loved ones.'
   
   # Header button settings
   assign header_button_text = section.settings.header_button_text | default: 'CHOOSE GIFT'
@@ -40,18 +54,22 @@
   assign header_button_bg = section.settings.header_button_bg | default: '#FFF544'
   assign header_button_text_color = section.settings.header_button_text_color | default: '#000000'
   
-  # Background settings
+  # Banner background settings
   assign bg_image = section.settings.bg_image
   assign bg_color = section.settings.bg_color | default: '#FFFFFF'
   assign overlay_color = section.settings.overlay_color | default: '#FFFFFF'
   assign overlay_opacity = section.settings.overlay_opacity | default: 15
   
-  # Hero content settings
+  # Banner content settings
   assign headline = section.settings.headline | default: 'The Gift Guide'
   assign description = section.settings.description | default: 'Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.'
   assign cta_text = section.settings.cta_text | default: 'SHOP NOW'
   assign cta_link = section.settings.cta_link | default: '/collections/all'
-  assign subtitle = section.settings.subtitle | default: 'SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL'
+  
+  # Bottom container text
+  assign bottom_text = section.settings.bottom_text | default: 'SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL'
+  assign bottom_bg = section.settings.bottom_bg | default: '#F5F5F5'
+  assign bottom_text_color = section.settings.bottom_text_color | default: '#000000'
   
   # Color settings
   assign text_color = section.settings.text_color | default: '#000000'
@@ -78,20 +96,18 @@
   .gift-guide-{{ section_id }} {
     max-width: 1440px;
     margin: 0 auto;
-    background: {{ header_bg }};
     font-family: '{{ font_family }}', sans-serif;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
   
   /* ============================================================
-     HEADER COMPONENT: Frame 1957 (Header)
+     HEADER COMPONENT
      Dimensions: 1440px × 64px
-     Auto Layout: Horizontal flow
-     Padding: 10px 50px
-     Gap: 360px
+     Padding: 10px 50px | Gap: 360px
      Background: #F5F5F5
-     FIX: Proper vertical centering with align-items: center
      ============================================================ */
   .gift-guide-{{ section_id }} .header-component {
     width: 100%;
@@ -105,13 +121,12 @@
     gap: {{ header_gap }}px;
     position: relative;
     z-index: 10;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
     box-sizing: border-box;
+    flex-shrink: 0;
   }
   
   /* ============================================================
-     HEADER LOGO: "TISSO VISON" as text
-     Dimensions: 151.44px × 19px
+     HEADER LOGO: "TISSO VISON"
      ============================================================ */
   .gift-guide-{{ section_id }} .header-logo {
     display: flex;
@@ -141,9 +156,7 @@
   }
   
   /* ============================================================
-     HEADER CENTER TEXT - FIXED
-     Text: "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
-     Proper horizontal and vertical centering
+     HEADER CENTER TEXT
      ============================================================ */
   .gift-guide-{{ section_id }} .header-center-text {
     flex: 1;
@@ -243,30 +256,33 @@
   }
   
   /* ============================================================
-     BACKGROUND CANVAS: Rectangle 26167
-     Dimensions: 1440px × 780px, Top: 64px
+     BANNER CONTAINER
+     Dimensions: 1440px × 780px
      ============================================================ */
-  .gift-guide-{{ section_id }} .background-canvas {
-    position: absolute;
-    top: 64px;
-    left: 0;
+  .gift-guide-{{ section_id }} .banner-container {
+    position: relative;
     width: 100%;
     height: 780px;
+    min-height: 780px;
     background: {{ bg_color }};
-    z-index: 0;
     overflow: hidden;
+    flex-shrink: 0;
   }
   
-  .gift-guide-{{ section_id }} .background-canvas .bg-image {
+  /* Banner background image */
+  .gift-guide-{{ section_id }} .banner-container .banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    display: block;
+    z-index: 0;
   }
   
   {%- if bg_image != blank -%}
-    .gift-guide-{{ section_id }} .background-canvas {
+    .gift-guide-{{ section_id }} .banner-container {
       background-image: url('{{ bg_image | image_url: width: 1600 }}');
       background-size: cover;
       background-position: center;
@@ -274,16 +290,13 @@
     }
   {%- endif -%}
   
-  /* ============================================================
-     FROSTED GLASS OVERLAY: Rectangle 26168
-     Dimensions: 1440px × 780px, Top: 64px
-     ============================================================ */
-  .gift-guide-{{ section_id }} .glass-overlay {
+  /* Frosted glass overlay */
+  .gift-guide-{{ section_id }} .banner-container .glass-overlay {
     position: absolute;
-    top: 64px;
+    top: 0;
     left: 0;
     width: 100%;
-    height: 780px;
+    height: 100%;
     background: {{ overlay_color }};
     opacity: {{ overlay_opacity | divided_by: 100.0 }};
     backdrop-filter: blur(8px);
@@ -293,67 +306,51 @@
   }
   
   /* ============================================================
-     HERO CONTENT AREA: Frame 1956
-     Dimensions: 1440px × 814px
+     BANNER CONTENT
      ============================================================ */
-  .gift-guide-{{ section_id }} .hero-container {
+  .gift-guide-{{ section_id }} .banner-content {
     position: relative;
-    min-height: 814px;
-    padding: 0;
     z-index: 2;
+    height: 100%;
+    padding: 0 67px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   
-  /* ============================================================
-     TEXT CONTENT - EXACT FIGMA POSITIONING
-     ============================================================ */
-  
-  /* Main Headline: 459px × 70px at (67px, 489px) */
+  /* Main Headline: 459px × 70px */
   .gift-guide-{{ section_id }} .main-headline {
-    position: absolute;
-    top: 489px;
-    left: 67px;
-    width: 459px;
-    height: 70px;
-    z-index: 3;
     font-family: '{{ font_family }}', sans-serif;
     font-weight: 500;
     font-size: 70px;
     line-height: 70px;
     color: {{ text_color }};
-    margin: 0;
+    margin: 0 0 20px 0;
     padding: 0;
     letter-spacing: 0;
+    max-width: 459px;
   }
   
-  /* Description: 483px × 84px at (67px, 609px) */
+  /* Description: 483px × 84px */
   .gift-guide-{{ section_id }} .hero-description {
-    position: absolute;
-    top: 609px;
-    left: 67px;
-    width: 483px;
-    height: 84px;
-    z-index: 3;
     font-family: '{{ font_family }}', sans-serif;
     font-weight: 400;
     font-size: 20px;
     line-height: 140%;
     color: {{ text_color }};
-    margin: 0;
+    margin: 0 0 30px 0;
     padding: 0;
     letter-spacing: 0;
+    max-width: 483px;
   }
   
-  /* Primary CTA: 220px × 50px at (67px, 739px) */
+  /* Primary CTA: 220px × 50px */
   .gift-guide-{{ section_id }} .primary-cta {
-    position: absolute;
-    top: 739px;
-    left: 67px;
-    width: 220px;
-    height: 50px;
-    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 220px;
+    height: 50px;
     background: {{ button_bg }};
     color: {{ button_text_color }};
     text-decoration: none;
@@ -400,26 +397,36 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   }
   
-  /* Footnote Subtitle: 451px × 14px at bottom: 44px, left: 67px */
-  .gift-guide-{{ section_id }} .hero-subtitle {
-    position: absolute;
-    bottom: 44px;
-    left: 67px;
-    width: 451px;
-    height: 14px;
-    z-index: 3;
+  /* ============================================================
+     BOTTOM CONTAINER
+     Dimensions: 1440px × 34px | Background: #F5F5F5
+     Padding: 10px 50px
+     ============================================================ */
+  .gift-guide-{{ section_id }} .bottom-container {
+    width: 100%;
+    height: 34px;
+    min-height: 34px;
+    background: {{ bottom_bg }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 50px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+  
+  .gift-guide-{{ section_id }} .bottom-container .bottom-text {
     font-family: '{{ font_family }}', sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 13.42px;
-    color: {{ text_color }};
-    margin: 0;
-    padding: 0;
+    color: {{ bottom_text_color }};
     letter-spacing: 0;
-    opacity: 0.7;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
   }
   
   /* ============================================================
@@ -447,39 +454,28 @@
       font-size: 14px;
     }
     
+    .gift-guide-{{ section_id }} .banner-container {
+      height: 600px;
+      min-height: 600px;
+    }
+    
+    .gift-guide-{{ section_id }} .banner-content {
+      padding: 0 40px;
+    }
+    
     .gift-guide-{{ section_id }} .main-headline {
-      top: 350px;
-      left: 40px;
-      width: 350px;
       font-size: 50px;
       line-height: 50px;
+      max-width: 350px;
     }
     
     .gift-guide-{{ section_id }} .hero-description {
-      top: 430px;
-      left: 40px;
-      width: 350px;
-      height: auto;
       font-size: 18px;
+      max-width: 350px;
     }
     
-    .gift-guide-{{ section_id }} .primary-cta {
-      top: 560px;
-      left: 40px;
-    }
-    
-    .gift-guide-{{ section_id }} .hero-subtitle {
-      bottom: 30px;
-      left: 40px;
-      width: 300px;
+    .gift-guide-{{ section_id }} .bottom-container .bottom-text {
       font-size: 14px;
-      white-space: normal;
-    }
-    
-    .gift-guide-{{ section_id }} .background-canvas,
-    .gift-guide-{{ section_id }} .glass-overlay {
-      height: 100%;
-      min-height: 780px;
     }
   }
   
@@ -549,55 +545,43 @@
       width: 16px;
     }
     
-    .gift-guide-{{ section_id }} .hero-container {
-      min-height: 600px;
+    .gift-guide-{{ section_id }} .banner-container {
+      height: 500px;
+      min-height: 500px;
+    }
+    
+    .gift-guide-{{ section_id }} .banner-content {
+      padding: 0 20px;
+      align-items: center;
+      text-align: center;
     }
     
     .gift-guide-{{ section_id }} .main-headline {
-      top: 200px;
-      left: 20px;
-      width: calc(100% - 40px);
-      height: auto;
       font-size: 32px;
       line-height: 36px;
-      text-align: center;
+      max-width: 100%;
     }
     
     .gift-guide-{{ section_id }} .hero-description {
-      top: 260px;
-      left: 20px;
-      width: calc(100% - 40px);
-      height: auto;
       font-size: 16px;
-      text-align: center;
+      max-width: 100%;
     }
     
     .gift-guide-{{ section_id }} .primary-cta {
-      top: 420px;
-      left: 50%;
-      transform: translateX(-50%);
       width: 200px;
       height: 48px;
     }
     
-    .gift-guide-{{ section_id }} .primary-cta:hover {
-      transform: translateX(-50%) translateY(-2px);
-    }
-    
-    .gift-guide-{{ section_id }} .hero-subtitle {
-      bottom: 20px;
-      left: 20px;
-      width: calc(100% - 40px);
+    .gift-guide-{{ section_id }} .bottom-container {
       height: auto;
-      text-align: center;
-      font-size: 12px;
-      white-space: normal;
+      min-height: 34px;
+      padding: 8px 20px;
     }
     
-    .gift-guide-{{ section_id }} .background-canvas,
-    .gift-guide-{{ section_id }} .glass-overlay {
-      height: 100%;
-      min-height: 600px;
+    .gift-guide-{{ section_id }} .bottom-container .bottom-text {
+      font-size: 12px;
+      line-height: 14px;
+      white-space: normal;
     }
   }
   
@@ -631,22 +615,29 @@
       line-height: 11px;
     }
     
+    .gift-guide-{{ section_id }} .banner-container {
+      height: 420px;
+      min-height: 420px;
+    }
+    
     .gift-guide-{{ section_id }} .main-headline {
       font-size: 26px;
       line-height: 30px;
-      top: 160px;
     }
     
     .gift-guide-{{ section_id }} .hero-description {
       font-size: 14px;
-      top: 220px;
     }
     
     .gift-guide-{{ section_id }} .primary-cta {
-      top: 380px;
       width: 180px;
       height: 44px;
       font-size: 14px;
+    }
+    
+    .gift-guide-{{ section_id }} .bottom-container .bottom-text {
+      font-size: 10px;
+      line-height: 12px;
     }
   }
 {%- endstyle -%}
@@ -664,13 +655,11 @@
 >
 
   <!-- ============================================================
-       HEADER: 1440px × 64px with Auto Layout
-       Padding: 10px 50px | Gap: 360px
-       FIX: Proper vertical centering with display:flex + align-items:center
-       ============================================================ -->
+     CONTAINER 1: HEADER (1440px × 64px)
+     ============================================================ -->
   <header class="header-component" role="banner" aria-label="Site header">
     
-    <!-- Header Logo: "TISSO VISON" as text -->
+    <!-- Left: Logo -->
     <div class="header-logo" aria-label="TISSO VISON logo">
       <span class="logo-text">
         <span class="tisso">TISSO</span>
@@ -678,14 +667,14 @@
       </span>
     </div>
     
-    <!-- Header Center Text - FIXED: Proper centering -->
+    <!-- Center: Text -->
     <div class="header-center-text">
       <span class="center-text-content">
         {{ header_center_text }}
       </span>
     </div>
     
-    <!-- Header Right Button: "CHOOSE GIFT →" -->
+    <!-- Right: Button -->
     <a 
       href="{{ header_button_link }}"
       class="header-button"
@@ -700,10 +689,11 @@
   </header>
 
   <!-- ============================================================
-       BACKGROUND CANVAS: Rectangle 26167
-       Dimensions: 1440px × 780px, Top: 64px
-       ============================================================ -->
-  <div class="background-canvas" aria-hidden="true">
+     CONTAINER 2: BANNER (1440px × 780px)
+     ============================================================ -->
+  <div class="banner-container">
+    
+    <!-- Background Image -->
     {%- if bg_image != blank -%}
       <img 
         src="{{ bg_image | image_url: width: 1600 }}"
@@ -715,54 +705,51 @@
         "
         sizes="(max-width: 749px) 100vw, 1600px"
         alt="Background banner image"
-        class="bg-image"
+        class="banner-bg"
         loading="lazy"
       >
     {%- endif -%}
+    
+    <!-- Frosted Glass Overlay -->
+    <div class="glass-overlay" aria-hidden="true"></div>
+    
+    <!-- Banner Content -->
+    <div class="banner-content">
+      
+      <!-- Main Headline -->
+      <h1 class="main-headline">
+        {{ headline }}
+      </h1>
+      
+      <!-- Description -->
+      <p class="hero-description">
+        {{ description }}
+      </p>
+      
+      <!-- Primary CTA -->
+      <a 
+        href="{{ cta_link }}"
+        class="primary-cta"
+        aria-label="{{ cta_text | escape }}"
+      >
+        <span class="cta-content">
+          {{ cta_text }}
+          <span class="cta-arrow" aria-hidden="true"></span>
+        </span>
+      </a>
+      
+    </div>
   </div>
 
   <!-- ============================================================
-       FROSTED GLASS OVERLAY: Rectangle 26168
-       ============================================================ -->
-  <div class="glass-overlay" aria-hidden="true"></div>
-
-  <!-- ============================================================
-       HERO CONTENT AREA: Frame 1956
-       ============================================================ -->
-  <div class="hero-container">
-    
-    <!-- ============================================================
-         TEXT CONTENT - EXACT FIGMA POSITIONING
-         ============================================================ -->
-    
-    <!-- Main Headline -->
-    <h1 class="main-headline">
-      {{ headline }}
-    </h1>
-    
-    <!-- Description -->
-    <p class="hero-description">
-      {{ description }}
-    </p>
-    
-    <!-- Primary CTA -->
-    <a 
-      href="{{ cta_link }}"
-      class="primary-cta"
-      aria-label="{{ cta_text | escape }}"
-    >
-      <span class="cta-content">
-        {{ cta_text }}
-        <span class="cta-arrow" aria-hidden="true"></span>
-      </span>
-    </a>
-    
-    <!-- Footnote Subtitle -->
-    <p class="hero-subtitle">
-      {{ subtitle }}
-    </p>
-    
+     CONTAINER 3: BOTTOM (1440px × 34px) with #F5F5F5 background
+     ============================================================ -->
+  <div class="bottom-container">
+    <span class="bottom-text">
+      {{ bottom_text }}
+    </span>
   </div>
+
 </section>
 
 <!-- ============================================================
@@ -779,7 +766,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "🖼️ Background Settings"
+      "content": "🖼️ Banner Background Settings"
     },
     {
       "type": "image_picker",
@@ -790,7 +777,7 @@
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Background Color (Fallback)",
+      "label": "Banner Background Color (Fallback)",
       "default": "#FFFFFF"
     },
     {
@@ -833,8 +820,7 @@
       "type": "text",
       "id": "header_center_text",
       "label": "Header Center Text",
-      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
-      "info": "This text appears centered in the header"
+      "default": "Find the ideal gift for your loved ones."
     },
     {
       "type": "text",
@@ -862,7 +848,7 @@
     },
     {
       "type": "header",
-      "content": "📝 Hero Content Settings"
+      "content": "📝 Banner Content Settings"
     },
     {
       "type": "text",
@@ -889,10 +875,26 @@
       "default": "/collections/all"
     },
     {
+      "type": "header",
+      "content": "📝 Bottom Container Settings"
+    },
+    {
+      "type": "color",
+      "id": "bottom_bg",
+      "label": "Bottom Container Background",
+      "default": "#F5F5F5"
+    },
+    {
       "type": "text",
-      "id": "subtitle",
-      "label": "Footnote Subtitle",
+      "id": "bottom_text",
+      "label": "Bottom Text",
       "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "color",
+      "id": "bottom_text_color",
+      "label": "Bottom Text Color",
+      "default": "#000000"
     },
     {
       "type": "header",
@@ -901,7 +903,7 @@
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text Color",
+      "label": "Text Color (Header & Banner)",
       "default": "#000000"
     },
     {
@@ -940,13 +942,15 @@
       "settings": {
         "headline": "The Gift Guide",
         "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
-        "subtitle": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
         "cta_text": "SHOP NOW",
-        "header_center_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "header_center_text": "Find the ideal gift for your loved ones.",
         "header_button_text": "CHOOSE GIFT",
+        "bottom_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
         "header_bg": "#F5F5F5",
+        "bottom_bg": "#F5F5F5",
         "header_button_bg": "#FFF544",
         "text_color": "#000000",
+        "bottom_text_color": "#000000",
         "button_bg": "#000000",
         "button_text_color": "#FFFFFF",
         "bg_color": "#FFFFFF",
