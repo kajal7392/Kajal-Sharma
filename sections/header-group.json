@@ -51,7 +51,7 @@
       },
       "custom_css": [
         ".header-logo {font-size: 20px; word-spacing: 0.4rem;}",
-        ".header__column--center a{font-size: 18px;}"
+        ".header__column--center a {font-family: \"Jost\", sans-serif;}"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
