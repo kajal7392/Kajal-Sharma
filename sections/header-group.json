@@ -51,7 +51,7 @@
       },
       "name": "t:names.announcement_bar",
       "settings": {
-        "logo_position": "center",
+        "logo_position": "left",
         "menu_position": "center",
         "menu_row": "top",
         "customer_account_menu": "",
@@ -93,15 +93,11 @@
         "enable_transparent_header_collection": false,
         "collection_inverse_logo": false,
         "text_color_transparent_collection": "",
-        "header_bg": "#f5f5f5",
-        "header_gap": 360,
-        "header_center_text": "Find the ideal gift for your loved ones.",
         "header_button_text": "CHOOSE GIFT",
         "header_button_link": "shopify://collections",
         "header_button_bg": "#fff544",
         "header_button_text_color": "#000000",
-        "text_color": "#000000",
-        "font_family": "Jost"
+        "header_button_font": "Jost"
       }
     },
     "header_section": {
