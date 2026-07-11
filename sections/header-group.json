@@ -50,7 +50,7 @@
         }
       },
       "custom_css": [
-        ".header-logo {font-size: 20px; width: 151px;}"
+        ".header-logo {font-size: 20px; word-spacing: 0.5rem;}"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
