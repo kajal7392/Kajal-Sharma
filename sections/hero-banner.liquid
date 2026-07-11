@@ -1,4 +1,44 @@
+{% comment %}
+  ================================================================
+  SECTION: The Gift Guide Hero - Three Tier Layout
+  VERSION: 1.0.0
+  DESCRIPTION: Complete Figma implementation with three distinct
+               containers: Header, Banner, and Bottom Footer
+  AUTHOR: [Candidate Name]
+  
+  LAYOUT STRUCTURE:
+  ┌──────────────────────────────────────────────────────────────┐
+  │  HEADER (1440px × 64px)  │  Background: #F5F5F5           │
+  │  ┌───────┐  ┌──────────┐  ┌──────────────┐               │
+  │  │ TISSO  │  │ Center   │  │ CHOOSE GIFT →│               │
+  │  │ VISON  │  │ Text     │  │              │               │
+  │  └───────┘  └──────────┘  └──────────────┘               │
+  ├──────────────────────────────────────────────────────────────┤
+  │  BANNER (1440px × 780px) │  Background: Image/White        │
+  │  ┌─────────────────────────────────────────────────────┐   │
+  │  │  "The Gift Guide" (Headline)                       │   │
+  │  │  "Discover Joy..." (Description)                   │   │
+  │  │  [SHOP NOW →] (CTA Button)                        │   │
+  │  └─────────────────────────────────────────────────────┘   │
+  ├──────────────────────────────────────────────────────────────┤
+  │  BOTTOM CONTAINER (1440px × 34px) │  Background: #F5F5F5  │
+  │  "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL" │
+  └──────────────────────────────────────────────────────────────┘
+  
+  FIGMA SPECIFICATIONS:
+  - Frame 1957: 1440px × 878px master wrapper
+  - Header: 1440px × 64px with horizontal auto-layout
+  - Banner: 1440px × 780px with background image support
+  - Bottom Container: 1440px × 34px with #F5F5F5 background
+  - Padding: 10px 50px for header, 10px 50px for bottom
+  - Gap between elements: 360px in header
+  ================================================================
+{% endcomment %}
+
 {%- liquid
+  # ============================================================
+  # SECTION VARIABLES
+  # ============================================================
   assign section_id = section.id
   
   # Header settings
