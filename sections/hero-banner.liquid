@@ -1,19 +1,23 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero - Mobile Content Above Image
+  SECTION: The Gift Guide Hero - Final Mobile Fix
   VERSION: 1.0.0
-  DESCRIPTION: Mobile layout with content above the banner image
-               - Desktop: Content overlaid on image
-               - Mobile: Content on top, image below with padding
+  DESCRIPTION: 
+  - Desktop: Content overlaid on image with glass effect
+  - Mobile: Headline & Description at top (Figma positions),
+            Button overlaid on image bottom
   AUTHOR: [Candidate Name]
   
-  MOBILE LAYOUT:
+  MOBILE LAYOUT (Frame 1958):
   ┌──────────────────────────────────────────────────────────────┐
-  │  "The Gift Guide" (Headline)                               │
-  │  "Discover Joy..." (Description)                           │
-  │  [SHOP NOW →] (CTA Button)                                │
+  │  "The Gift Guide" (Headline - Top: 49px)                   │
+  │  "Discover Joy..." (Description - Top: 103px)              │
   │  ────────────────────────────────────────────────────────   │
-  │  BANNER IMAGE (with padding from content)                  │
+  │  ┌────────────────────────────────────────────────────┐    │
+  │  │  BANNER IMAGE (starts below content)              │    │
+  │  │                                                   │    │
+  │  │  [SHOP NOW →] (Button on image bottom)           │    │
+  │  └────────────────────────────────────────────────────┘    │
   │  ────────────────────────────────────────────────────────   │
   │  BOTTOM CONTAINER (#F5F5F5)                               │
   └──────────────────────────────────────────────────────────────┘
@@ -63,7 +67,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
   
   /* ============================================================
-     MASTER WRAPPER: Frame 1957
+     MASTER WRAPPER
      ============================================================ */
   .gift-guide-{{ section_id }} {
     max-width: 1440px;
@@ -77,7 +81,6 @@
   
   /* ============================================================
      BANNER CONTAINER - DESKTOP
-     Dimensions: 1440px × 780px
      ============================================================ */
   .gift-guide-{{ section_id }} .banner-container {
     position: relative;
@@ -101,16 +104,9 @@
     z-index: 0;
   }
   
-  /* Mobile banner background image - hidden by default */
-  .gift-guide-{{ section_id }} .banner-container .banner-bg-mobile {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    z-index: 0;
+  /* Mobile elements - hidden on desktop */
+  .gift-guide-{{ section_id }} .banner-container .banner-bg-mobile,
+  .gift-guide-{{ section_id }} .banner-container .mobile-image-wrapper {
     display: none;
   }
   
@@ -232,7 +228,6 @@
   
   /* ============================================================
      BOTTOM CONTAINER
-     Dimensions: 1440px × 34px | Background: #F5F5F5
      ============================================================ */
   .gift-guide-{{ section_id }} .bottom-container {
     width: 100%;
@@ -262,7 +257,7 @@
   }
   
   /* ============================================================
-     RESPONSIVE ADAPTATIONS - TABLET
+     RESPONSIVE - TABLET
      ============================================================ */
   
   @media screen and (max-width: 1024px) {
@@ -292,151 +287,42 @@
   }
   
   /* ============================================================
-     RESPONSIVE ADAPTATIONS - MOBILE (max-width: 749px)
-     LAYOUT: Content above image with padding
+     RESPONSIVE - MOBILE (max-width: 749px)
+     Figma Frame 1958 specifications:
+     - Headline: Top: 49px, centered
+     - Description: Top: 103px, centered
+     - Button: Bottom of image, centered
      ============================================================ */
   
   @media screen and (max-width: 749px) {
-    /* Reset desktop styles */
+    /* ========== RESET DESKTOP STYLES ========== */
     .gift-guide-{{ section_id }} .banner-container {
       height: auto;
       min-height: auto;
       background: {{ bg_color }};
+      background-image: none !important;
     }
     
-    /* Show mobile background image */
+    /* Hide desktop elements */
     .gift-guide-{{ section_id }} .banner-container .banner-bg {
-      display: none;
+      display: none !important;
     }
     
+    .gift-guide-{{ section_id }} .banner-container .glass-overlay {
+      display: none !important;
+    }
+    
+    /* ========== SHOW MOBILE ELEMENTS ========== */
     .gift-guide-{{ section_id }} .banner-container .banner-bg-mobile {
       display: block;
-      position: relative;
       width: 100%;
       height: auto;
       aspect-ratio: 375 / 280;
       object-fit: cover;
     }
     
-    /* Hide desktop overlay on mobile */
-    .gift-guide-{{ section_id }} .banner-container .glass-overlay {
-      display: none;
-    }
-    
-    /* Content section - above image with padding */
-    .gift-guide-{{ section_id }} .banner-content {
-      position: relative;
-      z-index: 2;
-      height: auto;
-      padding: 40px 20px 30px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      justify-content: flex-start;
-      background: {{ bg_color }};
-    }
-    
-    /* Mobile Main Headline */
-    .gift-guide-{{ section_id }} .main-headline {
-      font-family: '{{ font_family }}', sans-serif;
-      font-weight: 500;
-      font-size: 30px;
-      line-height: 30px;
-      color: {{ text_color }};
-      margin: 0 0 12px 0;
-      padding: 0;
-      letter-spacing: 0;
-      max-width: 100%;
-      position: relative;
-      top: auto;
-      left: auto;
-      transform: none;
-      width: auto;
-      height: auto;
-    }
-    
-    /* Mobile Description */
-    .gift-guide-{{ section_id }} .hero-description {
-      font-family: '{{ font_family }}', sans-serif;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 130%;
-      color: {{ text_color }};
-      margin: 0 0 30px 0;
-      padding: 0;
-      letter-spacing: 0;
-      max-width: 100%;
-      position: relative;
-      top: auto;
-      left: auto;
-      transform: none;
-      width: auto;
-      height: auto;
-    }
-    
-    /* Mobile Primary CTA */
-    .gift-guide-{{ section_id }} .primary-cta {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 193px;
-      height: 45px;
-      min-height: 45px;
-      background: {{ button_bg }};
-      color: {{ button_text_color }};
-      text-decoration: none;
-      font-family: '{{ font_family }}', sans-serif;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 20.48px;
-      letter-spacing: 0;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: none;
-      position: relative;
-      top: 50%s;
-      left: auto;
-      transform: none;
-      padding: 13px 20px;
-      gap: 10px;
-      margin: 0 auto;
-    }
-    
-    .gift-guide-{{ section_id }} .primary-cta .cta-content {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0;
-    }
-    
-    .gift-guide-{{ section_id }} .primary-cta .cta-arrow {
-      width: 20px;
-      height: 0;
-      border-top: 1.5px solid {{ button_text_color }};
-      display: inline-block;
-      position: relative;
-    }
-    
-    .gift-guide-{{ section_id }} .primary-cta .cta-arrow::after {
-      content: '';
-      position: absolute;
-      right: -4px;
-      top: -4px;
-      width: 7px;
-      height: 7px;
-      border-right: 1.5px solid {{ button_text_color }};
-      border-top: 1.5px solid {{ button_text_color }};
-      transform: rotate(45deg);
-    }
-    
-    .gift-guide-{{ section_id }} .primary-cta:hover {
-      opacity: 0.85;
-      transform: translateY(-2px);
-    }
-    
-    /* Mobile image wrapper - sits below content */
     .gift-guide-{{ section_id }} .banner-container .mobile-image-wrapper {
+      display: block;
       position: relative;
       width: 100%;
       padding: 0 16px 20px 16px;
@@ -444,16 +330,97 @@
       background: {{ bg_color }};
     }
     
-    .gift-guide-{{ section_id }} .banner-container .mobile-image-wrapper img {
-      width: 100%;
+    /* ========== MOBILE CONTENT (Top - Figma Positions) ========== */
+    .gift-guide-{{ section_id }} .banner-content {
+      position: relative;
+      z-index: 2;
       height: auto;
-      aspect-ratio: 343 / 240;
-      object-fit: cover;
-      border-radius: 0;
-      display: block;
+      padding: 0 16.78px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: flex-start;
+      background: {{ bg_color }};
+      min-height: 160px;
+      padding-top: 49px;
     }
     
-    /* Mobile Bottom Container */
+    /* Mobile Headline - Figma: Top: 49px */
+    .gift-guide-{{ section_id }} .main-headline {
+      font-family: '{{ font_family }}', sans-serif;
+      font-weight: 500;
+      font-size: 30px;
+      line-height: 30px;
+      color: {{ text_color }};
+      max-width: 197px;
+      margin: 0 auto 12px auto;
+      padding: 0;
+      letter-spacing: 0;
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      width: auto;
+      height: auto;
+    }
+    
+    /* Mobile Description - Figma: Top: 103px */
+    .gift-guide-{{ section_id }} .hero-description {
+      font-family: '{{ font_family }}', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 130%;
+      color: {{ text_color }};
+      max-width: 340px;
+      margin: 0 auto;
+      padding: 0;
+      letter-spacing: 0;
+      text-align: center;
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      width: auto;
+      height: auto;
+    }
+    
+    /* ========== MOBILE BUTTON (Overlaid on Image Bottom) ========== */
+    .gift-guide-{{ section_id }} .primary-cta {
+      position: absolute;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 193px;
+      height: 45px;
+      min-height: 45px;
+      padding: 13px 20px;
+      gap: 10px;
+      z-index: 3;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      font-size: 16px;
+      line-height: 20.48px;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta .cta-content {
+      gap: 10px;
+      padding: 0;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta .cta-arrow {
+      width: 20px;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta .cta-arrow::after {
+      width: 7px;
+      height: 7px;
+    }
+    
+    .gift-guide-{{ section_id }} .primary-cta:hover {
+      transform: translateX(-50%) translateY(-2px);
+    }
+    
+    /* ========== MOBILE BOTTOM CONTAINER ========== */
     .gift-guide-{{ section_id }} .bottom-container {
       height: auto;
       min-height: 34px;
@@ -468,22 +435,25 @@
   }
   
   /* ============================================================
-     RESPONSIVE ADAPTATIONS - SMALL MOBILE (max-width: 480px)
+     RESPONSIVE - SMALL MOBILE (max-width: 480px)
      ============================================================ */
   
   @media screen and (max-width: 480px) {
     .gift-guide-{{ section_id }} .banner-content {
-      padding: 30px 16px 20px 16px;
+      padding-top: 40px;
+      min-height: 130px;
     }
     
     .gift-guide-{{ section_id }} .main-headline {
       font-size: 26px;
       line-height: 26px;
+      max-width: 170px;
     }
     
     .gift-guide-{{ section_id }} .hero-description {
       font-size: 14px;
       line-height: 130%;
+      max-width: 300px;
     }
     
     .gift-guide-{{ section_id }} .primary-cta {
@@ -492,13 +462,14 @@
       min-height: 42px;
       font-size: 14px;
       padding: 11px 16px;
+      bottom: 28px;
     }
     
     .gift-guide-{{ section_id }} .banner-container .mobile-image-wrapper {
       padding: 0 12px 16px 12px;
     }
     
-    .gift-guide-{{ section_id }} .banner-container .mobile-image-wrapper img {
+    .gift-guide-{{ section_id }} .banner-container .banner-bg-mobile {
       aspect-ratio: 343 / 220;
     }
     
@@ -526,7 +497,7 @@
      ============================================================ -->
   <div class="banner-container">
     
-    <!-- Desktop Background Image (overlay) -->
+    <!-- ========== DESKTOP IMAGE (Hidden on Mobile) ========== -->
     {%- if bg_image != blank -%}
       <img 
         src="{{ bg_image | image_url: width: 1600 }}"
@@ -543,11 +514,13 @@
       >
     {%- endif -%}
     
-    <!-- Frosted Glass Overlay (Desktop only) -->
+    <!-- Desktop Glass Overlay -->
     <div class="glass-overlay" aria-hidden="true"></div>
     
     <!-- ============================================================
-         BANNER CONTENT - Desktop: Overlaid | Mobile: Above image
+         BANNER CONTENT
+         Desktop: Overlaid on image (centered)
+         Mobile: Top with Figma positions (49px, 103px)
          ============================================================ -->
     <div class="banner-content">
       
@@ -561,24 +534,15 @@
         {{ description }}
       </p>
       
-      <!-- Primary CTA -->
-      <a 
-        href="{{ cta_link }}"
-        class="primary-cta"
-        aria-label="{{ cta_text | escape }}"
-      >
-        <span class="cta-content">
-          {{ cta_text }}
-          <span class="cta-arrow" aria-hidden="true"></span>
-        </span>
-      </a>
-      
     </div>
     
     <!-- ============================================================
-         MOBILE IMAGE - Below content with padding
+         MOBILE IMAGE WRAPPER (Visible only on Mobile)
+         Contains: Image + Button overlaid on bottom
          ============================================================ -->
     <div class="mobile-image-wrapper">
+      
+      <!-- Mobile Banner Image -->
       {%- if bg_image_mobile != blank -%}
         <img 
           src="{{ bg_image_mobile | image_url: width: 750 }}"
@@ -588,6 +552,7 @@
           "
           sizes="(max-width: 749px) 100vw, 0"
           alt="Mobile background banner image"
+          class="banner-bg-mobile"
           loading="lazy"
         >
       {%- elsif bg_image != blank -%}
@@ -600,9 +565,25 @@
           "
           sizes="(max-width: 749px) 100vw, 0"
           alt="Background banner image"
+          class="banner-bg-mobile"
           loading="lazy"
         >
       {%- endif -%}
+      
+      <!-- ============================================================
+           PRIMARY CTA - Overlaid on image bottom (Mobile only)
+           ============================================================ -->
+      <a 
+        href="{{ cta_link }}"
+        class="primary-cta"
+        aria-label="{{ cta_text | escape }}"
+      >
+        <span class="cta-content">
+          {{ cta_text }}
+          <span class="cta-arrow" aria-hidden="true"></span>
+        </span>
+      </a>
+      
     </div>
     
   </div>
@@ -638,13 +619,13 @@
       "type": "image_picker",
       "id": "bg_image",
       "label": "Desktop Background Image",
-      "info": "Recommended size: 1440px × 780px. Appears behind content on desktop."
+      "info": "Recommended size: 1440px × 780px"
     },
     {
       "type": "image_picker",
       "id": "bg_image_mobile",
       "label": "Mobile Banner Image",
-      "info": "Recommended size: 375px × 280px. Appears below content on mobile with padding."
+      "info": "Recommended size: 375px × 280px. Appears below content with button overlaid."
     },
     {
       "type": "color",
