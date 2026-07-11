@@ -52,7 +52,7 @@
       "custom_css": [
         ".header-logo {font-size: 20px; word-spacing: 0.4rem;}",
         ".header__column--center a {font-family: \"Jost\", sans-serif; font-weight: 400; font-size: 16px; line-height: 13.42px; letter-spacing: 0px; text-align: center;}",
-        ".button-text{font-family: 'Jost',sans-serif;font-weight: 400;font-size: 16px;line-height: 20.48px;letter-spacing: 0px;text-align: center;text-transform: uppercase;}"
+        ".button-text {font-family: \"Jost\", sans-serif; font-weight: 400; font-size: 16px; line-height: 20.48px; letter-spacing: 0px; text-align: center; text-transform: uppercase;}"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
@@ -144,6 +144,11 @@
         }
       },
       "disabled": true,
+      "custom_css": [
+        ".header-logo {font-size: 20px; word-spacing: 0.4rem;}",
+        ".header__column--center a {font-family: \"Jost\", sans-serif; font-weight: 400; font-size: 16px; line-height: 13.42px; letter-spacing: 0px; text-align: center;}",
+        ".button-text {font-family: \"Jost\", sans-serif; font-weight: 400; font-size: 16px; line-height: 20.48px; letter-spacing: 0px; text-align: center; text-transform: uppercase;}"
+      ],
       "settings": {
         "logo_position": "left",
         "menu_position": "center",
@@ -186,7 +191,12 @@
         "text_color_transparent_product": "",
         "enable_transparent_header_collection": false,
         "collection_inverse_logo": false,
-        "text_color_transparent_collection": ""
+        "text_color_transparent_collection": "",
+        "header_button_text": "CHOOSE GIFT",
+        "header_button_link": "shopify://collections",
+        "header_button_bg": "#fff544",
+        "header_button_text_color": "#000000",
+        "header_button_font": "Jost"
       }
     }
   },
