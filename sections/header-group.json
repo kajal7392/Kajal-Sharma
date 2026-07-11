@@ -14,41 +14,25 @@
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
       "blocks": {
-        "header-logo": {
-          "type": "_header-logo",
-          "static": true,
+        "announcement_fpNzCy": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
           "settings": {
-            "hide_logo_on_home_page": false,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "header-menu": {
-          "type": "_header-menu",
-          "static": true,
-          "settings": {
-            "menu": "main-menu",
-            "background_color": "{{ settings.color_palette.background }}",
-            "text_color": "",
-            "type_font_primary_size": "1rem",
-            "menu_font_style": "inverse",
-            "type_font_primary_link": "heading",
-            "type_case_primary_link": "none",
-            "menu_style": "collection_images",
-            "featured_products_aspect_ratio": "4 / 5",
-            "featured_collections_aspect_ratio": "16 / 9",
-            "image_border_radius": 0,
-            "navigation_bar": false,
-            "background_color_navigation_bar": "{{ settings.color_palette.background }}",
-            "text_color_navigation_bar": "",
-            "drawer_accordion": false,
-            "drawer_accordion_expand_first": false,
-            "drawer_dividers": false
+            "text": "Shop our latest arrivals!",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": "{{ settings.color_palette.foreground }}"
           },
           "blocks": {}
         }
       },
+      "block_order": [
+        "announcement_fpNzCy"
+      ],
       "disabled": true,
       "custom_css": [
         ".header-logo {font-size: 20px; word-spacing: 0.4rem;}",
@@ -57,53 +41,13 @@
       ],
       "name": "t:names.announcement_bar",
       "settings": {
-        "logo_position": "left",
-        "menu_position": "center",
-        "menu_row": "top",
-        "customer_account_menu": "",
-        "show_search": false,
-        "search_position": "right",
-        "search_row": "top",
-        "show_country": true,
-        "country_selector_style": true,
-        "show_language": true,
-        "localization_font": "heading",
-        "localization_font_size": "1rem",
-        "localization_position": "right",
-        "localization_row": "top",
+        "speed": 5,
         "section_width": "page-width",
-        "section_height": "standard",
-        "enable_sticky_header": "always",
+        "background_color": "",
         "divider_width": 1,
-        "divider_size": "page-width",
         "divider_color": "{{ settings.color_palette.color2 }}",
-        "border_width": 0,
-        "bottom_border_color": "",
-        "actions_display_style": "icon",
-        "actions_font_size": "0.875rem",
-        "actions_font": "body",
-        "actions_text_case": "none",
-        "background_color_top": "",
-        "text_color_top": "",
-        "background_color_bottom": "",
-        "text_color_bottom": "",
-        "bubble_style": "default",
-        "bubble_background_color": "",
-        "bubble_text_color": "",
-        "enable_transparent_header_home": false,
-        "home_inverse_logo": false,
-        "text_color_transparent_home": "",
-        "enable_transparent_header_product": false,
-        "product_inverse_logo": false,
-        "text_color_transparent_product": "",
-        "enable_transparent_header_collection": false,
-        "collection_inverse_logo": false,
-        "text_color_transparent_collection": "",
-        "header_button_text": "CHOOSE GIFT",
-        "header_button_link": "shopify://collections",
-        "header_button_bg": "#fff544",
-        "header_button_text_color": "#000000",
-        "header_button_font": "Jost"
+        "padding-block-start": 15,
+        "padding-block-end": 15
       }
     },
     "header_section": {
