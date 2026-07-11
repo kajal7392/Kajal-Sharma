@@ -11,7 +11,6 @@
   "sections": {
     "hero_banner_9ALj9h": {
       "type": "hero-banner",
-      "disabled": true,
       "name": "The Gift Guide Hero Banner",
       "settings": {
         "bg_image": "shopify://shop_images/Group_1000008197_1.png",
