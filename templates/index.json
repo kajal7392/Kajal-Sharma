@@ -335,7 +335,8 @@
         "image_pDxmAg"
       ],
       "custom_css": [
-        ".page-width,.lookbook-template--27763054248215__lookbook_RndDXg {padding-left: 30px; padding-right: 30px; background-color: #ffffff;}"
+        ".page-width {padding-left: 30px; padding-right: 30px; }",
+        ".lookbook-template--27763054248215__lookbook_RndDXg{background-color: #ffffff;}"
       ],
       "name": "Lookbook Gallery",
       "settings": {
