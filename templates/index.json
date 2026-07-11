@@ -364,6 +364,41 @@
             "hotspot_4_mobile_left": 50,
             "hotspot_4_label": ""
           }
+        },
+        "image_8Ja937": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image_829.png",
+            "image_alt": "",
+            "hotspot_1_enable": true,
+            "hotspot_1_link": "shopify://products/led-high-tops",
+            "hotspot_1_top": 50,
+            "hotspot_1_left": 50,
+            "hotspot_1_mobile_top": 50,
+            "hotspot_1_mobile_left": 50,
+            "hotspot_1_label": "",
+            "hotspot_2_enable": false,
+            "hotspot_2_link": "",
+            "hotspot_2_top": 50,
+            "hotspot_2_left": 50,
+            "hotspot_2_mobile_top": 50,
+            "hotspot_2_mobile_left": 50,
+            "hotspot_2_label": "",
+            "hotspot_3_enable": false,
+            "hotspot_3_link": "",
+            "hotspot_3_top": 50,
+            "hotspot_3_left": 50,
+            "hotspot_3_mobile_top": 50,
+            "hotspot_3_mobile_left": 50,
+            "hotspot_3_label": "",
+            "hotspot_4_enable": false,
+            "hotspot_4_link": "",
+            "hotspot_4_top": 50,
+            "hotspot_4_left": 50,
+            "hotspot_4_mobile_top": 50,
+            "hotspot_4_mobile_left": 50,
+            "hotspot_4_label": ""
+          }
         }
       },
       "block_order": [
@@ -373,7 +408,8 @@
         "image_YXidJi",
         "image_XNn9gy",
         "image_pDxmAg",
-        "image_tTLKtr"
+        "image_tTLKtr",
+        "image_8Ja937"
       ],
       "custom_css": [
         ".page-width {padding-left: 40px; padding-right: 40px;}",
