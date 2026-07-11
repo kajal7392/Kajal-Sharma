@@ -1,9 +1,9 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero - Final Mobile Fix
+  SECTION: The Gift Guide Hero - Full Desktop & Mobile Support
   VERSION: 1.0.0
   DESCRIPTION: 
-  - Desktop: Content overlaid on image with glass effect
+  - Desktop: Content overlaid on image with glass effect, button inline
   - Mobile: Headline & Description at top (Figma positions),
             Button overlaid on image bottom
   AUTHOR: [Candidate Name]
@@ -173,7 +173,9 @@
     max-width: 483px;
   }
   
-  /* Desktop Primary CTA */
+  /* ============================================================
+     PRIMARY CTA - Desktop (inline) & Mobile (overlaid on image)
+     ============================================================ */
   .gift-guide-{{ section_id }} .primary-cta {
     display: flex;
     align-items: center;
@@ -497,7 +499,7 @@
      ============================================================ -->
   <div class="banner-container">
     
-    <!-- ========== DESKTOP IMAGE (Hidden on Mobile) ========== -->
+    <!-- ========== DESKTOP IMAGE ========== -->
     {%- if bg_image != blank -%}
       <img 
         src="{{ bg_image | image_url: width: 1600 }}"
@@ -533,6 +535,18 @@
       <p class="hero-description">
         {{ description }}
       </p>
+      
+      <!-- ========== PRIMARY CTA - Desktop (visible) ========== -->
+      <a 
+        href="{{ cta_link }}"
+        class="primary-cta desktop-cta"
+        aria-label="{{ cta_text | escape }}"
+      >
+        <span class="cta-content">
+          {{ cta_text }}
+          <span class="cta-arrow" aria-hidden="true"></span>
+        </span>
+      </a>
       
     </div>
     
@@ -570,12 +584,10 @@
         >
       {%- endif -%}
       
-      <!-- ============================================================
-           PRIMARY CTA - Overlaid on image bottom (Mobile only)
-           ============================================================ -->
+      <!-- ========== PRIMARY CTA - Mobile (overlaid on image) ========== -->
       <a 
         href="{{ cta_link }}"
-        class="primary-cta"
+        class="primary-cta mobile-cta"
         aria-label="{{ cta_text | escape }}"
       >
         <span class="cta-content">
