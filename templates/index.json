@@ -116,10 +116,196 @@
         "padding-block-start": 100,
         "padding-block-end": 72
       }
+    },
+    "lookbook_RndDXg": {
+      "type": "lookbook",
+      "blocks": {
+        "image_aKaQBK": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/young-man-in-bright-fashion_925x_b3b7ebd6-c91f-496a-a516-45403497ea25.jpg",
+            "image_alt": "",
+            "hotspot_1_enable": false,
+            "hotspot_1_link": "",
+            "hotspot_1_top": 50,
+            "hotspot_1_left": 50,
+            "hotspot_1_label": "",
+            "hotspot_2_enable": false,
+            "hotspot_2_link": "",
+            "hotspot_2_top": 50,
+            "hotspot_2_left": 50,
+            "hotspot_2_label": "",
+            "hotspot_3_enable": false,
+            "hotspot_3_link": "",
+            "hotspot_3_top": 50,
+            "hotspot_3_left": 50,
+            "hotspot_3_label": "",
+            "hotspot_4_enable": false,
+            "hotspot_4_link": "",
+            "hotspot_4_top": 50,
+            "hotspot_4_left": 50,
+            "hotspot_4_label": ""
+          }
+        },
+        "image_kLxxai": {
+          "type": "image",
+          "settings": {
+            "image_alt": "",
+            "hotspot_1_enable": false,
+            "hotspot_1_link": "",
+            "hotspot_1_top": 50,
+            "hotspot_1_left": 50,
+            "hotspot_1_label": "",
+            "hotspot_2_enable": false,
+            "hotspot_2_link": "",
+            "hotspot_2_top": 50,
+            "hotspot_2_left": 50,
+            "hotspot_2_label": "",
+            "hotspot_3_enable": false,
+            "hotspot_3_link": "",
+            "hotspot_3_top": 50,
+            "hotspot_3_left": 50,
+            "hotspot_3_label": "",
+            "hotspot_4_enable": false,
+            "hotspot_4_link": "",
+            "hotspot_4_top": 50,
+            "hotspot_4_left": 50,
+            "hotspot_4_label": ""
+          }
+        },
+        "image_GWbG7c": {
+          "type": "image",
+          "settings": {
+            "image_alt": "",
+            "hotspot_1_enable": false,
+            "hotspot_1_link": "",
+            "hotspot_1_top": 50,
+            "hotspot_1_left": 50,
+            "hotspot_1_label": "",
+            "hotspot_2_enable": false,
+            "hotspot_2_link": "",
+            "hotspot_2_top": 50,
+            "hotspot_2_left": 50,
+            "hotspot_2_label": "",
+            "hotspot_3_enable": false,
+            "hotspot_3_link": "",
+            "hotspot_3_top": 50,
+            "hotspot_3_left": 50,
+            "hotspot_3_label": "",
+            "hotspot_4_enable": false,
+            "hotspot_4_link": "",
+            "hotspot_4_top": 50,
+            "hotspot_4_left": 50,
+            "hotspot_4_label": ""
+          }
+        },
+        "image_YXidJi": {
+          "type": "image",
+          "settings": {
+            "image_alt": "",
+            "hotspot_1_enable": false,
+            "hotspot_1_link": "",
+            "hotspot_1_top": 50,
+            "hotspot_1_left": 50,
+            "hotspot_1_label": "",
+            "hotspot_2_enable": false,
+            "hotspot_2_link": "",
+            "hotspot_2_top": 50,
+            "hotspot_2_left": 50,
+            "hotspot_2_label": "",
+            "hotspot_3_enable": false,
+            "hotspot_3_link": "",
+            "hotspot_3_top": 50,
+            "hotspot_3_left": 50,
+            "hotspot_3_label": "",
+            "hotspot_4_enable": false,
+            "hotspot_4_link": "",
+            "hotspot_4_top": 50,
+            "hotspot_4_left": 50,
+            "hotspot_4_label": ""
+          }
+        },
+        "image_XNn9gy": {
+          "type": "image",
+          "settings": {
+            "image_alt": "",
+            "hotspot_1_enable": false,
+            "hotspot_1_link": "",
+            "hotspot_1_top": 50,
+            "hotspot_1_left": 50,
+            "hotspot_1_label": "",
+            "hotspot_2_enable": false,
+            "hotspot_2_link": "",
+            "hotspot_2_top": 50,
+            "hotspot_2_left": 50,
+            "hotspot_2_label": "",
+            "hotspot_3_enable": false,
+            "hotspot_3_link": "",
+            "hotspot_3_top": 50,
+            "hotspot_3_left": 50,
+            "hotspot_3_label": "",
+            "hotspot_4_enable": false,
+            "hotspot_4_link": "",
+            "hotspot_4_top": 50,
+            "hotspot_4_left": 50,
+            "hotspot_4_label": ""
+          }
+        },
+        "image_pDxmAg": {
+          "type": "image",
+          "settings": {
+            "image_alt": "",
+            "hotspot_1_enable": false,
+            "hotspot_1_link": "",
+            "hotspot_1_top": 50,
+            "hotspot_1_left": 50,
+            "hotspot_1_label": "",
+            "hotspot_2_enable": false,
+            "hotspot_2_link": "",
+            "hotspot_2_top": 50,
+            "hotspot_2_left": 50,
+            "hotspot_2_label": "",
+            "hotspot_3_enable": false,
+            "hotspot_3_link": "",
+            "hotspot_3_top": 50,
+            "hotspot_3_left": 50,
+            "hotspot_3_label": "",
+            "hotspot_4_enable": false,
+            "hotspot_4_link": "",
+            "hotspot_4_top": 50,
+            "hotspot_4_left": 50,
+            "hotspot_4_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_aKaQBK",
+        "image_kLxxai",
+        "image_GWbG7c",
+        "image_YXidJi",
+        "image_XNn9gy",
+        "image_pDxmAg"
+      ],
+      "name": "Lookbook Gallery",
+      "settings": {
+        "section_title": "Tisso vision in the wild",
+        "title_color": "#000000",
+        "hotspot_bg": "#FFFFFF",
+        "hotspot_color": "#000000",
+        "title_size": 30,
+        "title_size_mobile": 20,
+        "desktop_gap": 30,
+        "mobile_gap": 12,
+        "hotspot_size": 32,
+        "hotspot_size_mobile": 28,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
     "hero_banner_9ALj9h",
-    "hero_jVaWmY"
+    "hero_jVaWmY",
+    "lookbook_RndDXg"
   ]
 }
