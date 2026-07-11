@@ -1,26 +1,12 @@
 {% comment %}
   ================================================================
-  SECTION: The Gift Guide Hero - Full Desktop & Mobile Support
+  SECTION: The Gift Guide Hero - Single Button Solution
   VERSION: 1.0.0
   DESCRIPTION: 
   - Desktop: Content overlaid on image with glass effect, button inline
   - Mobile: Headline & Description at top (Figma positions),
-            Button overlaid on image bottom
+            Button overlaid on image bottom (single button, no duplicates)
   AUTHOR: [Candidate Name]
-  
-  MOBILE LAYOUT (Frame 1958):
-  ┌──────────────────────────────────────────────────────────────┐
-  │  "The Gift Guide" (Headline - Top: 49px)                   │
-  │  "Discover Joy..." (Description - Top: 103px)              │
-  │  ────────────────────────────────────────────────────────   │
-  │  ┌────────────────────────────────────────────────────┐    │
-  │  │  BANNER IMAGE (starts below content)              │    │
-  │  │                                                   │    │
-  │  │  [SHOP NOW →] (Button on image bottom)           │    │
-  │  └────────────────────────────────────────────────────┘    │
-  │  ────────────────────────────────────────────────────────   │
-  │  BOTTOM CONTAINER (#F5F5F5)                               │
-  └──────────────────────────────────────────────────────────────┘
   ================================================================
 {% endcomment %}
 
@@ -174,14 +160,12 @@
   }
   
   /* ============================================================
-     PRIMARY CTA - Desktop (inline) & Mobile (overlaid on image)
+     PRIMARY CTA - Shared styles
      ============================================================ */
   .gift-guide-{{ section_id }} .primary-cta {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 220px;
-    height: 50px;
     background: {{ button_bg }};
     color: {{ button_text_color }};
     text-decoration: none;
@@ -226,6 +210,12 @@
     opacity: 0.85;
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Desktop CTA - visible on desktop, hidden on mobile */
+  .gift-guide-{{ section_id }} .primary-cta.desktop-cta {
+    width: 220px;
+    height: 50px;
   }
   
   /* ============================================================
@@ -290,10 +280,7 @@
   
   /* ============================================================
      RESPONSIVE - MOBILE (max-width: 749px)
-     Figma Frame 1958 specifications:
-     - Headline: Top: 49px, centered
-     - Description: Top: 103px, centered
-     - Button: Bottom of image, centered
+     Figma Frame 1958 specifications
      ============================================================ */
   
   @media screen and (max-width: 749px) {
@@ -311,6 +298,11 @@
     }
     
     .gift-guide-{{ section_id }} .banner-container .glass-overlay {
+      display: none !important;
+    }
+    
+    /* Hide desktop CTA on mobile */
+    .gift-guide-{{ section_id }} .primary-cta.desktop-cta {
       display: none !important;
     }
     
@@ -387,8 +379,8 @@
       height: auto;
     }
     
-    /* ========== MOBILE BUTTON (Overlaid on Image Bottom) ========== */
-    .gift-guide-{{ section_id }} .primary-cta {
+    /* ========== MOBILE CTA (Overlaid on Image Bottom) ========== */
+    .gift-guide-{{ section_id }} .primary-cta.mobile-cta {
       position: absolute;
       bottom: 35px;
       left: 50%;
@@ -402,23 +394,24 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
       font-size: 16px;
       line-height: 20.48px;
+      display: flex !important;
     }
     
-    .gift-guide-{{ section_id }} .primary-cta .cta-content {
+    .gift-guide-{{ section_id }} .primary-cta.mobile-cta .cta-content {
       gap: 10px;
       padding: 0;
     }
     
-    .gift-guide-{{ section_id }} .primary-cta .cta-arrow {
+    .gift-guide-{{ section_id }} .primary-cta.mobile-cta .cta-arrow {
       width: 20px;
     }
     
-    .gift-guide-{{ section_id }} .primary-cta .cta-arrow::after {
+    .gift-guide-{{ section_id }} .primary-cta.mobile-cta .cta-arrow::after {
       width: 7px;
       height: 7px;
     }
     
-    .gift-guide-{{ section_id }} .primary-cta:hover {
+    .gift-guide-{{ section_id }} .primary-cta.mobile-cta:hover {
       transform: translateX(-50%) translateY(-2px);
     }
     
@@ -458,7 +451,7 @@
       max-width: 300px;
     }
     
-    .gift-guide-{{ section_id }} .primary-cta {
+    .gift-guide-{{ section_id }} .primary-cta.mobile-cta {
       width: 170px;
       height: 42px;
       min-height: 42px;
@@ -521,8 +514,6 @@
     
     <!-- ============================================================
          BANNER CONTENT
-         Desktop: Overlaid on image (centered)
-         Mobile: Top with Figma positions (49px, 103px)
          ============================================================ -->
     <div class="banner-content">
       
@@ -536,7 +527,7 @@
         {{ description }}
       </p>
       
-      <!-- ========== PRIMARY CTA - Desktop (visible) ========== -->
+      <!-- ========== PRIMARY CTA - DESKTOP ONLY ========== -->
       <a 
         href="{{ cta_link }}"
         class="primary-cta desktop-cta"
@@ -552,7 +543,6 @@
     
     <!-- ============================================================
          MOBILE IMAGE WRAPPER (Visible only on Mobile)
-         Contains: Image + Button overlaid on bottom
          ============================================================ -->
     <div class="mobile-image-wrapper">
       
@@ -584,7 +574,7 @@
         >
       {%- endif -%}
       
-      <!-- ========== PRIMARY CTA - Mobile (overlaid on image) ========== -->
+      <!-- ========== PRIMARY CTA - MOBILE ONLY (overlaid on image) ========== -->
       <a 
         href="{{ cta_link }}"
         class="primary-cta mobile-cta"
