@@ -1,168 +1,104 @@
-{% comment %}
-  ================================================================
-  SECTION: Lookbook Gallery with Hotspots
-  VERSION: 1.0.0
-  DESCRIPTION: Interactive gallery with image hotspots that link
-               to product pages. Based on Figma design specifications.
-  AUTHOR: [Candidate Name]
-  
-  FIGMA SPECIFICATIONS:
-  - Desktop: 3-column masonry grid, 30px gaps, 90px margins
-  - Mobile: 2-column grid, 12px gaps, 16px margins
-  - Hotspots: 32px (desktop) / 28px (mobile) white circles with "+"
-  - Section Title: "Tisso vision in the wild" (Jost, uppercase)
-  
-  FEATURES:
-  - Each image is a block in Theme Editor
-  - Multiple hotspots per image (up to 4)
-  - Each hotspot links to a product page
-  - Responsive grid with Figma-accurate spacing
-  - Material icons for hotspot buttons
-  - No jQuery - vanilla JavaScript only
-  ================================================================
-{% endcomment %}
-
-{%- liquid
-  # ============================================================
-  # SECTION VARIABLES
-  # ============================================================
-  assign section_id = section.id
-  
-  # Section settings
-  assign section_title = section.settings.section_title | default: 'Tisso vision in the wild'
-  assign title_color = section.settings.title_color | default: '#000000'
-  assign title_size = section.settings.title_size | default: 30
-  assign title_size_mobile = section.settings.title_size_mobile | default: 20
-  
-  # Grid settings
-  assign desktop_gap = section.settings.desktop_gap | default: 30
-  assign mobile_gap = section.settings.mobile_gap | default: 12
-  assign desktop_margin = section.settings.desktop_margin | default: 90
-  assign mobile_margin = section.settings.mobile_margin | default: 16
-  
-  # Hotspot settings
-  assign hotspot_size = section.settings.hotspot_size | default: 32
-  assign hotspot_size_mobile = section.settings.hotspot_size_mobile | default: 28
-  assign hotspot_bg = section.settings.hotspot_bg | default: '#FFFFFF'
-  assign hotspot_color = section.settings.hotspot_color | default: '#000000'
-  assign hotspot_hover_bg = section.settings.hotspot_hover_bg | default: '#000000'
-  assign hotspot_hover_color = section.settings.hotspot_hover_color | default: '#FFFFFF'
-  
-  # Font settings
-  assign font_family = section.settings.font_family | default: 'Jost'
-  
-  # Padding
-  assign padding_top = section.settings.padding_top | default: 90
-  assign padding_bottom = section.settings.padding_bottom | default: 90
-  assign padding_top_mobile = section.settings.padding_top_mobile | default: 50
-  assign padding_bottom_mobile = section.settings.padding_bottom_mobile | default: 50
-  
-  # Icon settings
-  assign hotspot_icon_size = section.settings.hotspot_icon_size | default: 20
-  assign hotspot_icon_size_mobile = section.settings.hotspot_icon_size_mobile | default: 16
--%}
-
-<!-- ============================================================
-     SECTION STYLES
-     ============================================================ -->
 {%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
   /* ============================================================
-     FONT IMPORT (Jost)
+     LOOKBOOK GALLERY STYLES
      ============================================================ */
-  @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
-  
-  /* ============================================================
-     SECTION WRAPPER
-     ============================================================ */
-  .lookbook-{{ section_id }} {
+  .lookbook-{{ section.id }} {
     max-width: 1440px;
     margin: 0 auto;
-    font-family: '{{ font_family }}', sans-serif;
-    padding-top: {{ padding_top }}px;
-    padding-bottom: {{ padding_bottom }}px;
-    padding-left: {{ desktop_margin }}px;
-    padding-right: {{ desktop_margin }}px;
+    font-family: 'Jost', sans-serif;
   }
-  
-  /* ============================================================
-     SECTION TITLE
-     ============================================================ */
-  .lookbook-{{ section_id }} .section-title {
-    font-family: '{{ font_family }}', sans-serif;
+
+  .lookbook-{{ section.id }} .section-title {
+    font-family: 'Jost', sans-serif;
     font-weight: 500;
-    font-size: {{ title_size }}px;
-    color: {{ title_color }};
+    font-size: {{ section.settings.title_size }}px;
+    color: {{ section.settings.title_color }};
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 0 0 30px 0;
     padding: 0;
   }
-  
-  /* ============================================================
-     GRID LAYOUT - Desktop (3 columns)
-     ============================================================ */
-  .lookbook-{{ section_id }} .lookbook-grid {
+
+  .lookbook-{{ section.id }} .lookbook-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: {{ desktop_gap }}px;
+    gap: {{ section.settings.desktop_gap }}px;
   }
-  
-  /* ============================================================
-     IMAGE CARD
-     ============================================================ */
-  .lookbook-{{ section_id }} .lookbook-card {
+
+  .lookbook-{{ section.id }} .lookbook-card {
     position: relative;
     overflow: hidden;
     width: 100%;
-    aspect-ratio: auto;
     background: #f5f5f5;
   }
-  
-  .lookbook-{{ section_id }} .lookbook-card img {
+
+  .lookbook-{{ section.id }} .lookbook-card .media {
+    padding-bottom: {{ 1 | divided_by: section.settings.image_aspect_ratio | times: 100 }}%;
+  }
+
+  .lookbook-{{ section.id }} .lookbook-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition: transform 0.5s ease;
   }
-  
-  .lookbook-{{ section_id }} .lookbook-card:hover img {
+
+  .lookbook-{{ section.id }} .lookbook-card:hover img {
     transform: scale(1.03);
   }
-  
+
   /* ============================================================
-     HOTSPOT BUTTON STYLES
+     HOTSPOT STYLES (Using Product Features structure)
      ============================================================ */
-  .lookbook-{{ section_id }} .hotspot-btn {
+  .lookbook-{{ section.id }} hotspot-button {
     position: absolute;
-    width: {{ hotspot_size }}px;
-    height: {{ hotspot_size }}px;
+    top: var(--offset-y);
+    left: var(--offset-x);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  .lookbook-{{ section.id }} .hotspot-btn {
+    width: {{ section.settings.hotspot_size }}px;
+    height: {{ section.settings.hotspot_size }}px;
     border-radius: 50%;
-    background: {{ hotspot_bg }};
-    color: {{ hotspot_color }};
+    background: {{ section.settings.hotspot_bg }};
+    color: {{ section.settings.hotspot_color }};
     border: 2px solid rgba(255, 255, 255, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 2;
+    padding: 0;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 0;
-    transform: translate(-50%, -50%);
-    text-decoration: none;
   }
-  
-  .lookbook-{{ section_id }} .hotspot-btn .material-icon {
-    width: {{ hotspot_icon_size }}px;
-    height: {{ hotspot_icon_size }}px;
+
+  .lookbook-{{ section.id }} .hotspot-btn .material-icon {
+    width: {{ section.settings.hotspot_icon_size }}px;
+    height: {{ section.settings.hotspot_icon_size }}px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease;
   }
-  
-  .lookbook-{{ section_id }} .hotspot-btn .material-icon svg {
+
+  .lookbook-{{ section.id }} .hotspot-btn .material-icon svg {
     width: 100%;
     height: 100%;
     fill: none;
@@ -171,46 +107,15 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  
-  .lookbook-{{ section_id }} .hotspot-btn:hover {
-    background: {{ hotspot_hover_bg }};
-    color: {{ hotspot_hover_color }};
-    transform: translate(-50%, -50%) scale(1.15);
+
+  .lookbook-{{ section.id }} .hotspot-btn:hover {
+    background: {{ section.settings.hotspot_hover_bg }};
+    color: {{ section.settings.hotspot_hover_color }};
+    transform: scale(1.15);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   }
-  
-  .lookbook-{{ section_id }} .hotspot-btn:hover .material-icon {
-    transform: rotate(90deg);
-  }
-  
-  .lookbook-{{ section_id }} .hotspot-btn:active {
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-  
-  /* Hotspot pulse animation */
-  .lookbook-{{ section_id }} .hotspot-btn::before {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 2px solid {{ hotspot_bg }};
-    opacity: 0;
-    animation: hotspot-pulse-{{ section_id }} 2s ease-out infinite;
-  }
-  
-  @keyframes hotspot-pulse-{{ section_id }} {
-    0% {
-      transform: scale(1);
-      opacity: 0.6;
-    }
-    100% {
-      transform: scale(1.5);
-      opacity: 0;
-    }
-  }
-  
-  /* Hotspot tooltip/label */
-  .lookbook-{{ section_id }} .hotspot-btn .hotspot-label {
+
+  .lookbook-{{ section.id }} .hotspot-btn .hotspot-label {
     display: none;
     position: absolute;
     bottom: calc(100% + 10px);
@@ -222,283 +127,343 @@
     border-radius: 4px;
     font-size: 12px;
     white-space: nowrap;
-    font-weight: 400;
+    font-family: 'Jost', sans-serif;
     pointer-events: none;
-    font-family: '{{ font_family }}', sans-serif;
   }
-  
-  .lookbook-{{ section_id }} .hotspot-btn:hover .hotspot-label {
+
+  .lookbook-{{ section.id }} .hotspot-btn:hover .hotspot-label {
     display: block;
   }
-  
+
+  .lookbook-{{ section.id }} .hotspot__content {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 15px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    max-width: 300px;
+    z-index: 10;
+  }
+
+  .lookbook-{{ section.id }} hotspot-button[data-open="true"] .hotspot__content {
+    display: block;
+  }
+
+  .lookbook-{{ section.id }} .hotspot__content__image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .lookbook-{{ section.id }} .hotspot__content__title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+    margin: 0 0 4px 0;
+  }
+
+  .lookbook-{{ section.id }} .hotspot__content__text {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+
   /* ============================================================
-     RESPONSIVE - TABLET (max-width: 1024px)
+     RESPONSIVE - TABLET
      ============================================================ */
   @media screen and (max-width: 1024px) {
-    .lookbook-{{ section_id }} {
+    .lookbook-{{ section.id }} {
       padding-left: 40px;
       padding-right: 40px;
     }
   }
-  
+
   /* ============================================================
-     RESPONSIVE - MOBILE (max-width: 749px)
+     RESPONSIVE - MOBILE
      ============================================================ */
   @media screen and (max-width: 749px) {
-    .lookbook-{{ section_id }} {
-      padding-top: {{ padding_top_mobile }}px;
-      padding-bottom: {{ padding_bottom_mobile }}px;
-      padding-left: {{ mobile_margin }}px;
-      padding-right: {{ mobile_margin }}px;
-    }
-    
-    .lookbook-{{ section_id }} .section-title {
-      font-size: {{ title_size_mobile }}px;
+    .lookbook-{{ section.id }} .section-title {
+      font-size: {{ section.settings.title_size_mobile }}px;
       margin-bottom: 20px;
     }
-    
-    .lookbook-{{ section_id }} .lookbook-grid {
+
+    .lookbook-{{ section.id }} .lookbook-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: {{ mobile_gap }}px;
+      gap: {{ section.settings.mobile_gap }}px;
     }
-    
-    .lookbook-{{ section_id }} .hotspot-btn {
-      width: {{ hotspot_size_mobile }}px;
-      height: {{ hotspot_size_mobile }}px;
-      border-width: 1.5px;
+
+    .lookbook-{{ section.id }} .hotspot-btn {
+      width: {{ section.settings.hotspot_size_mobile }}px;
+      height: {{ section.settings.hotspot_size_mobile }}px;
     }
-    
-    .lookbook-{{ section_id }} .hotspot-btn .material-icon {
-      width: {{ hotspot_icon_size_mobile }}px;
-      height: {{ hotspot_icon_size_mobile }}px;
+
+    .lookbook-{{ section.id }} .hotspot-btn .material-icon {
+      width: {{ section.settings.hotspot_icon_size_mobile }}px;
+      height: {{ section.settings.hotspot_icon_size_mobile }}px;
     }
-    
-    .lookbook-{{ section_id }} .hotspot-btn::before {
-      inset: -3px;
+
+    .lookbook-{{ section.id }} hotspot-button {
+      top: var(--mobile-offset-y, var(--offset-y));
+      left: var(--mobile-offset-x, var(--offset-x));
     }
-    
-    .lookbook-{{ section_id }} .hotspot-btn .hotspot-label {
-      font-size: 10px;
-      padding: 3px 10px;
-      bottom: calc(100% + 8px);
-    }
-    
-    .lookbook-{{ section_id }} .hotspot-btn:hover {
-      transform: translate(-50%, -50%) scale(1.1);
+
+    .lookbook-{{ section.id }} .hotspot__content {
+      min-width: 160px;
+      max-width: 220px;
+      padding: 12px;
     }
   }
-  
+
   /* ============================================================
-     RESPONSIVE - SMALL MOBILE (max-width: 480px)
+     RESPONSIVE - SMALL MOBILE
      ============================================================ */
   @media screen and (max-width: 480px) {
-    .lookbook-{{ section_id }} {
-      padding-top: 30px;
-      padding-bottom: 30px;
+    .lookbook-{{ section.id }} {
       padding-left: 12px;
       padding-right: 12px;
     }
-    
-    .lookbook-{{ section_id }} .section-title {
+
+    .lookbook-{{ section.id }} .section-title {
       font-size: 18px;
-      margin-bottom: 16px;
     }
-    
-    .lookbook-{{ section_id }} .lookbook-grid {
+
+    .lookbook-{{ section.id }} .lookbook-grid {
       gap: 8px;
     }
-    
-    .lookbook-{{ section_id }} .hotspot-btn {
+
+    .lookbook-{{ section.id }} .hotspot-btn {
       width: 24px;
       height: 24px;
     }
-    
-    .lookbook-{{ section_id }} .hotspot-btn .material-icon {
+
+    .lookbook-{{ section.id }} .hotspot-btn .material-icon {
       width: 14px;
       height: 14px;
     }
+
+    .lookbook-{{ section.id }} .hotspot__content {
+      min-width: 140px;
+      max-width: 180px;
+      padding: 10px;
+    }
   }
-  
+
   /* ============================================================
      REDUCED MOTION
      ============================================================ */
   @media (prefers-reduced-motion: reduce) {
-    .lookbook-{{ section_id }} .lookbook-card img {
+    .lookbook-{{ section.id }} .lookbook-card img {
       transition: none;
     }
-    
-    .lookbook-{{ section_id }} .hotspot-btn {
+    .lookbook-{{ section.id }} .hotspot-btn {
       transition: none;
     }
-    
-    .lookbook-{{ section_id }} .hotspot-btn::before {
-      animation: none;
-    }
-    
-    .lookbook-{{ section_id }} .hotspot-btn:hover {
-      transform: translate(-50%, -50%);
-    }
-    
-    .lookbook-{{ section_id }} .hotspot-btn:hover .material-icon {
+    .lookbook-{{ section.id }} .hotspot-btn:hover {
       transform: none;
     }
   }
 {%- endstyle -%}
 
-<!-- ============================================================
-     SECTION HTML
-     ============================================================ -->
-<section 
-  class="lookbook-{{ section_id }}"
-  id="lookbook-{{ section_id }}"
-  data-section-id="{{ section_id }}"
-  data-section-type="lookbook-gallery"
-  aria-label="Lookbook Gallery"
->
-
-  <!-- Section Title -->
-  <h2 class="section-title">
-    {{ section_title }}
-  </h2>
-
-  <!-- Gallery Grid -->
-  <div class="lookbook-grid">
+<div class="section-{{ section.id }}-padding lookbook-{{ section.id }}">
+  <div class="{% unless section.settings.full_page_width %}page-width{% endunless %}">
     
-    {%- for block in section.blocks -%}
-      {%- case block.type -%}
-        {%- when 'image' -%}
-          
-          {%- liquid
-            assign image = block.settings.image
-            assign image_alt = block.settings.image_alt | default: image.alt | default: 'Gallery image'
+    <!-- Section Title -->
+    <h2 class="section-title">
+      {{ section.settings.section_title }}
+    </h2>
+
+    <!-- Gallery Grid -->
+    <div class="lookbook-grid">
+      
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'image' -%}
             
-            # Hotspot settings
-            assign hotspot_1_enable = block.settings.hotspot_1_enable
-            assign hotspot_1_link = block.settings.hotspot_1_link
-            assign hotspot_1_top = block.settings.hotspot_1_top | default: 50
-            assign hotspot_1_left = block.settings.hotspot_1_left | default: 50
-            assign hotspot_1_label = block.settings.hotspot_1_label
+            {%- liquid
+              assign image = block.settings.image
+              assign image_alt = block.settings.image_alt | default: image.alt | default: 'Gallery image'
+              
+              # Hotspot 1 settings
+              assign hs1_enable = block.settings.hotspot_1_enable
+              assign hs1_link = block.settings.hotspot_1_link
+              assign hs1_top = block.settings.hotspot_1_top | default: 50
+              assign hs1_left = block.settings.hotspot_1_left | default: 50
+              assign hs1_label = block.settings.hotspot_1_label
+              assign hs1_mobile_top = block.settings.hotspot_1_mobile_top | default: hs1_top
+              assign hs1_mobile_left = block.settings.hotspot_1_mobile_left | default: hs1_left
+              
+              # Hotspot 2 settings
+              assign hs2_enable = block.settings.hotspot_2_enable
+              assign hs2_link = block.settings.hotspot_2_link
+              assign hs2_top = block.settings.hotspot_2_top | default: 50
+              assign hs2_left = block.settings.hotspot_2_left | default: 50
+              assign hs2_label = block.settings.hotspot_2_label
+              assign hs2_mobile_top = block.settings.hotspot_2_mobile_top | default: hs2_top
+              assign hs2_mobile_left = block.settings.hotspot_2_mobile_left | default: hs2_left
+              
+              # Hotspot 3 settings
+              assign hs3_enable = block.settings.hotspot_3_enable
+              assign hs3_link = block.settings.hotspot_3_link
+              assign hs3_top = block.settings.hotspot_3_top | default: 50
+              assign hs3_left = block.settings.hotspot_3_left | default: 50
+              assign hs3_label = block.settings.hotspot_3_label
+              assign hs3_mobile_top = block.settings.hotspot_3_mobile_top | default: hs3_top
+              assign hs3_mobile_left = block.settings.hotspot_3_mobile_left | default: hs3_left
+              
+              # Hotspot 4 settings
+              assign hs4_enable = block.settings.hotspot_4_enable
+              assign hs4_link = block.settings.hotspot_4_link
+              assign hs4_top = block.settings.hotspot_4_top | default: 50
+              assign hs4_left = block.settings.hotspot_4_left | default: 50
+              assign hs4_label = block.settings.hotspot_4_label
+              assign hs4_mobile_top = block.settings.hotspot_4_mobile_top | default: hs4_top
+              assign hs4_mobile_left = block.settings.hotspot_4_mobile_left | default: hs4_left
+            -%}
             
-            assign hotspot_2_enable = block.settings.hotspot_2_enable
-            assign hotspot_2_link = block.settings.hotspot_2_link
-            assign hotspot_2_top = block.settings.hotspot_2_top | default: 50
-            assign hotspot_2_left = block.settings.hotspot_2_left | default: 50
-            assign hotspot_2_label = block.settings.hotspot_2_label
+            <div 
+              class="lookbook-card" 
+              {{ block.shopify_attributes }}
+              data-block-type="image"
+            >
+              {%- if image != blank -%}
+                <div class="media media--transparent ratio">
+                  <img
+                    src="{{ image | image_url: width: 800 }}"
+                    srcset="
+                      {{ image | image_url: width: 400 }} 400w,
+                      {{ image | image_url: width: 600 }} 600w,
+                      {{ image | image_url: width: 800 }} 800w,
+                      {{ image | image_url: width: 1000 }} 1000w
+                    "
+                    sizes="(max-width: 749px) calc(50vw - 20px), (max-width: 1024px) calc(33vw - 30px), calc(33vw - 40px)"
+                    alt="{{ image_alt | escape }}"
+                    loading="lazy"
+                  >
+                </div>
+              {%- else -%}
+                <div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;font-size:14px;padding:20px;text-align:center;aspect-ratio:1/1;">
+                  {{ 'onboarding.no_image' | t }}
+                  <br>
+                  <small>Add image in Theme Editor</small>
+                </div>
+              {%- endif -%}
+              
+              <!-- ============================================================
+                   HOTSPOT 1
+                   ============================================================ -->
+              {%- if hs1_enable and hs1_link != blank -%}
+                <hotspot-button
+                  class="hotspot"
+                  data-type="link"
+                  data-open-event="click"
+                  data-open="false"
+                  data-section="{{ section.id }}"
+                  style="--offset-x:{{ hs1_left }}%;--offset-y:{{ hs1_top }}%;--mobile-offset-x:{{ hs1_mobile_left }}%;--mobile-offset-y:{{ hs1_mobile_top }}%;"
+                >
+                  <a
+                    href="{{ hs1_link }}"
+                    class="hotspot-btn"
+                    aria-label="{{ hs1_label | default: 'View product' | escape }}"
+                  >
+                    {% render 'material-icon', icon: 'add' %}
+                    {%- if hs1_label != blank -%}
+                      <span class="hotspot-label">{{ hs1_label }}</span>
+                    {%- endif -%}
+                  </a>
+                </hotspot-button>
+              {%- endif -%}
+              
+              <!-- ============================================================
+                   HOTSPOT 2
+                   ============================================================ -->
+              {%- if hs2_enable and hs2_link != blank -%}
+                <hotspot-button
+                  class="hotspot"
+                  data-type="link"
+                  data-open-event="click"
+                  data-open="false"
+                  data-section="{{ section.id }}"
+                  style="--offset-x:{{ hs2_left }}%;--offset-y:{{ hs2_top }}%;--mobile-offset-x:{{ hs2_mobile_left }}%;--mobile-offset-y:{{ hs2_mobile_top }}%;"
+                >
+                  <a
+                    href="{{ hs2_link }}"
+                    class="hotspot-btn"
+                    aria-label="{{ hs2_label | default: 'View product' | escape }}"
+                  >
+                    {% render 'material-icon', icon: 'add' %}
+                    {%- if hs2_label != blank -%}
+                      <span class="hotspot-label">{{ hs2_label }}</span>
+                    {%- endif -%}
+                  </a>
+                </hotspot-button>
+              {%- endif -%}
+              
+              <!-- ============================================================
+                   HOTSPOT 3
+                   ============================================================ -->
+              {%- if hs3_enable and hs3_link != blank -%}
+                <hotspot-button
+                  class="hotspot"
+                  data-type="link"
+                  data-open-event="click"
+                  data-open="false"
+                  data-section="{{ section.id }}"
+                  style="--offset-x:{{ hs3_left }}%;--offset-y:{{ hs3_top }}%;--mobile-offset-x:{{ hs3_mobile_left }}%;--mobile-offset-y:{{ hs3_mobile_top }}%;"
+                >
+                  <a
+                    href="{{ hs3_link }}"
+                    class="hotspot-btn"
+                    aria-label="{{ hs3_label | default: 'View product' | escape }}"
+                  >
+                    {% render 'material-icon', icon: 'add' %}
+                    {%- if hs3_label != blank -%}
+                      <span class="hotspot-label">{{ hs3_label }}</span>
+                    {%- endif -%}
+                  </a>
+                </hotspot-button>
+              {%- endif -%}
+              
+              <!-- ============================================================
+                   HOTSPOT 4
+                   ============================================================ -->
+              {%- if hs4_enable and hs4_link != blank -%}
+                <hotspot-button
+                  class="hotspot"
+                  data-type="link"
+                  data-open-event="click"
+                  data-open="false"
+                  data-section="{{ section.id }}"
+                  style="--offset-x:{{ hs4_left }}%;--offset-y:{{ hs4_top }}%;--mobile-offset-x:{{ hs4_mobile_left }}%;--mobile-offset-y:{{ hs4_mobile_top }}%;"
+                >
+                  <a
+                    href="{{ hs4_link }}"
+                    class="hotspot-btn"
+                    aria-label="{{ hs4_label | default: 'View product' | escape }}"
+                  >
+                    {% render 'material-icon', icon: 'add' %}
+                    {%- if hs4_label != blank -%}
+                      <span class="hotspot-label">{{ hs4_label }}</span>
+                    {%- endif -%}
+                  </a>
+                </hotspot-button>
+              {%- endif -%}
+              
+            </div>
             
-            assign hotspot_3_enable = block.settings.hotspot_3_enable
-            assign hotspot_3_link = block.settings.hotspot_3_link
-            assign hotspot_3_top = block.settings.hotspot_3_top | default: 50
-            assign hotspot_3_left = block.settings.hotspot_3_left | default: 50
-            assign hotspot_3_label = block.settings.hotspot_3_label
-            
-            assign hotspot_4_enable = block.settings.hotspot_4_enable
-            assign hotspot_4_link = block.settings.hotspot_4_link
-            assign hotspot_4_top = block.settings.hotspot_4_top | default: 50
-            assign hotspot_4_left = block.settings.hotspot_4_left | default: 50
-            assign hotspot_4_label = block.settings.hotspot_4_label
-          -%}
-          
-          <div 
-            class="lookbook-card" 
-            {{ block.shopify_attributes }}
-            data-block-type="image"
-          >
-            {%- if image != blank -%}
-              <img
-                src="{{ image | image_url: width: 800 }}"
-                srcset="
-                  {{ image | image_url: width: 400 }} 400w,
-                  {{ image | image_url: width: 600 }} 600w,
-                  {{ image | image_url: width: 800 }} 800w,
-                  {{ image | image_url: width: 1000 }} 1000w
-                "
-                sizes="(max-width: 749px) calc(50vw - 20px), (max-width: 1024px) calc(33vw - 30px), calc(33vw - 40px)"
-                alt="{{ image_alt | escape }}"
-                loading="lazy"
-              >
-            {%- else -%}
-              <div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;font-size:14px;padding:20px;text-align:center;aspect-ratio:1/1;">
-                {{ 'onboarding.no_image' | t }}
-                <br>
-                <small>Add image in Theme Editor</small>
-              </div>
-            {%- endif -%}
-            
-            <!-- ============================================================
-                 HOTSPOT 1
-                 ============================================================ -->
-            {%- if hotspot_1_enable and hotspot_1_link != blank -%}
-              <a
-                href="{{ hotspot_1_link }}"
-                class="hotspot-btn"
-                style="top: {{ hotspot_1_top }}%; left: {{ hotspot_1_left }}%;"
-                aria-label="{{ hotspot_1_label | default: 'View product' | escape }}"
-              >
-                {% render 'material-icon', icon: 'add' %}
-                {%- if hotspot_1_label != blank -%}
-                  <span class="hotspot-label">{{ hotspot_1_label }}</span>
-                {%- endif -%}
-              </a>
-            {%- endif -%}
-            
-            <!-- ============================================================
-                 HOTSPOT 2
-                 ============================================================ -->
-            {%- if hotspot_2_enable and hotspot_2_link != blank -%}
-              <a
-                href="{{ hotspot_2_link }}"
-                class="hotspot-btn"
-                style="top: {{ hotspot_2_top }}%; left: {{ hotspot_2_left }}%;"
-                aria-label="{{ hotspot_2_label | default: 'View product' | escape }}"
-              >
-                {% render 'material-icon', icon: 'add' %}
-                {%- if hotspot_2_label != blank -%}
-                  <span class="hotspot-label">{{ hotspot_2_label }}</span>
-                {%- endif -%}
-              </a>
-            {%- endif -%}
-            
-            <!-- ============================================================
-                 HOTSPOT 3
-                 ============================================================ -->
-            {%- if hotspot_3_enable and hotspot_3_link != blank -%}
-              <a
-                href="{{ hotspot_3_link }}"
-                class="hotspot-btn"
-                style="top: {{ hotspot_3_top }}%; left: {{ hotspot_3_left }}%;"
-                aria-label="{{ hotspot_3_label | default: 'View product' | escape }}"
-              >
-                {% render 'material-icon', icon: 'add' %}
-                {%- if hotspot_3_label != blank -%}
-                  <span class="hotspot-label">{{ hotspot_3_label }}</span>
-                {%- endif -%}
-              </a>
-            {%- endif -%}
-            
-            <!-- ============================================================
-                 HOTSPOT 4
-                 ============================================================ -->
-            {%- if hotspot_4_enable and hotspot_4_link != blank -%}
-              <a
-                href="{{ hotspot_4_link }}"
-                class="hotspot-btn"
-                style="top: {{ hotspot_4_top }}%; left: {{ hotspot_4_left }}%;"
-                aria-label="{{ hotspot_4_label | default: 'View product' | escape }}"
-              >
-                {% render 'material-icon', icon: 'add' %}
-                {%- if hotspot_4_label != blank -%}
-                  <span class="hotspot-label">{{ hotspot_4_label }}</span>
-                {%- endif -%}
-              </a>
-            {%- endif -%}
-            
-          </div>
-          
-      {%- endcase -%}
-    {%- endfor -%}
-    
+        {%- endcase -%}
+      {%- endfor -%}
+      
+    </div>
   </div>
-</section>
+</div>
 
 <!-- ============================================================
      JAVASCRIPT - Vanilla JS (No jQuery)
@@ -508,38 +473,55 @@
     'use strict';
     
     /**
-     * LookbookGallery - Handles hotspot interactions and animations
+     * LookbookGallery - Handles hotspot interactions
      */
     class LookbookGallery {
       constructor(section) {
         this.section = section;
-        this.hotspots = section.querySelectorAll('.hotspot-btn');
+        this.hotspots = section.querySelectorAll('hotspot-button');
         this.init();
       }
       
       init() {
-        // Add keyboard accessibility for hotspots
         this.hotspots.forEach(hotspot => {
-          hotspot.addEventListener('keydown', (e) => {
+          const btn = hotspot.querySelector('.hotspot-btn');
+          if (!btn) return;
+          
+          // Handle click events
+          btn.addEventListener('click', (e) => {
+            const isOpen = hotspot.dataset.open === 'true';
+            hotspot.dataset.open = isOpen ? 'false' : 'true';
+          });
+          
+          // Keyboard accessibility
+          btn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              hotspot.click();
+              const isOpen = hotspot.dataset.open === 'true';
+              hotspot.dataset.open = isOpen ? 'false' : 'true';
             }
           });
         });
         
-        // Log initialization in Theme Editor
+        // Close hotspots when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('hotspot-button')) {
+            this.hotspots.forEach(h => {
+              h.dataset.open = 'false';
+            });
+          }
+        });
+        
+        // Log in Theme Editor
         if (window.Shopify && Shopify.designMode) {
           console.log('[LookbookGallery] Initialized with', this.hotspots.length, 'hotspots');
         }
       }
     }
     
-    // Initialize when DOM is ready
     function initLookbook() {
       const sections = document.querySelectorAll('[data-section-type="lookbook-gallery"]');
       sections.forEach(section => {
-        // Prevent duplicate initialization
         if (section._lookbookInstance) return;
         section._lookbookInstance = new LookbookGallery(section);
       });
@@ -551,19 +533,14 @@
       initLookbook();
     }
     
-    // Handle Theme Editor updates
     if (window.Shopify && Shopify.designMode) {
       document.addEventListener('shopify:section:load', initLookbook);
       document.addEventListener('shopify:section:reorder', initLookbook);
-      document.addEventListener('shopify:block:select', initLookbook);
     }
     
   })();
 </script>
 
-<!-- ============================================================
-     SECTION SCHEMA
-     ============================================================ -->
 {% schema %}
 {
   "name": "Lookbook Gallery",
@@ -581,8 +558,7 @@
       "type": "text",
       "id": "section_title",
       "label": "Section Title",
-      "default": "Tisso vision in the wild",
-      "info": "Title displayed above the gallery"
+      "default": "Tisso vision in the wild"
     },
     {
       "type": "header",
@@ -597,7 +573,7 @@
     {
       "type": "color",
       "id": "hotspot_bg",
-      "label": "Hotspot Background Color",
+      "label": "Hotspot Background",
       "default": "#FFFFFF"
     },
     {
@@ -621,18 +597,6 @@
     {
       "type": "header",
       "content": "📐 Typography"
-    },
-    {
-      "type": "select",
-      "id": "font_family",
-      "label": "Font Family",
-      "options": [
-        { "value": "Jost", "label": "Jost" },
-        { "value": "Inter", "label": "Inter" },
-        { "value": "Helvetica Neue", "label": "Helvetica Neue" },
-        { "value": "Arial", "label": "Arial" }
-      ],
-      "default": "Jost"
     },
     {
       "type": "range",
@@ -666,8 +630,7 @@
       "max": 60,
       "step": 2,
       "default": 30,
-      "unit": "px",
-      "info": "Gap between images on desktop"
+      "unit": "px"
     },
     {
       "type": "range",
@@ -677,30 +640,24 @@
       "max": 30,
       "step": 2,
       "default": 12,
-      "unit": "px",
-      "info": "Gap between images on mobile"
+      "unit": "px"
     },
     {
       "type": "range",
-      "id": "desktop_margin",
-      "label": "Desktop Side Margin (px)",
-      "min": 20,
-      "max": 120,
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio (%)",
+      "min": 50,
+      "max": 150,
       "step": 5,
-      "default": 90,
-      "unit": "px",
-      "info": "Left/Right padding on desktop"
+      "default": 75,
+      "unit": "%",
+      "info": "100% = square, 75% = 4:3, 66% = 3:2"
     },
     {
-      "type": "range",
-      "id": "mobile_margin",
-      "label": "Mobile Side Margin (px)",
-      "min": 8,
-      "max": 40,
-      "step": 2,
-      "default": 16,
-      "unit": "px",
-      "info": "Left/Right padding on mobile"
+      "type": "checkbox",
+      "id": "full_page_width",
+      "label": "Use full page width",
+      "default": false
     },
     {
       "type": "header",
@@ -729,7 +686,7 @@
     {
       "type": "range",
       "id": "hotspot_icon_size",
-      "label": "Hotspot Icon Size - Desktop (px)",
+      "label": "Icon Size - Desktop (px)",
       "min": 12,
       "max": 28,
       "step": 2,
@@ -739,7 +696,7 @@
     {
       "type": "range",
       "id": "hotspot_icon_size_mobile",
-      "label": "Hotspot Icon Size - Mobile (px)",
+      "label": "Icon Size - Mobile (px)",
       "min": 10,
       "max": 20,
       "step": 2,
@@ -753,41 +710,21 @@
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Padding Top - Desktop (px)",
-      "min": 20,
-      "max": 150,
-      "step": 5,
-      "default": 90,
+      "label": "Padding Top (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36,
       "unit": "px"
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Padding Bottom - Desktop (px)",
-      "min": 20,
-      "max": 150,
-      "step": 5,
-      "default": 90,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "padding_top_mobile",
-      "label": "Padding Top - Mobile (px)",
-      "min": 20,
+      "label": "Padding Bottom (px)",
+      "min": 0,
       "max": 100,
-      "step": 5,
-      "default": 50,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom_mobile",
-      "label": "Padding Bottom - Mobile (px)",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "default": 50,
+      "step": 4,
+      "default": 36,
       "unit": "px"
     }
   ],
@@ -801,13 +738,12 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Recommended size: 600px × 800px or similar aspect ratio"
+          "info": "Recommended: 600px × 800px"
         },
         {
           "type": "text",
           "id": "image_alt",
-          "label": "Image Alt Text",
-          "info": "For accessibility and SEO"
+          "label": "Image Alt Text"
         },
         {
           "type": "header",
@@ -822,13 +758,12 @@
         {
           "type": "url",
           "id": "hotspot_1_link",
-          "label": "Hotspot 1 Link",
-          "info": "Link to product page or collection"
+          "label": "Hotspot 1 Link"
         },
         {
           "type": "range",
           "id": "hotspot_1_top",
-          "label": "Hotspot 1 - Top Position (%)",
+          "label": "Top Position (%)",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -838,7 +773,7 @@
         {
           "type": "range",
           "id": "hotspot_1_left",
-          "label": "Hotspot 1 - Left Position (%)",
+          "label": "Left Position (%)",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -846,9 +781,31 @@
           "unit": "%"
         },
         {
+          "type": "range",
+          "id": "hotspot_1_mobile_top",
+          "label": "Mobile Top Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%",
+          "info": "Optional: override for mobile"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_1_mobile_left",
+          "label": "Mobile Left Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%",
+          "info": "Optional: override for mobile"
+        },
+        {
           "type": "text",
           "id": "hotspot_1_label",
-          "label": "Hotspot 1 - Tooltip Label",
+          "label": "Tooltip Label",
           "info": "Shown on hover (optional)"
         },
         {
@@ -864,13 +821,12 @@
         {
           "type": "url",
           "id": "hotspot_2_link",
-          "label": "Hotspot 2 Link",
-          "info": "Link to product page or collection"
+          "label": "Hotspot 2 Link"
         },
         {
           "type": "range",
           "id": "hotspot_2_top",
-          "label": "Hotspot 2 - Top Position (%)",
+          "label": "Top Position (%)",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -880,7 +836,27 @@
         {
           "type": "range",
           "id": "hotspot_2_left",
-          "label": "Hotspot 2 - Left Position (%)",
+          "label": "Left Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_2_mobile_top",
+          "label": "Mobile Top Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_2_mobile_left",
+          "label": "Mobile Left Position (%)",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -890,8 +866,7 @@
         {
           "type": "text",
           "id": "hotspot_2_label",
-          "label": "Hotspot 2 - Tooltip Label",
-          "info": "Shown on hover (optional)"
+          "label": "Tooltip Label"
         },
         {
           "type": "header",
@@ -906,13 +881,12 @@
         {
           "type": "url",
           "id": "hotspot_3_link",
-          "label": "Hotspot 3 Link",
-          "info": "Link to product page or collection"
+          "label": "Hotspot 3 Link"
         },
         {
           "type": "range",
           "id": "hotspot_3_top",
-          "label": "Hotspot 3 - Top Position (%)",
+          "label": "Top Position (%)",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -922,7 +896,27 @@
         {
           "type": "range",
           "id": "hotspot_3_left",
-          "label": "Hotspot 3 - Left Position (%)",
+          "label": "Left Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_3_mobile_top",
+          "label": "Mobile Top Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_3_mobile_left",
+          "label": "Mobile Left Position (%)",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -932,8 +926,7 @@
         {
           "type": "text",
           "id": "hotspot_3_label",
-          "label": "Hotspot 3 - Tooltip Label",
-          "info": "Shown on hover (optional)"
+          "label": "Tooltip Label"
         },
         {
           "type": "header",
@@ -948,13 +941,12 @@
         {
           "type": "url",
           "id": "hotspot_4_link",
-          "label": "Hotspot 4 Link",
-          "info": "Link to product page or collection"
+          "label": "Hotspot 4 Link"
         },
         {
           "type": "range",
           "id": "hotspot_4_top",
-          "label": "Hotspot 4 - Top Position (%)",
+          "label": "Top Position (%)",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -964,7 +956,27 @@
         {
           "type": "range",
           "id": "hotspot_4_left",
-          "label": "Hotspot 4 - Left Position (%)",
+          "label": "Left Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_4_mobile_top",
+          "label": "Mobile Top Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_4_mobile_left",
+          "label": "Mobile Left Position (%)",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -974,8 +986,7 @@
         {
           "type": "text",
           "id": "hotspot_4_label",
-          "label": "Hotspot 4 - Tooltip Label",
-          "info": "Shown on hover (optional)"
+          "label": "Tooltip Label"
         }
       ]
     }
@@ -988,32 +999,18 @@
         "section_title": "Tisso vision in the wild",
         "desktop_gap": 30,
         "mobile_gap": 12,
-        "desktop_margin": 90,
-        "mobile_margin": 16,
         "hotspot_size": 32,
         "hotspot_size_mobile": 28,
-        "padding_top": 90,
-        "padding_bottom": 90
+        "padding_top": 60,
+        "padding_bottom": 60
       },
       "blocks": [
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        }
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
       ]
     }
   ]
