@@ -44,7 +44,6 @@
 
   /* ============================================================
      DESKTOP GRID - 3 columns, 20px gap
-     Frame 1000009744: 1337px width, 30px gap between title & grid
      ============================================================ */
   .lookbook-{{ section.id }} .lookbook-grid {
     display: grid;
@@ -114,7 +113,7 @@
   }
 
   /* ============================================================
-     RIPPLE/BLINKING ANIMATION (Like Product Features)
+     RIPPLE/BLINKING ANIMATION
      ============================================================ */
   .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
   .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
@@ -201,7 +200,7 @@
     letter-spacing: 0.02em;
   }
 
-  .lookbook-{{ section_id }} .hotspot-btn:hover .hotspot-label {
+  .lookbook-{{ section.id }} .hotspot-btn:hover .hotspot-label {
     display: block;
   }
 
@@ -209,94 +208,83 @@
      RESPONSIVE - TABLET
      ============================================================ */
   @media screen and (max-width: 1024px) {
-    .lookbook-{{ section_id }} .lookbook-grid {
+    .lookbook-{{ section.id }} .lookbook-grid {
       gap: 16px;
       padding: 0 20px;
     }
 
-    .lookbook-{{ section_id }} .section-title {
+    .lookbook-{{ section.id }} .section-title {
       font-size: 30px;
     }
   }
 
   /* ============================================================
      RESPONSIVE - MOBILE (max-width: 749px)
-     Frame 1000009745: Vertical flow, 20px gap between title & grid
-     Title: Center aligned, 24px, Lustria
-     Grid: Horizontal flow with 4px gap, nested vertical columns
+     - 2 columns grid (not horizontal scroll)
+     - Smaller title (responsive)
+     - 4px gap between images
+     - 1px border
      ============================================================ */
   @media screen and (max-width: 749px) {
-    .lookbook-{{ section_id }} .section-header {
+    .lookbook-{{ section.id }} .section-header {
       justify-content: center;
       padding: 0 16px;
       margin-bottom: 20px;
     }
 
-    .lookbook-{{ section_id }} .section-title {
+    .lookbook-{{ section.id }} .section-title {
       font-size: 24px;
       text-align: center;
-      width: 248px;
       max-width: 100%;
     }
 
-    /* Mobile grid: horizontal scroll with 4px gap */
-    .lookbook-{{ section_id }} .lookbook-grid {
-      display: flex;
-      flex-direction: row;
+    /* Mobile grid: 2 columns with 4px gap */
+    .lookbook-{{ section.id }} .lookbook-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 4px;
-      overflow-x: auto;
-      padding: 0 16px 8px 16px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
+      padding: 0 16px;
       max-width: 100%;
       margin: 0;
+      overflow: visible;
     }
 
-    .lookbook-{{ section_id }} .lookbook-grid::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .lookbook-{{ section_id }} .lookbook-grid::-webkit-scrollbar-track {
-      background: #f0f0f0;
-      border-radius: 2px;
-    }
-
-    .lookbook-{{ section_id }} .lookbook-grid::-webkit-scrollbar-thumb {
-      background: #ccc;
-      border-radius: 2px;
-    }
-
-    .lookbook-{{ section_id }} .lookbook-card {
-      flex: 0 0 calc(50% - 2px);
-      min-width: 160px;
-      max-width: 300px;
-      scroll-snap-align: start;
+    .lookbook-{{ section.id }} .lookbook-card {
       border-width: 1px;
+      aspect-ratio: auto;
     }
 
-    .lookbook-{{ section_id }} .hotspot-btn {
+    .lookbook-{{ section.id }} .lookbook-card .media {
+      aspect-ratio: auto;
+    }
+
+    .lookbook-{{ section.id }} .lookbook-card img {
+      aspect-ratio: auto;
+    }
+
+    .lookbook-{{ section.id }} .hotspot-btn {
       width: {{ section.settings.hotspot_size_mobile | default: 28 }}px;
       height: {{ section.settings.hotspot_size_mobile | default: 28 }}px;
     }
 
-    .lookbook-{{ section_id }} .hotspot-btn .material-icon {
+    .lookbook-{{ section.id }} .hotspot-btn .material-icon {
       width: {{ section.settings.hotspot_icon_size_mobile | default: 16 }}px;
       height: {{ section.settings.hotspot_icon_size_mobile | default: 16 }}px;
     }
 
-    .lookbook-{{ section_id }} hotspot-button {
+    .lookbook-{{ section.id }} hotspot-button {
       top: var(--mobile-offset-y, var(--offset-y));
       left: var(--mobile-offset-x, var(--offset-x));
     }
 
-    .lookbook-{{ section_id }} .hotspot-btn .hotspot-label {
+    .lookbook-{{ section.id }} .hotspot-btn .hotspot-label {
       font-size: 10px;
       padding: 4px 10px;
       bottom: calc(100% + 8px);
     }
 
-    .lookbook-{{ section_id }} .hotspot-btn .ripple-animation::before,
-    .lookbook-{{ section_id }} .hotspot-btn .ripple-animation::after {
+    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
+    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
       inset: -3px;
     }
 
@@ -316,29 +304,23 @@
      RESPONSIVE - SMALL MOBILE (max-width: 480px)
      ============================================================ */
   @media screen and (max-width: 480px) {
-    .lookbook-{{ section_id }} .section-title {
+    .lookbook-{{ section.id }} .section-title {
       font-size: 20px;
-      width: 200px;
     }
 
-    .lookbook-{{ section_id }} .lookbook-card {
-      flex: 0 0 calc(50% - 2px);
-      min-width: 140px;
+    .lookbook-{{ section.id }} .lookbook-grid {
+      gap: 4px;
+      padding: 0 12px;
     }
 
-    .lookbook-{{ section_id }} .hotspot-btn {
+    .lookbook-{{ section.id }} .hotspot-btn {
       width: 24px;
       height: 24px;
     }
 
-    .lookbook-{{ section_id }} .hotspot-btn .material-icon {
+    .lookbook-{{ section.id }} .hotspot-btn .material-icon {
       width: 14px;
       height: 14px;
-    }
-
-    .lookbook-{{ section_id }} .lookbook-grid {
-      gap: 4px;
-      padding: 0 12px 8px 12px;
     }
   }
 
@@ -346,20 +328,20 @@
      REDUCED MOTION
      ============================================================ */
   @media (prefers-reduced-motion: reduce) {
-    .lookbook-{{ section_id }} .lookbook-card img {
+    .lookbook-{{ section.id }} .lookbook-card img {
       transition: none;
     }
-    .lookbook-{{ section_id }} .hotspot-btn {
+    .lookbook-{{ section.id }} .hotspot-btn {
       transition: none;
     }
-    .lookbook-{{ section_id }} .hotspot-btn:hover {
+    .lookbook-{{ section.id }} .hotspot-btn:hover {
       transform: none;
     }
-    .lookbook-{{ section_id }} .hotspot-btn .ripple-animation::before,
-    .lookbook-{{ section_id }} .hotspot-btn .ripple-animation::after {
+    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
+    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
       animation: none;
     }
-    .lookbook-{{ section_id }} .hotspot-btn:hover .material-icon {
+    .lookbook-{{ section.id }} .hotspot-btn:hover .material-icon {
       transform: none;
     }
   }
@@ -381,7 +363,7 @@
     <!-- ============================================================
          GALLERY GRID
          Desktop: 3 columns, 20px gap
-         Mobile: Horizontal scroll, 4px gap
+         Mobile: 2 columns, 4px gap
          ============================================================ -->
     <div class="lookbook-grid">
       
