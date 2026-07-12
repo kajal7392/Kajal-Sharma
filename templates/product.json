@@ -207,6 +207,14 @@
               },
               "blocks": {}
             },
+            "custom_liquid_LFTdnt": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<!-- Fully Scoped Review Stars Block Layout Container -->\n<div id=\"isox-variant--reviews\" class=\"iso-review-container\">\n  <div class=\"iso-stars-track\">\n    <!-- Star 1 -->\n    <svg class=\"iso-star-node\" xmlns=\"http://w3.org\" viewBox=\"0 0 24 24\" fill=\"currentColor\">\n      <path d=\"M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z\"/>\n    </svg>\n    <!-- Star 2 -->\n    <svg class=\"iso-star-node\" xmlns=\"http://w3.org\" viewBox=\"0 0 24 24\" fill=\"currentColor\">\n      <path d=\"M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z\"/>\n    </svg>\n    <!-- Star 3 -->\n    <svg class=\"iso-star-node\" xmlns=\"http://w3.org\" viewBox=\"0 0 24 24\" fill=\"currentColor\">\n      <path d=\"M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z\"/>\n    </svg>\n    <!-- Star 4 -->\n    <svg class=\"iso-star-node\" xmlns=\"http://w3.org\" viewBox=\"0 0 24 24\" fill=\"currentColor\">\n      <path d=\"M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z\"/>\n    </svg>\n    <!-- Star 5 -->\n    <svg class=\"iso-star-node\" xmlns=\"http://w3.org\" viewBox=\"0 0 24 24\" fill=\"currentColor\">\n      <path d=\"M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z\"/>\n    </svg>\n  </div>\n</div>\n\n<style>\n  /* Strict ID Containment - Styles will never bleed into parent theme classes */\n  #isox-variant--reviews.iso-review-container {\n    display: inline-flex !important;\n    align-items: center !important;\n    gap: 10px !important;\n    margin-top: 0px !important;\n    margin-bottom: 10px !important;\n    padding: 0px !important;\n    border: none !important;\n    background: none !important;\n    width: auto !important;\n    height: auto !important;\n  }\n\n  #isox-variant--reviews .iso-stars-track {\n    display: inline-flex !important;\n    align-items: center !important;\n    gap: 0px !important; /* Zero pixel gap cluster layout */\n    padding: 0px !important;\n    margin: 0px !important;\n  }\n\n  /* Scoped Star Graphics Dimensions and Color Engine */\n  #isox-variant--reviews .iso-stars-track .iso-star-node {\n    width: 25px !important;\n    height: 25px !important;\n    color: #333333 !important; /* Exact color spec locked */\n    fill: #333333 !important;   /* Force solid vector fills */\n    flex-shrink: 0 !important;\n    display: inline-block !important;\n    margin: 0px !important;\n    padding: 0px !important;\n    border: none !important;\n    background: none !important;\n  }\n</style>"
+              },
+              "blocks": {}
+            },
             "divider_VJhene": {
               "type": "_divider",
               "name": "t:names.divider",
@@ -307,6 +315,7 @@
           "block_order": [
             "group_icgrde",
             "text_aEtTtq",
+            "custom_liquid_LFTdnt",
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi"
