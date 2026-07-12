@@ -1,5 +1,3 @@
-
-
 {%- doc -%}
   This block is used to display the accelerated checkout button.
   Intended for product-form.liquid block.
@@ -18,6 +16,91 @@
   endif
 %}
 
+{%- comment -%} Custom CSS overriding iframe layout blocks to guarantee perfect custom buttons & transitions {%- endcomment -%}
+<style>
+  /* 1. Relative position container to allow absolute button positioning on top */
+  .custom-shop-now-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    display: block !important;
+  }
+
+  /* 2. COMPLETELY HIDE Shopify's un-stylable background checkout iframe button */
+  .custom-shop-now-wrapper .shopify-payment-button {
+    opacity: 0 !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    pointer-events: none !important; /* Pass down click actions if needed */
+  }
+
+  /* 3. Style our custom overlay button matching your exact design specifications */
+  .custom-shop-now-btn {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+    border: none !important;
+    font-family: 'Jost', sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 16px !important;
+    line-height: 20.48px !important;
+    letter-spacing: 0px !important;
+    text-transform: uppercase !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    leading-trim: none !important;
+    
+    /* Layout positioning framework */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    padding: 16px 24px !important; /* Uniform height matching ATC */
+    box-sizing: border-box !important;
+    z-index: 2 !important;
+    position: relative !important;
+
+    /* Smart Animate Ease-Out 300ms Motion Engine */
+    transition: background-color 300ms ease-out, color 300ms ease-out !important;
+  }
+
+  /* 4. Ensure arrow icon is highly visible and handles transitions correctly */
+  .custom-shop-now-btn .buy-now-arrow-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+  }
+
+  .custom-shop-now-btn .buy-now-arrow-icon svg {
+    width: 48px !important;
+    height: 16px !important;
+    stroke: #FFFFFF !important; /* Pure crisp white stroke */
+    opacity: 1 !important;
+    
+    /* Smooth arrow translation mechanics matching your 300ms duration specs */
+    transition: transform 300ms ease-out, stroke 300ms ease-out !important;
+  }
+
+  /* 5. Interaction updates triggered when user hovers */
+  .custom-shop-now-btn:hover {
+    background-color: #FFF544 !important; /* Bright Yellow specs */
+    color: #000000 !important; /* Stark black typography */
+  }
+
+  /* Simultaneously flip arrow stroke and slide it right on hover */
+  .custom-shop-now-btn:hover .buy-now-arrow-icon svg {
+    stroke: #000000 !important;
+    transform: translateX(4px) !important;
+  }
+</style>
+
 {% capture accelerated_checkout_button %}
   {% if product != blank and form_obj != blank %}
     {{ form_obj | payment_button }}
@@ -26,7 +109,7 @@
 
 {% if accelerated_checkout_button != blank %}
   <div
-    class="accelerated-checkout-block"
+    class="accelerated-checkout-block custom-shop-now-wrapper"
     ref="acceleratedCheckoutButtonContainer"
     {{ block.shopify_attributes }}
     {% if request.visual_preview_mode %}
@@ -36,7 +119,33 @@
       hidden
     {% endunless %}
   >
-    {{ accelerated_checkout_button }}
+    <!-- Hidden native payment framework executing behind our layer -->
+    <div class="hidden-payment-target" style="position: absolute; width: 100%; height: 100%; opacity: 0; z-index: -1;">
+      {{ accelerated_checkout_button }}
+    </div>
+
+    <!-- Your fully customized visual button with actual inline SVG arrow support -->
+    <button 
+      type="button" 
+      class="custom-shop-now-btn"
+      onclick="const nativeBtn = this.closest('.custom-shop-now-wrapper').querySelector('.shopify-payment-button__button'); if(nativeBtn) { nativeBtn.click(); } else { this.closest('form').submit(); }"
+    >
+      <span>SHOP NOW</span>
+      
+      <span class="buy-now-arrow-icon">
+        <svg 
+          xmlns="http://w3.org" 
+          viewBox="0 0 48 24" 
+          fill="none" 
+          stroke-width="1.5" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+        >
+          <line x1="2" y1="12" x2="44" y2="12"></line>
+          <polyline points="34 4 44 12 34 20"></polyline>
+        </svg>
+      </span>
+    </button>
   </div>
 {% endif %}
 
