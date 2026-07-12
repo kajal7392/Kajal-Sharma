@@ -315,6 +315,9 @@
       "block_order": [
         "disclosures_g9mWze"
       ],
+      "custom_css": [
+        ".group-block h1{font-family: 'Jost';}"
+      ],
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
