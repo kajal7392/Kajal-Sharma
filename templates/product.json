@@ -316,7 +316,7 @@
         "disclosures_g9mWze"
       ],
       "custom_css": [
-        ".group-block h1{font-family: 'Jost';}"
+        ".group-block h1 {font-family: \"Jost\"; font-weight: 300;}"
       ],
       "settings": {
         "content_width": "content-center-aligned",
