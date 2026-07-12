@@ -18,6 +18,55 @@
   endif
 -%}
 
+{%- comment -%} Custom CSS override ensuring identical design tokens across both checkouts {%- endcomment -%}
+<style>
+  .custom-atc-btn {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+    font-family: 'Jost', sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 16px !important;
+    line-height: 20.48px !important;
+    letter-spacing: 0px !important;
+    text-transform: uppercase !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    leading-trim: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important; 
+    cursor: pointer;
+    border: none;
+    padding: 16px 24px !important; 
+    width: 100% !important;
+    box-sizing: border-box !important;
+    opacity: 1 !important;
+    transition: background-color 300ms ease-out, color 300ms ease-out !important;
+  }
+
+  .custom-atc-btn .add-to-cart-arrow-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+  }
+
+  .custom-atc-btn .add-to-cart-arrow-icon svg {
+    width: 68px !important; /* Expanded horizontal container frame size */
+    height: 16px !important;
+    stroke: #FFFFFF !important; 
+    opacity: 1 !important;
+    transition: transform 300ms ease-out, stroke 300ms ease-out !important; 
+  }
+
+  .custom-atc-btn:hover .add-to-cart-arrow-icon svg {
+    transform: translateX(4px) !important;
+  }
+</style>
+
 <add-to-cart-component
   ref="addToCartButtonContainer"
   data-product-variant-media="{{ product_variant_media }}"
@@ -31,7 +80,7 @@
     name="add"
     ref="addToCartButton"
     on:click="/handleClick"
-    class="button {{ class }}"
+    class="button {{ class }} custom-atc-btn"
     {% if data_testid %}
       data-testid="{{ data_testid }}"
     {% endif %}
@@ -39,17 +88,7 @@
       disabled
     {% endunless %}
   >
-    <span
-      class="add-to-cart-text"
-    >
-      {% if can_add_to_cart %}
-        <span
-          aria-hidden="true"
-          class="svg-wrapper add-to-cart-icon"
-        >
-          {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
-        </span>
-      {% endif %}
+    <span class="add-to-cart-text" style="display: inline-flex; align-items: center; justify-content: center; gap: 16px; width: 100%; opacity: 1 !important;">
       <span class="add-to-cart-text__content{% if icon_only_on_mobile %} is-visually-hidden-mobile{% endif %}">
         <span>
           <span>
@@ -57,7 +96,22 @@
           </span>
         </span>
       </span>
+
+      <span class="svg-wrapper add-to-cart-arrow-icon">
+        <svg 
+          xmlns="http://w3.org" 
+          viewBox="0 0 64 24"  {% comment %} Elongated canvas ratio map {% endcomment %}
+          fill="none" 
+          stroke-width="3"  {% comment %} Restored clean 1.5px stroke weight {% endcomment %}
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+        >
+          <line x1="2" y1="12" x2="60" y2="12"></line> {% comment %} Extended path trace line length {% endcomment %}
+          <polyline points="50 4 60 12 50 20"></polyline>
+        </svg>
+      </span>
     </span>
+
     {% comment %} checkmark burst markup {% endcomment %}
     <span class="add-to-cart__added">
       <span class="svg-wrapper add-to-cart__added-icon">
