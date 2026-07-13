@@ -412,7 +412,8 @@
         "image_8Ja937"
       ],
       "custom_css": [
-        "/* .page-width {padding-left: 40px; padding-right: 40px;} */.lookbook-template--27763054248215__lookbook_RndDXg,.page-width,.section-template--27763054248215__lookbook_RndDXg-padding {background-color: #ffffff;}"
+        "/* .page-width {padding-left: 40px; padding-right: 40px;} */.lookbook-template--27763054248215__lookbook_RndDXg,.page-width,.section-template--27763054248215__lookbook_RndDXg-padding {background-color: #ffffff;}",
+        ".modal-content h1, .quick-add-modal__text {font-size: 28px; color: #121212;}"
       ],
       "name": "Lookbook Gallery",
       "settings": {
