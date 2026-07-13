@@ -11,9 +11,6 @@
     }
   }
 
-  /* ============================================================
-     LOOKBOOK GALLERY STYLES
-     ============================================================ */
   .lookbook-{{ section.id }} {
     max-width: 1440px;
     margin: 0 auto;
@@ -22,9 +19,6 @@
     padding-right: 20px;
   }
 
-  /* ============================================================
-     SECTION HEADER - Desktop: Left aligned with proper spacing
-     ============================================================ */
   .lookbook-{{ section.id }} .section-header {
     display: flex;
     justify-content: flex-start;
@@ -47,9 +41,6 @@
     text-transform: none;
   }
 
-  /* ============================================================
-     DESKTOP GRID - 3 columns, 20px gap, centered with max-width
-     ============================================================ */
   .lookbook-{{ section.id }} .lookbook-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -58,9 +49,6 @@
     margin: 0 auto;
   }
 
-  /* ============================================================
-     IMAGE CARD - With 1.5px black border
-     ============================================================ */
   .lookbook-{{ section.id }} .lookbook-card {
     position: relative;
     overflow: hidden;
@@ -88,18 +76,9 @@
     transform: scale(1.03);
   }
 
-  /* ============================================================
-     HOTSPOT STYLES - With Ripple/Blinking Animation
-     ============================================================ */
-  .lookbook-{{ section.id }} hotspot-button {
-    position: absolute;
-    top: var(--offset-y);
-    left: var(--offset-x);
-    transform: translate(-50%, -50%);
-    z-index: 2;
-  }
-
   .lookbook-{{ section.id }} .hotspot-btn {
+    position: absolute;
+    z-index: 2;
     width: {{ section.settings.hotspot_size | default: 32 }}px;
     height: {{ section.settings.hotspot_size | default: 32 }}px;
     border-radius: 50%;
@@ -113,13 +92,10 @@
     padding: 0;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
     text-decoration: none;
+    transform: translate(-50%, -50%);
   }
 
-  /* ============================================================
-     RIPPLE/BLINKING ANIMATION
-     ============================================================ */
   .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
   .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
     content: '';
@@ -136,19 +112,10 @@
   }
 
   @keyframes hotspot-ripple-{{ section.id }} {
-    0% {
-      transform: scale(1);
-      opacity: 0.6;
-    }
-    100% {
-      transform: scale(1.6);
-      opacity: 0;
-    }
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.6); opacity: 0; }
   }
 
-  /* ============================================================
-     HOTSPOT ICON
-     ============================================================ */
   .lookbook-{{ section.id }} .hotspot-btn .material-icon {
     width: {{ section.settings.hotspot_icon_size | default: 20 }}px;
     height: {{ section.settings.hotspot_icon_size | default: 20 }}px;
@@ -170,13 +137,10 @@
     stroke-linejoin: round;
   }
 
-  /* ============================================================
-     HOTSPOT HOVER EFFECTS
-     ============================================================ */
   .lookbook-{{ section.id }} .hotspot-btn:hover {
     background: {{ section.settings.hotspot_hover_bg | default: '#000000' }};
     color: {{ section.settings.hotspot_hover_color | default: '#FFFFFF' }};
-    transform: scale(1.15);
+    transform: translate(-50%, -50%) scale(1.15);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
   }
 
@@ -184,9 +148,6 @@
     transform: rotate(90deg);
   }
 
-  /* ============================================================
-     HOTSPOT TOOLTIP
-     ============================================================ */
   .lookbook-{{ section.id }} .hotspot-btn .hotspot-label {
     display: none;
     position: absolute;
@@ -209,177 +170,414 @@
     display: block;
   }
 
-  /* ============================================================
-     RESPONSIVE - TABLET
-     ============================================================ */
+  .lookbook-popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .lookbook-popup-overlay.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .lookbook-popup-overlay .popup-wrapper {
+    position: relative;
+    width: 400px;
+    height: auto;
+    min-height: 447px;
+    max-height: 90vh;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px 0px #00000033;
+    border-radius: 0;
+    overflow: hidden;
+    animation: popup-slide-up 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  @keyframes popup-slide-up {
+    from { transform: translateY(20px) scale(0.98); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .lookbook-popup-overlay .popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .lookbook-popup-overlay .popup-close:hover {
+    transform: rotate(90deg);
+  }
+
+  .lookbook-popup-overlay .popup-close svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .lookbook-popup-overlay .popup-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 36px 17px 20px 17px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 90vh;
+  }
+
+  .lookbook-popup-overlay .popup-top {
+    display: flex;
+    gap: 8px;
+    height: 140px;
+    margin-bottom: 0;
+  }
+
+  .lookbook-popup-overlay .popup-image-wrapper {
+    flex-shrink: 0;
+    width: 120px;
+    height: 140px;
+    order: 1;
+  }
+
+  .lookbook-popup-overlay .popup-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lookbook-popup-overlay .popup-info-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 13px;
+    min-width: 0;
+    order: 2;
+  }
+
+  .lookbook-popup-overlay .popup-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 120%;
+    color: #000000;
+    margin: 0 0 8px 0;
+    letter-spacing: 0px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .lookbook-popup-overlay .popup-price {
+    font-family: 'Lustria', serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    color: #000000;
+    margin: 0 0 10px 0;
+    letter-spacing: 0px;
+  }
+
+  .lookbook-popup-overlay .popup-description {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: 0;
+    color: #000000;
+    margin: 0;
+    overflow: visible;
+    max-height: none;
+    word-wrap: break-word;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker {
+    margin-top: 6px;
+    width: 100%;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-picker {
+    width: 100%;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-option {
+    margin-bottom: 8px;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-option legend {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    color: #333333;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0%;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-option legend .variant-option__swatch-value {
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-option__button-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px !important;
+    border: 2px solid #ededed !important;
+    font-weight: 600;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    min-height: 36px;
+    flex: 1 1 auto;
+    min-width: 50px;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .theme-native-inputs-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-option__button-label:has(.swatch) {
+    flex: 1 1 auto;
+    min-width: 40px;
+    max-width: 100%;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-option__button-label input[type="radio"] {
+    display: none;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-option__button-label:has(input[type="radio"]:checked) {
+    border-color: #000000 !important;
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .variant-option__button-label:hover {
+    border-color: #000000 !important;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .custom-dropdown-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .ui-custom-size-select {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1a1a1a;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 0px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s ease-in-out;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .ui-custom-size-select:focus {
+    outline: none;
+    border-color: #000000;
+  }
+
+  .lookbook-popup-overlay .popup-variant-picker .custom-dropdown-container::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid #555555;
+    border-bottom: 2px solid #555555;
+    transform: translateY(-65%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  .lookbook-popup-overlay .popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .lookbook-popup-overlay .popup-add-to-cart {
+    width: 100%;
+    height: 45px;
+    background: #000000;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 20px;
+    position: relative;
+  }
+
+  .lookbook-popup-overlay .popup-add-to-cart:hover:not(:disabled) {
+    background: #333333;
+    transform: translateY(-1px);
+  }
+
+  .lookbook-popup-overlay .popup-add-to-cart:disabled {
+    background: #999999;
+    cursor: not-allowed;
+  }
+
+  .lookbook-popup-overlay .popup-add-to-cart .cart-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    width: 24px;
+    height: 24px;
+  }
+
+  .lookbook-popup-overlay .popup-add-to-cart .cart-arrow svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+
+  .lookbook-popup-overlay .popup-add-to-cart:hover:not(:disabled) .cart-arrow {
+    transform: translateX(4px);
+  }
+
+  .lookbook-popup-overlay .popup-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 16px;
+  }
+
+  .lookbook-popup-overlay .popup-spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #000;
+    border-radius: 50%;
+    animation: popup-spin 0.8s linear infinite;
+  }
+
+  @keyframes popup-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
   @media screen and (max-width: 1024px) {
-    .lookbook-{{ section.id }} {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-
-    .lookbook-{{ section.id }} .lookbook-grid {
-      gap: 16px;
-    }
-
-    .lookbook-{{ section.id }} .section-title {
-      font-size: 30px;
-    }
+    .lookbook-{{ section.id }} { padding-left: 20px; padding-right: 20px; }
+    .lookbook-{{ section.id }} .lookbook-grid { gap: 16px; }
+    .lookbook-{{ section.id }} .section-title { font-size: 30px; }
   }
 
-  /* ============================================================
-     RESPONSIVE - MOBILE (max-width: 749px)
-     - 2 columns grid
-     - Smaller title (responsive)
-     - 4px gap between images
-     - 1px border
-     - No padding issues
-     ============================================================ */
   @media screen and (max-width: 749px) {
-    .lookbook-{{ section.id }} {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    .lookbook-{{ section.id }} .section-header {
-      justify-content: center;
-      padding: 0 16px;
-      margin-bottom: 20px;
-      max-width: 100%;
-    }
-
-    .lookbook-{{ section.id }} .section-title {
-      font-size: 24px;
-      text-align: center;
-      max-width: 100%;
-    }
-
-    /* Mobile grid: 2 columns with 4px gap */
-    .lookbook-{{ section.id }} .lookbook-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 4px;
-      padding: 0 16px;
-      max-width: 100%;
-      margin: 0;
-    }
-
-    .lookbook-{{ section.id }} .lookbook-card {
-      border-width: 1px;
-      aspect-ratio: auto;
-    }
-
-    .lookbook-{{ section.id }} .lookbook-card .media {
-      aspect-ratio: auto;
-    }
-
-    .lookbook-{{ section.id }} .lookbook-card img {
-      aspect-ratio: auto;
-    }
-
-    .lookbook-{{ section.id }} .hotspot-btn {
-      width: {{ section.settings.hotspot_size_mobile | default: 28 }}px;
-      height: {{ section.settings.hotspot_size_mobile | default: 28 }}px;
-    }
-
-    .lookbook-{{ section.id }} .hotspot-btn .material-icon {
-      width: {{ section.settings.hotspot_icon_size_mobile | default: 16 }}px;
-      height: {{ section.settings.hotspot_icon_size_mobile | default: 16 }}px;
-    }
-
-    .lookbook-{{ section.id }} hotspot-button {
-      top: var(--mobile-offset-y, var(--offset-y));
-      left: var(--mobile-offset-x, var(--offset-x));
-    }
-
-    .lookbook-{{ section.id }} .hotspot-btn .hotspot-label {
-      font-size: 10px;
-      padding: 4px 10px;
-      bottom: calc(100% + 8px);
-    }
-
+    .lookbook-{{ section.id }} { padding-left: 0; padding-right: 0; }
+    .lookbook-{{ section.id }} .section-header { justify-content: center; padding: 0 16px; margin-bottom: 20px; max-width: 100%; }
+    .lookbook-{{ section.id }} .section-title { font-size: 24px; text-align: center; max-width: 100%; }
+    .lookbook-{{ section.id }} .lookbook-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 0 16px; max-width: 100%; margin: 0; }
+    .lookbook-{{ section.id }} .lookbook-card { border-width: 1px; }
+    .lookbook-{{ section.id }} .hotspot-btn { width: {{ section.settings.hotspot_size_mobile | default: 28 }}px; height: {{ section.settings.hotspot_size_mobile | default: 28 }}px; }
+    .lookbook-{{ section.id }} .hotspot-btn .material-icon { width: {{ section.settings.hotspot_icon_size_mobile | default: 16 }}px; height: {{ section.settings.hotspot_icon_size_mobile | default: 16 }}px; }
+    .lookbook-{{ section.id }} .hotspot-btn .hotspot-label { font-size: 10px; padding: 4px 10px; bottom: calc(100% + 8px); }
     .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
-    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
-      inset: -3px;
-    }
-
+    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after { inset: -3px; }
     @keyframes hotspot-ripple-{{ section.id }} {
-      0% {
-        transform: scale(1);
-        opacity: 0.6;
-      }
-      100% {
-        transform: scale(1.4);
-        opacity: 0;
-      }
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.4); opacity: 0; }
     }
+    .lookbook-popup-overlay { padding: 10px; }
+    .lookbook-popup-overlay .popup-wrapper { width: 100%; max-width: 400px; min-height: 447px; }
+    .lookbook-popup-overlay .popup-variant-picker .variant-option__button-label { padding: 6px 12px !important; font-size: 12px; min-height: 30px; }
+    .lookbook-popup-overlay .popup-variant-picker .ui-custom-size-select { padding: 10px 32px 10px 12px; font-size: 13px; }
   }
 
-  /* ============================================================
-     RESPONSIVE - SMALL MOBILE (max-width: 480px)
-     ============================================================ */
-  @media screen and (max-width: 480px) {
-    .lookbook-{{ section.id }} .section-title {
-      font-size: 20px;
-    }
-
-    .lookbook-{{ section.id }} .lookbook-grid {
-      gap: 4px;
-      padding: 0 12px;
-    }
-
-    .lookbook-{{ section.id }} .hotspot-btn {
-      width: 24px;
-      height: 24px;
-    }
-
-    .lookbook-{{ section.id }} .hotspot-btn .material-icon {
-      width: 14px;
-      height: 14px;
-    }
+  @media screen and (max-width: 400px) {
+    .lookbook-popup-overlay .popup-wrapper { width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; box-shadow: none; }
+    .lookbook-popup-overlay { padding: 0; }
+    .lookbook-popup-overlay .popup-body { padding: 30px 16px 16px 16px; }
+    .lookbook-popup-overlay .popup-top { height: 130px; }
+    .lookbook-popup-overlay .popup-image-wrapper { width: 100px; height: 130px; }
+    .lookbook-popup-overlay .popup-info-wrapper { padding-top: 8px; }
+    .lookbook-popup-overlay .popup-title { font-size: 14px; }
+    .lookbook-popup-overlay .popup-price { font-size: 14px; }
+    .lookbook-popup-overlay .popup-description { font-size: 12px; line-height: 1.4; }
   }
 
-  /* ============================================================
-     REDUCED MOTION
-     ============================================================ */
   @media (prefers-reduced-motion: reduce) {
-    .lookbook-{{ section.id }} .lookbook-card img {
-      transition: none;
-    }
-    .lookbook-{{ section.id }} .hotspot-btn {
-      transition: none;
-    }
-    .lookbook-{{ section.id }} .hotspot-btn:hover {
-      transform: none;
-    }
+    .lookbook-{{ section.id }} .lookbook-card img { transition: none; }
+    .lookbook-{{ section.id }} .hotspot-btn { transition: none; }
+    .lookbook-{{ section.id }} .hotspot-btn:hover { transform: none; }
     .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::before,
-    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after {
-      animation: none;
-    }
-    .lookbook-{{ section.id }} .hotspot-btn:hover .material-icon {
-      transform: none;
-    }
+    .lookbook-{{ section.id }} .hotspot-btn .ripple-animation::after { animation: none; }
+    .lookbook-{{ section.id }} .hotspot-btn:hover .material-icon { transform: none; }
+    .lookbook-popup-overlay .popup-wrapper { animation: none; }
+    .lookbook-popup-overlay .popup-close { transition: none; }
+    .lookbook-popup-overlay .popup-close:hover { transform: none; }
+    .lookbook-popup-overlay .popup-add-to-cart { transition: none; }
+    .lookbook-popup-overlay .popup-add-to-cart:hover:not(:disabled) { transform: none; }
+    .lookbook-popup-overlay .popup-add-to-cart:hover:not(:disabled) .cart-arrow { transform: none; }
+    .lookbook-popup-overlay .popup-swatch-option { transition: none; }
+    .lookbook-popup-overlay .popup-variant-picker .variant-option__button-label { transition: none; }
   }
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding lookbook-{{ section.id }}">
   
-  <!-- ============================================================
-       SECTION HEADER
-       Desktop: Left aligned with proper spacing
-       Mobile: Center aligned
-       ============================================================ -->
   <div class="section-header">
     <h2 class="section-title">
       {{ section.settings.section_title | default: 'Tisso vison in the wild' }}
     </h2>
   </div>
 
-  <!-- ============================================================
-       GALLERY GRID
-       Desktop: 3 columns, 20px gap, centered
-       Mobile: 2 columns, 4px gap
-       ============================================================ -->
   <div class="lookbook-grid">
     
     {%- for block in section.blocks -%}
@@ -390,47 +588,62 @@
             assign image = block.settings.image
             assign image_alt = block.settings.image_alt | default: image.alt | default: 'Gallery image'
             
-            # Hotspot 1 settings
             assign hs1_enable = block.settings.hotspot_1_enable
-            assign hs1_link = block.settings.hotspot_1_link
+            assign hs1_product = block.settings.hotspot_1_product
             assign hs1_top = block.settings.hotspot_1_top | default: 50
             assign hs1_left = block.settings.hotspot_1_left | default: 50
             assign hs1_label = block.settings.hotspot_1_label
             assign hs1_mobile_top = block.settings.hotspot_1_mobile_top | default: hs1_top
             assign hs1_mobile_left = block.settings.hotspot_1_mobile_left | default: hs1_left
             
-            # Hotspot 2 settings
             assign hs2_enable = block.settings.hotspot_2_enable
-            assign hs2_link = block.settings.hotspot_2_link
+            assign hs2_product = block.settings.hotspot_2_product
             assign hs2_top = block.settings.hotspot_2_top | default: 50
             assign hs2_left = block.settings.hotspot_2_left | default: 50
             assign hs2_label = block.settings.hotspot_2_label
             assign hs2_mobile_top = block.settings.hotspot_2_mobile_top | default: hs2_top
             assign hs2_mobile_left = block.settings.hotspot_2_mobile_left | default: hs2_left
             
-            # Hotspot 3 settings
             assign hs3_enable = block.settings.hotspot_3_enable
-            assign hs3_link = block.settings.hotspot_3_link
+            assign hs3_product = block.settings.hotspot_3_product
             assign hs3_top = block.settings.hotspot_3_top | default: 50
             assign hs3_left = block.settings.hotspot_3_left | default: 50
             assign hs3_label = block.settings.hotspot_3_label
             assign hs3_mobile_top = block.settings.hotspot_3_mobile_top | default: hs3_top
             assign hs3_mobile_left = block.settings.hotspot_3_mobile_left | default: hs3_left
             
-            # Hotspot 4 settings
             assign hs4_enable = block.settings.hotspot_4_enable
-            assign hs4_link = block.settings.hotspot_4_link
+            assign hs4_product = block.settings.hotspot_4_product
             assign hs4_top = block.settings.hotspot_4_top | default: 50
             assign hs4_left = block.settings.hotspot_4_left | default: 50
             assign hs4_label = block.settings.hotspot_4_label
             assign hs4_mobile_top = block.settings.hotspot_4_mobile_top | default: hs4_top
             assign hs4_mobile_left = block.settings.hotspot_4_mobile_left | default: hs4_left
             
-            # Ripple animation setting
             assign enable_ripple = section.settings.enable_ripple_animation | default: true
             assign ripple_class = ''
             if enable_ripple
               assign ripple_class = 'ripple-animation'
+            endif
+            
+            assign hs1_show = false
+            if hs1_enable and hs1_product != blank
+              assign hs1_show = true
+            endif
+            
+            assign hs2_show = false
+            if hs2_enable and hs2_product != blank
+              assign hs2_show = true
+            endif
+            
+            assign hs3_show = false
+            if hs3_enable and hs3_product != blank
+              assign hs3_show = true
+            endif
+            
+            assign hs4_show = false
+            if hs4_enable and hs4_product != blank
+              assign hs4_show = true
             endif
           -%}
           
@@ -462,107 +675,247 @@
               </div>
             {%- endif -%}
             
-            <!-- ============================================================
-                 HOTSPOT 1
-                 ============================================================ -->
-            {%- if hs1_enable and hs1_link != blank -%}
-              <hotspot-button
-                class="hotspot"
-                data-type="link"
-                data-open-event="click"
-                data-open="false"
-                data-section="{{ section.id }}"
-                style="--offset-x:{{ hs1_left }}%;--offset-y:{{ hs1_top }}%;--mobile-offset-x:{{ hs1_mobile_left }}%;--mobile-offset-y:{{ hs1_mobile_top }}%;"
+            {%- if hs1_show -%}
+              <button
+                class="hotspot-btn {{ ripple_class }}"
+                style="top: {{ hs1_top }}%; left: {{ hs1_left }}%;"
+                data-product-id="{{ hs1_product.id }}"
+                data-product-title="{{ hs1_product.title }}"
+                aria-label="{{ hs1_label | default: 'View product' | escape }}"
+                type="button"
               >
-                <a
-                  href="{{ hs1_link }}"
-                  class="hotspot-btn {{ ripple_class }}"
-                  aria-label="{{ hs1_label | default: 'View product' | escape }}"
-                >
-                  {% render 'material-icon', icon: 'add' %}
-                  {%- if hs1_label != blank -%}
-                    <span class="hotspot-label">{{ hs1_label }}</span>
-                  {%- endif -%}
-                </a>
-              </hotspot-button>
+                {% render 'material-icon', icon: 'add' %}
+                {%- if hs1_label != blank -%}
+                  <span class="hotspot-label">{{ hs1_label }}</span>
+                {%- endif -%}
+              </button>
             {%- endif -%}
             
-            <!-- ============================================================
-                 HOTSPOT 2
-                 ============================================================ -->
-            {%- if hs2_enable and hs2_link != blank -%}
-              <hotspot-button
-                class="hotspot"
-                data-type="link"
-                data-open-event="click"
-                data-open="false"
-                data-section="{{ section.id }}"
-                style="--offset-x:{{ hs2_left }}%;--offset-y:{{ hs2_top }}%;--mobile-offset-x:{{ hs2_mobile_left }}%;--mobile-offset-y:{{ hs2_mobile_top }}%;"
+            {%- if hs2_show -%}
+              <button
+                class="hotspot-btn {{ ripple_class }}"
+                style="top: {{ hs2_top }}%; left: {{ hs2_left }}%;"
+                data-product-id="{{ hs2_product.id }}"
+                data-product-title="{{ hs2_product.title }}"
+                aria-label="{{ hs2_label | default: 'View product' | escape }}"
+                type="button"
               >
-                <a
-                  href="{{ hs2_link }}"
-                  class="hotspot-btn {{ ripple_class }}"
-                  aria-label="{{ hs2_label | default: 'View product' | escape }}"
-                >
-                  {% render 'material-icon', icon: 'add' %}
-                  {%- if hs2_label != blank -%}
-                    <span class="hotspot-label">{{ hs2_label }}</span>
-                  {%- endif -%}
-                </a>
-              </hotspot-button>
+                {% render 'material-icon', icon: 'add' %}
+                {%- if hs2_label != blank -%}
+                  <span class="hotspot-label">{{ hs2_label }}</span>
+                {%- endif -%}
+              </button>
             {%- endif -%}
             
-            <!-- ============================================================
-                 HOTSPOT 3
-                 ============================================================ -->
-            {%- if hs3_enable and hs3_link != blank -%}
-              <hotspot-button
-                class="hotspot"
-                data-type="link"
-                data-open-event="click"
-                data-open="false"
-                data-section="{{ section.id }}"
-                style="--offset-x:{{ hs3_left }}%;--offset-y:{{ hs3_top }}%;--mobile-offset-x:{{ hs3_mobile_left }}%;--mobile-offset-y:{{ hs3_mobile_top }}%;"
+            {%- if hs3_show -%}
+              <button
+                class="hotspot-btn {{ ripple_class }}"
+                style="top: {{ hs3_top }}%; left: {{ hs3_left }}%;"
+                data-product-id="{{ hs3_product.id }}"
+                data-product-title="{{ hs3_product.title }}"
+                aria-label="{{ hs3_label | default: 'View product' | escape }}"
+                type="button"
               >
-                <a
-                  href="{{ hs3_link }}"
-                  class="hotspot-btn {{ ripple_class }}"
-                  aria-label="{{ hs3_label | default: 'View product' | escape }}"
-                >
-                  {% render 'material-icon', icon: 'add' %}
-                  {%- if hs3_label != blank -%}
-                    <span class="hotspot-label">{{ hs3_label }}</span>
-                  {%- endif -%}
-                </a>
-              </hotspot-button>
+                {% render 'material-icon', icon: 'add' %}
+                {%- if hs3_label != blank -%}
+                  <span class="hotspot-label">{{ hs3_label }}</span>
+                {%- endif -%}
+              </button>
             {%- endif -%}
             
-            <!-- ============================================================
-                 HOTSPOT 4
-                 ============================================================ -->
-            {%- if hs4_enable and hs4_link != blank -%}
-              <hotspot-button
-                class="hotspot"
-                data-type="link"
-                data-open-event="click"
-                data-open="false"
-                data-section="{{ section.id }}"
-                style="--offset-x:{{ hs4_left }}%;--offset-y:{{ hs4_top }}%;--mobile-offset-x:{{ hs4_mobile_left }}%;--mobile-offset-y:{{ hs4_mobile_top }}%;"
+            {%- if hs4_show -%}
+              <button
+                class="hotspot-btn {{ ripple_class }}"
+                style="top: {{ hs4_top }}%; left: {{ hs4_left }}%;"
+                data-product-id="{{ hs4_product.id }}"
+                data-product-title="{{ hs4_product.title }}"
+                aria-label="{{ hs4_label | default: 'View product' | escape }}"
+                type="button"
               >
-                <a
-                  href="{{ hs4_link }}"
-                  class="hotspot-btn {{ ripple_class }}"
-                  aria-label="{{ hs4_label | default: 'View product' | escape }}"
-                >
-                  {% render 'material-icon', icon: 'add' %}
-                  {%- if hs4_label != blank -%}
-                    <span class="hotspot-label">{{ hs4_label }}</span>
-                  {%- endif -%}
-                </a>
-              </hotspot-button>
+                {% render 'material-icon', icon: 'add' %}
+                {%- if hs4_label != blank -%}
+                  <span class="hotspot-label">{{ hs4_label }}</span>
+                {%- endif -%}
+              </button>
             {%- endif -%}
             
           </div>
+          
+          {%- if hs1_show and hs1_product != blank -%}
+            <script type="application/json" id="product-json-{{ hs1_product.id }}" style="display:none;">
+              {
+                "id": {{ hs1_product.id | json }},
+                "title": {{ hs1_product.title | json }},
+                "handle": {{ hs1_product.handle | json }},
+                "description": {{ hs1_product.description | json }},
+                "price": {{ hs1_product.price | json }},
+                "price_formatted": {{ hs1_product.price | money | json }},
+                "available": {{ hs1_product.available | json }},
+                "url": {{ hs1_product.url | json }},
+                "vendor": {{ hs1_product.vendor | json }},
+                "featured_image": {{ hs1_product.featured_image | image_url: width: 600 | json }},
+                "images": [
+                  {%- for image in hs1_product.images -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {{ image | image_url: width: 600 | json }}
+                  {%- endfor -%}
+                ],
+                "variants": [
+                  {%- for variant in hs1_product.variants -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {
+                      "id": {{ variant.id | json }},
+                      "title": {{ variant.title | json }},
+                      "price": {{ variant.price | json }},
+                      "price_formatted": {{ variant.price | money | json }},
+                      "available": {{ variant.available | json }}
+                    }
+                  {%- endfor -%}
+                ],
+                "options": [
+                  {%- for option in hs1_product.options_with_values -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {
+                      "name": {{ option.name | json }},
+                      "values": {{ option.values | json }}
+                    }
+                  {%- endfor -%}
+                ]
+              }
+            </script>
+          {%- endif -%}
+          
+          {%- if hs2_show and hs2_product != blank -%}
+            <script type="application/json" id="product-json-{{ hs2_product.id }}" style="display:none;">
+              {
+                "id": {{ hs2_product.id | json }},
+                "title": {{ hs2_product.title | json }},
+                "handle": {{ hs2_product.handle | json }},
+                "description": {{ hs2_product.description | json }},
+                "price": {{ hs2_product.price | json }},
+                "price_formatted": {{ hs2_product.price | money | json }},
+                "available": {{ hs2_product.available | json }},
+                "url": {{ hs2_product.url | json }},
+                "vendor": {{ hs2_product.vendor | json }},
+                "featured_image": {{ hs2_product.featured_image | image_url: width: 600 | json }},
+                "images": [
+                  {%- for image in hs2_product.images -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {{ image | image_url: width: 600 | json }}
+                  {%- endfor -%}
+                ],
+                "variants": [
+                  {%- for variant in hs2_product.variants -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {
+                      "id": {{ variant.id | json }},
+                      "title": {{ variant.title | json }},
+                      "price": {{ variant.price | json }},
+                      "price_formatted": {{ variant.price | money | json }},
+                      "available": {{ variant.available | json }}
+                    }
+                  {%- endfor -%}
+                ],
+                "options": [
+                  {%- for option in hs2_product.options_with_values -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {
+                      "name": {{ option.name | json }},
+                      "values": {{ option.values | json }}
+                    }
+                  {%- endfor -%}
+                ]
+              }
+            </script>
+          {%- endif -%}
+          
+          {%- if hs3_show and hs3_product != blank -%}
+            <script type="application/json" id="product-json-{{ hs3_product.id }}" style="display:none;">
+              {
+                "id": {{ hs3_product.id | json }},
+                "title": {{ hs3_product.title | json }},
+                "handle": {{ hs3_product.handle | json }},
+                "description": {{ hs3_product.description | json }},
+                "price": {{ hs3_product.price | json }},
+                "price_formatted": {{ hs3_product.price | money | json }},
+                "available": {{ hs3_product.available | json }},
+                "url": {{ hs3_product.url | json }},
+                "vendor": {{ hs3_product.vendor | json }},
+                "featured_image": {{ hs3_product.featured_image | image_url: width: 600 | json }},
+                "images": [
+                  {%- for image in hs3_product.images -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {{ image | image_url: width: 600 | json }}
+                  {%- endfor -%}
+                ],
+                "variants": [
+                  {%- for variant in hs3_product.variants -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {
+                      "id": {{ variant.id | json }},
+                      "title": {{ variant.title | json }},
+                      "price": {{ variant.price | json }},
+                      "price_formatted": {{ variant.price | money | json }},
+                      "available": {{ variant.available | json }}
+                    }
+                  {%- endfor -%}
+                ],
+                "options": [
+                  {%- for option in hs3_product.options_with_values -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {
+                      "name": {{ option.name | json }},
+                      "values": {{ option.values | json }}
+                    }
+                  {%- endfor -%}
+                ]
+              }
+            </script>
+          {%- endif -%}
+          
+          {%- if hs4_show and hs4_product != blank -%}
+            <script type="application/json" id="product-json-{{ hs4_product.id }}" style="display:none;">
+              {
+                "id": {{ hs4_product.id | json }},
+                "title": {{ hs4_product.title | json }},
+                "handle": {{ hs4_product.handle | json }},
+                "description": {{ hs4_product.description | json }},
+                "price": {{ hs4_product.price | json }},
+                "price_formatted": {{ hs4_product.price | money | json }},
+                "available": {{ hs4_product.available | json }},
+                "url": {{ hs4_product.url | json }},
+                "vendor": {{ hs4_product.vendor | json }},
+                "featured_image": {{ hs4_product.featured_image | image_url: width: 600 | json }},
+                "images": [
+                  {%- for image in hs4_product.images -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {{ image | image_url: width: 600 | json }}
+                  {%- endfor -%}
+                ],
+                "variants": [
+                  {%- for variant in hs4_product.variants -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {
+                      "id": {{ variant.id | json }},
+                      "title": {{ variant.title | json }},
+                      "price": {{ variant.price | json }},
+                      "price_formatted": {{ variant.price | money | json }},
+                      "available": {{ variant.available | json }}
+                    }
+                  {%- endfor -%}
+                ],
+                "options": [
+                  {%- for option in hs4_product.options_with_values -%}
+                    {%- unless forloop.first %},{% endunless -%}
+                    {
+                      "name": {{ option.name | json }},
+                      "values": {{ option.values | json }}
+                    }
+                  {%- endfor -%}
+                ]
+              }
+            </script>
+          {%- endif -%}
           
       {%- endcase -%}
     {%- endfor -%}
@@ -571,76 +924,452 @@
 </div>
 
 <!-- ============================================================
-     JAVASCRIPT - Vanilla JS (No jQuery)
+     POPUP
+     ============================================================ -->
+<div id="lookbook-popup" class="lookbook-popup-overlay">
+  <div class="popup-wrapper">
+    
+    <button class="popup-close" aria-label="{{ 'general.accessibility.close' | t }}">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L13 13M1 13L13 1" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    
+    <div id="popup-body" class="popup-body">
+      <!-- Popup content is filled by JavaScript -->
+    </div>
+    
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
      ============================================================ -->
 <script>
   (function() {
     'use strict';
     
-    /**
-     * LookbookGallery - Handles hotspot interactions
-     */
-    class LookbookGallery {
-      constructor(section) {
-        this.section = section;
-        this.hotspots = section.querySelectorAll('hotspot-button');
-        this.init();
+    var popup = document.getElementById('lookbook-popup');
+    var popupBody = document.getElementById('popup-body');
+    var closeBtn = popup.querySelector('.popup-close');
+    var overlay = popup;
+    
+    var currentProductId = null;
+    var currentVariantId = null;
+    
+    // ============================================================
+    // HOTSPOT CLICKS
+    // ============================================================
+    document.querySelectorAll('.hotspot-btn[data-product-id]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var productId = this.dataset.productId;
+        if (productId) {
+          openPopup(productId);
+        }
+      });
+      
+      btn.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          var productId = this.dataset.productId;
+          if (productId) {
+            openPopup(productId);
+          }
+        }
+      });
+    });
+    
+    // ============================================================
+    // CLOSE POPUP
+    // ============================================================
+    function closePopup() {
+      popup.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    closeBtn.addEventListener('click', closePopup);
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closePopup();
+      }
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && popup.classList.contains('active')) {
+        closePopup();
+      }
+    });
+    
+    // ============================================================
+    // OPEN POPUP - FIXED with proper title handling
+    // ============================================================
+    function openPopup(productId) {
+      currentProductId = productId;
+      
+      popupBody.innerHTML = '<div class="popup-loading"><div class="popup-spinner"></div><p style="font-family: \'Lustria\', serif; margin: 0;">Loading product...</p></div>';
+      popup.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // First try to get from script tag
+      var scriptEl = document.getElementById('product-json-' + productId);
+      
+      if (scriptEl) {
+        try {
+          var product = JSON.parse(scriptEl.textContent);
+          if (product && product.title) {
+            console.log('[Lookbook] Product title from script tag:', product.title);
+            renderProduct(product);
+            if (product.variants && product.variants.length > 0) {
+              currentVariantId = product.variants[0].id;
+            }
+            return;
+          }
+        } catch (e) {
+          console.warn('Error parsing product JSON:', e);
+        }
       }
       
-      init() {
-        this.hotspots.forEach(hotspot => {
-          const btn = hotspot.querySelector('.hotspot-btn');
-          if (!btn) return;
-          
-          // Handle click events for toggling
-          btn.addEventListener('click', function(e) {
-            const isOpen = hotspot.dataset.open === 'true';
-            hotspot.dataset.open = isOpen ? 'false' : 'true';
-          });
-          
-          // Keyboard accessibility
-          btn.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              const isOpen = hotspot.dataset.open === 'true';
-              hotspot.dataset.open = isOpen ? 'false' : 'true';
-            }
-          });
-        });
-        
-        // Close hotspots when clicking outside
-        document.addEventListener('click', function(e) {
-          if (!e.target.closest('hotspot-button')) {
-            document.querySelectorAll('hotspot-button').forEach(function(h) {
-              h.dataset.open = 'false';
-            });
+      // Fallback: fetch via AJAX
+      fetch('/products/' + productId + '.js')
+        .then(function(response) {
+          if (!response.ok) throw new Error('Product not found');
+          return response.json();
+        })
+        .then(function(product) {
+          console.log('[Lookbook] Product title from AJAX:', product.title);
+          renderProduct(product);
+          if (product.variants && product.variants.length > 0) {
+            currentVariantId = product.variants[0].id;
           }
+        })
+        .catch(function(error) {
+          console.error('Error loading product:', error);
+          showError();
         });
-        
-        // Log in Theme Editor
-        if (window.Shopify && Shopify.designMode) {
-          console.log('[LookbookGallery] Initialized with', this.hotspots.length, 'hotspots');
+    }
+    
+    // ============================================================
+    // RENDER PRODUCT - FIXED with proper title rendering
+    // ============================================================
+    function renderProduct(product) {
+      console.log('[Lookbook] Rendering product with title:', product.title);
+      
+      var firstVariant = product.variants && product.variants.length > 0 ? product.variants[0] : null;
+      var priceFormatted = firstVariant ? firstVariant.price_formatted : product.price_formatted;
+      var isAvailable = firstVariant ? firstVariant.available : product.available;
+      
+      // Get product title - use the title directly from the product object
+      var productTitle = product.title || 'Product';
+      
+      // If title is still empty, try to get from the script tag as fallback
+      if (productTitle === 'Product' || productTitle === '') {
+        var scriptEl = document.getElementById('product-json-' + currentProductId);
+        if (scriptEl) {
+          try {
+            var productData = JSON.parse(scriptEl.textContent);
+            if (productData && productData.title) {
+              productTitle = productData.title;
+              console.log('[Lookbook] Title from script tag fallback:', productTitle);
+            }
+          } catch (e) {}
         }
+      }
+      
+      // If still no title, try to get from the hotspot button
+      if (productTitle === 'Product' || productTitle === '') {
+        var btn = document.querySelector('.hotspot-btn[data-product-id="' + currentProductId + '"]');
+        if (btn && btn.dataset.productTitle) {
+          productTitle = btn.dataset.productTitle;
+          console.log('[Lookbook] Title from button data attribute:', productTitle);
+        }
+      }
+      
+      console.log('[Lookbook] Final product title:', productTitle);
+      
+      // Build description - full content
+      var descText = product.description || '';
+      var tempDiv = document.createElement('div');
+      tempDiv.innerHTML = descText;
+      descText = tempDiv.textContent || tempDiv.innerText || '';
+      
+      // Build variant picker
+      var variantPickerHtml = buildVariantPicker(product);
+      
+      // Build add to cart button
+      var addToCartText = isAvailable ? 'Add to Cart' : 'Sold Out';
+      var disabledAttr = isAvailable ? '' : 'disabled';
+      var cartArrow = '<span class="cart-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+      
+      popupBody.innerHTML = 
+        '<div class="popup-top">' +
+          '<div class="popup-image-wrapper">' +
+            '<img src="' + product.featured_image + '" alt="' + productTitle + '" loading="lazy">' +
+          '</div>' +
+          '<div class="popup-info-wrapper">' +
+            '<h2 class="popup-title">' + productTitle + '</h2>' +
+            '<div class="popup-price">' + priceFormatted + '</div>' +
+            (descText ? '<div class="popup-description" style="overflow:visible;max-height:none;">' + descText + '</div>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="popup-variant-picker">' +
+          variantPickerHtml +
+        '</div>' +
+        '<form class="popup-form" onsubmit="return false;">' +
+          '<button type="button" class="popup-add-to-cart" ' + disabledAttr + '>' + 
+            addToCartText + cartArrow + 
+          '</button>' +
+        '</form>';
+      
+      // Verify the title was rendered
+      var renderedTitle = popupBody.querySelector('.popup-title');
+      if (renderedTitle) {
+        console.log('[Lookbook] Rendered title text:', renderedTitle.textContent);
+      }
+      
+      // Store product data
+      popupBody._productData = product;
+      
+      // Initialize variant picker interactions
+      initVariantPickerInteractions(product);
+      
+      // Initialize add to cart
+      var addBtn = popupBody.querySelector('.popup-add-to-cart');
+      if (addBtn) {
+        addBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          handleAddToCart();
+        });
       }
     }
     
-    function initLookbook() {
-      var sections = document.querySelectorAll('[data-section-type="lookbook-gallery"]');
-      sections.forEach(function(section) {
-        if (section._lookbookInstance) return;
-        section._lookbookInstance = new LookbookGallery(section);
+    // ============================================================
+    // BUILD VARIANT PICKER
+    // ============================================================
+    function buildVariantPicker(product) {
+      if (!product.options || product.options.length === 0) {
+        return '';
+      }
+      
+      var html = '<div class="variant-picker spacing-style">';
+      html += '<form class="variant-picker__form">';
+      
+      for (var o = 0; o < product.options.length; o++) {
+        var option = product.options[o];
+        var optionName = option.name;
+        var optionNameDowncase = optionName.toLowerCase();
+        var isSize = optionNameDowncase === 'size';
+        
+        html += '<fieldset class="variant-option variant-option--buttons">';
+        html += '<legend>' + optionName + ' <span class="variant-option__swatch-value">' + option.values[0] + '</span></legend>';
+        
+        if (isSize) {
+          html += '<div class="custom-dropdown-container">';
+          html += '<select class="ui-custom-size-select" data-option-index="' + o + '">';
+          for (var v = 0; v < option.values.length; v++) {
+            var selected = (v === 0) ? 'selected' : '';
+            html += '<option value="' + option.values[v] + '" ' + selected + '>' + option.values[v] + '</option>';
+          }
+          html += '</select>';
+          html += '</div>';
+        }
+        
+        html += '<div class="theme-native-inputs-wrapper" style="' + (isSize ? 'display:none;' : '') + '">';
+        for (var v2 = 0; v2 < option.values.length; v2++) {
+          var val = option.values[v2];
+          var checked = (v2 === 0) ? 'checked' : '';
+          
+          html += '<label class="variant-option__button-label">';
+          html += '<input type="radio" name="' + optionName + '" value="' + val + '" ' + checked + ' data-option-index="' + o + '" data-value="' + val + '">';
+          html += '<span class="variant-option__button-label__text">' + val + '</span>';
+          html += '</label>';
+        }
+        html += '</div>';
+        
+        html += '</fieldset>';
+      }
+      
+      html += '</form>';
+      html += '</div>';
+      
+      return html;
+    }
+    
+    // ============================================================
+    // INIT VARIANT PICKER INTERACTIONS
+    // ============================================================
+    function initVariantPickerInteractions(product) {
+      var body = popupBody;
+      
+      var radioInputs = body.querySelectorAll('.variant-option input[type="radio"]');
+      radioInputs.forEach(function(input) {
+        input.addEventListener('change', function() {
+          var fieldset = this.closest('fieldset');
+          var legend = fieldset.querySelector('legend .variant-option__swatch-value');
+          if (legend) {
+            legend.textContent = this.value;
+          }
+          updateVariantFromSelections(body, product);
+        });
+      });
+      
+      var sizeSelects = body.querySelectorAll('.ui-custom-size-select');
+      sizeSelects.forEach(function(select) {
+        select.addEventListener('change', function() {
+          var fieldset = this.closest('fieldset');
+          var radios = fieldset.querySelectorAll('input[type="radio"]');
+          for (var i = 0; i < radios.length; i++) {
+            if (radios[i].value === this.value) {
+              radios[i].checked = true;
+              var legend = fieldset.querySelector('legend .variant-option__swatch-value');
+              if (legend) {
+                legend.textContent = this.value;
+              }
+              break;
+            }
+          }
+          updateVariantFromSelections(body, product);
+        });
       });
     }
     
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initLookbook);
-    } else {
-      initLookbook();
+    // ============================================================
+    // UPDATE VARIANT FROM SELECTIONS
+    // ============================================================
+    function updateVariantFromSelections(body, product) {
+      var selectedValues = [];
+      var fieldsets = body.querySelectorAll('fieldset.variant-option');
+      
+      fieldsets.forEach(function(fieldset) {
+        var checkedRadio = fieldset.querySelector('input[type="radio"]:checked');
+        if (checkedRadio) {
+          selectedValues.push(checkedRadio.value);
+        } else {
+          var select = fieldset.querySelector('.ui-custom-size-select');
+          if (select) {
+            selectedValues.push(select.value);
+          }
+        }
+      });
+      
+      var matchedVariant = null;
+      for (var i = 0; i < product.variants.length; i++) {
+        var v = product.variants[i];
+        var matches = true;
+        for (var j = 0; j < selectedValues.length; j++) {
+          if (v.options[j] !== selectedValues[j]) {
+            matches = false;
+            break;
+          }
+        }
+        if (matches) {
+          matchedVariant = v;
+          break;
+        }
+      }
+      
+      if (matchedVariant) {
+        var priceDisplay = body.querySelector('.popup-price');
+        if (priceDisplay) {
+          priceDisplay.textContent = matchedVariant.price_formatted;
+        }
+        
+        var addBtn = body.querySelector('.popup-add-to-cart');
+        if (addBtn) {
+          var cartArrow = '<span class="cart-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+          if (matchedVariant.available) {
+            addBtn.disabled = false;
+            addBtn.innerHTML = 'Add to Cart ' + cartArrow;
+          } else {
+            addBtn.disabled = true;
+            addBtn.innerHTML = 'Sold Out';
+          }
+        }
+        currentVariantId = matchedVariant.id;
+      }
+    }
+    
+    // ============================================================
+    // ADD TO CART
+    // ============================================================
+    function handleAddToCart() {
+      var addBtn = popupBody.querySelector('.popup-add-to-cart');
+      
+      if (!addBtn || addBtn.disabled) return;
+      if (!currentVariantId) {
+        var productData = popupBody._productData;
+        if (productData && productData.variants && productData.variants.length > 0) {
+          currentVariantId = productData.variants[0].id;
+        }
+        if (!currentVariantId) return;
+      }
+      
+      var originalText = addBtn.innerHTML;
+      addBtn.disabled = true;
+      addBtn.innerHTML = 'Adding...';
+      
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: parseInt(currentVariantId),
+          quantity: 1
+        })
+      })
+      .then(function(response) {
+        if (!response.ok) throw new Error('Failed to add to cart');
+        return response.json();
+      })
+      .then(function(data) {
+        addBtn.innerHTML = '✓ Added!';
+        addBtn.style.background = '#28a745';
+        addBtn.style.color = '#FFFFFF';
+        updateCartCount();
+        setTimeout(function() {
+          var cartArrow = '<span class="cart-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+          var addToCartText = 'Add to Cart';
+          addBtn.innerHTML = addToCartText + cartArrow;
+          addBtn.disabled = false;
+          addBtn.style.background = '#000000';
+          addBtn.style.color = '#FFFFFF';
+        }, 2000);
+      })
+      .catch(function(error) {
+        console.error('Error adding to cart:', error);
+        addBtn.innerHTML = 'Error - Try Again';
+        addBtn.style.background = '#dc3545';
+        addBtn.style.color = '#FFFFFF';
+        setTimeout(function() {
+          var cartArrow = '<span class="cart-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+          var addToCartText = 'Add to Cart';
+          addBtn.innerHTML = addToCartText + cartArrow;
+          addBtn.disabled = false;
+          addBtn.style.background = '#000000';
+          addBtn.style.color = '#FFFFFF';
+        }, 2000);
+      });
+    }
+    
+    function updateCartCount() {
+      fetch('/cart.js')
+        .then(function(response) { return response.json(); })
+        .then(function(cart) {
+          var count = cart.item_count || 0;
+          document.querySelectorAll('.cart-count-bubble').forEach(function(el) {
+            el.textContent = count;
+          });
+        })
+        .catch(function() {});
+    }
+    
+    function showError() {
+      popupBody.innerHTML = '<div class="popup-loading"><p style="font-family:\'Lustria\',serif;">Unable to load product details. Please try again.</p><button style="margin-top:16px;padding:8px 24px;border:1px solid #000;background:transparent;cursor:pointer;border-radius:4px;" onclick="document.getElementById(\'lookbook-popup\').classList.remove(\'active\')">Close</button></div>';
     }
     
     if (window.Shopify && Shopify.designMode) {
-      document.addEventListener('shopify:section:load', initLookbook);
-      document.addEventListener('shopify:section:reorder', initLookbook);
+      console.log('[LookbookGallery] Final version with fixed product title rendering');
     }
     
   })();
@@ -663,8 +1392,7 @@
       "type": "text",
       "id": "section_title",
       "label": "Section Title",
-      "default": "Tisso vison in the wild",
-      "info": "Note: The design uses 'vison' (typo preserved from Figma)"
+      "default": "Tisso vison in the wild"
     },
     {
       "type": "header",
@@ -680,8 +1408,7 @@
       "type": "color",
       "id": "border_color",
       "label": "Image Border Color",
-      "default": "#000000",
-      "info": "1.5px border around each image (Figma spec)"
+      "default": "#000000"
     },
     {
       "type": "color",
@@ -739,8 +1466,7 @@
       "type": "checkbox",
       "id": "enable_ripple_animation",
       "label": "Enable Ripple/Blinking Animation",
-      "default": true,
-      "info": "Creates a pulsing ring effect around hotspots"
+      "default": true
     },
     {
       "type": "range",
@@ -817,9 +1543,10 @@
           "default": false
         },
         {
-          "type": "url",
-          "id": "hotspot_1_link",
-          "label": "Hotspot 1 Link"
+          "type": "product",
+          "id": "hotspot_1_product",
+          "label": "Select Product",
+          "info": "Select the product to show in popup"
         },
         {
           "type": "range",
@@ -877,9 +1604,9 @@
           "default": false
         },
         {
-          "type": "url",
-          "id": "hotspot_2_link",
-          "label": "Hotspot 2 Link"
+          "type": "product",
+          "id": "hotspot_2_product",
+          "label": "Select Product"
         },
         {
           "type": "range",
@@ -937,9 +1664,9 @@
           "default": false
         },
         {
-          "type": "url",
-          "id": "hotspot_3_link",
-          "label": "Hotspot 3 Link"
+          "type": "product",
+          "id": "hotspot_3_product",
+          "label": "Select Product"
         },
         {
           "type": "range",
@@ -997,9 +1724,9 @@
           "default": false
         },
         {
-          "type": "url",
-          "id": "hotspot_4_link",
-          "label": "Hotspot 4 Link"
+          "type": "product",
+          "id": "hotspot_4_product",
+          "label": "Select Product"
         },
         {
           "type": "range",
