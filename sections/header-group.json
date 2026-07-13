@@ -137,7 +137,7 @@
         "collection_inverse_logo": false,
         "text_color_transparent_collection": "",
         "header_button_text": "CHOOSE GIFT",
-        "header_button_link": "shopify://collections",
+        "header_button_link": "shopify://products/black-leather-bag",
         "header_button_bg": "#fff544",
         "header_button_text_color": "#000000",
         "header_button_font": "Jost"
