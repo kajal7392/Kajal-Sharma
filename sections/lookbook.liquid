@@ -919,9 +919,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     POPUP
-     ============================================================ -->
 <div id="lookbook-popup" class="lookbook-popup-overlay">
   <div class="popup-wrapper">
     
@@ -938,9 +935,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     JAVASCRIPT
-     ============================================================ -->
 <script>
   (function() {
     'use strict';
@@ -953,9 +947,7 @@
     var currentProductId = null;
     var currentVariantId = null;
     
-    // ============================================================
-    // HOTSPOT CLICKS
-    // ============================================================
+    
     document.querySelectorAll('.hotspot-btn[data-product-id]').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -976,9 +968,7 @@
       });
     });
     
-    // ============================================================
-    // CLOSE POPUP
-    // ============================================================
+  
     function closePopup() {
       popup.classList.remove('active');
       document.body.style.overflow = '';
@@ -996,10 +986,7 @@
         closePopup();
       }
     });
-    
-    // ============================================================
-    // OPEN POPUP - FIXED with proper title handling
-    // ============================================================
+
     function openPopup(productId) {
       currentProductId = productId;
       
@@ -1007,7 +994,6 @@
       popup.classList.add('active');
       document.body.style.overflow = 'hidden';
       
-      // First try to get from script tag
       var scriptEl = document.getElementById('product-json-' + productId);
       
       if (scriptEl) {
@@ -1026,7 +1012,6 @@
         }
       }
       
-      // Fallback: fetch via AJAX
       fetch('/products/' + productId + '.js')
         .then(function(response) {
           if (!response.ok) throw new Error('Product not found');
@@ -1045,9 +1030,7 @@
         });
     }
     
-    // ============================================================
-    // RENDER PRODUCT - FIXED with proper title rendering
-    // ============================================================
+   
     function renderProduct(product) {
       console.log('[Lookbook] Rendering product with title:', product.title);
       
@@ -1055,10 +1038,8 @@
       var priceFormatted = firstVariant ? firstVariant.price_formatted : product.price_formatted;
       var isAvailable = firstVariant ? firstVariant.available : product.available;
       
-      // Get product title - use the title directly from the product object
       var productTitle = product.title || 'Product';
       
-      // If title is still empty, try to get from the script tag as fallback
       if (productTitle === 'Product' || productTitle === '') {
         var scriptEl = document.getElementById('product-json-' + currentProductId);
         if (scriptEl) {
@@ -1072,7 +1053,6 @@
         }
       }
       
-      // If still no title, try to get from the hotspot button
       if (productTitle === 'Product' || productTitle === '') {
         var btn = document.querySelector('.hotspot-btn[data-product-id="' + currentProductId + '"]');
         if (btn && btn.dataset.productTitle) {
@@ -1083,16 +1063,13 @@
       
       console.log('[Lookbook] Final product title:', productTitle);
       
-      // Build description - full content
       var descText = product.description || '';
       var tempDiv = document.createElement('div');
       tempDiv.innerHTML = descText;
       descText = tempDiv.textContent || tempDiv.innerText || '';
       
-      // Build variant picker
       var variantPickerHtml = buildVariantPicker(product);
       
-      // Build add to cart button
       var addToCartText = isAvailable ? 'Add to Cart' : 'Sold Out';
       var disabledAttr = isAvailable ? '' : 'disabled';
       var cartArrow = '<span class="cart-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
@@ -1117,19 +1094,15 @@
           '</button>' +
         '</form>';
       
-      // Verify the title was rendered
       var renderedTitle = popupBody.querySelector('.popup-title');
       if (renderedTitle) {
         console.log('[Lookbook] Rendered title text:', renderedTitle.textContent);
       }
       
-      // Store product data
       popupBody._productData = product;
       
-      // Initialize variant picker interactions
       initVariantPickerInteractions(product);
       
-      // Initialize add to cart
       var addBtn = popupBody.querySelector('.popup-add-to-cart');
       if (addBtn) {
         addBtn.addEventListener('click', function(e) {
@@ -1139,9 +1112,6 @@
       }
     }
     
-    // ============================================================
-    // BUILD VARIANT PICKER
-    // ============================================================
     function buildVariantPicker(product) {
       if (!product.options || product.options.length === 0) {
         return '';
@@ -1191,9 +1161,6 @@
       return html;
     }
     
-    // ============================================================
-    // INIT VARIANT PICKER INTERACTIONS
-    // ============================================================
     function initVariantPickerInteractions(product) {
       var body = popupBody;
       
@@ -1229,9 +1196,6 @@
       });
     }
     
-    // ============================================================
-    // UPDATE VARIANT FROM SELECTIONS
-    // ============================================================
     function updateVariantFromSelections(body, product) {
       var selectedValues = [];
       var fieldsets = body.querySelectorAll('fieldset.variant-option');
@@ -1285,9 +1249,6 @@
       }
     }
     
-    // ============================================================
-    // ADD TO CART
-    // ============================================================
     function handleAddToCart() {
       var addBtn = popupBody.querySelector('.popup-add-to-cart');
       
